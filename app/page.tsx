@@ -1,7 +1,7 @@
-export default function Home() {
+export default function SignIn() {
   return (
-    <main>
-      <h1>Web note app</h1>
+    <main className='flex flex-col items-center justify-center'>
+      Sign Up page
     </main>
   );
 }
