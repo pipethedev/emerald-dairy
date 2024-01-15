@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* outline: 1px soid red; */
+}
+
+@font-face {
+  font-family: 'Aeonik';
+  src: url('../fonts/Aeonik/AeonikTRIAL-Regular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Matter';
+  src: url('../fonts/matter/Matter-Regular.ttf') format('truetype');
+}
