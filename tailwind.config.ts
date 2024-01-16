@@ -9,7 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        aeonik: ['aeonik', 'sans-serif'],
+        aeonik: ['Aeonik', 'sans-serif'],
+        matter: ['Matter', 'sans-serif'],
       },
     },
   },
