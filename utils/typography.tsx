@@ -17,7 +17,7 @@ export function H1({ children, className, ...props }: TypographyProps) {
 export function H2({ children, className, ...props }: TypographyProps) {
   return (
     <h2
-      className={`sm:text-3xl text-2xl font-semibold mb-3 ${className}`}
+      className={`font-matter text-black leading-normal font-semibold md:text-[48px] text-center md:-tracking-[0.96px] -tracking-[0.64px] text-[32px] ${className}`}
       {...props}
     >
       {children}
