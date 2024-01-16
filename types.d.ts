@@ -1,0 +1,3 @@
+interface svgProps {
+  className?: string;
+}
