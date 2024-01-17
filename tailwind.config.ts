@@ -12,6 +12,9 @@ const config: Config = {
         aeonik: ['Aeonik', 'sans-serif'],
         matter: ['Matter', 'sans-serif'],
       },
+      colors: {
+        'lg-heart': 'rgba(254, 246, 244, 0.12)',
+      },
     },
   },
   plugins: [],
