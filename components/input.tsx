@@ -18,12 +18,12 @@ export default function Input(props: InputProps) {
       return (
         <div
           className={clsx(
-            'flex justify-between items-center w-[420px] border-primary md:p-[16px] md:h-[50px] md:rounded-[12px] text-[#B3B3B3] invalid:text-black/70 invalid:bg-slate-400 bg-[#FAFAFA] outline-none font-normal md:tracking-[0.32px] text-base gap-3',
+            'flex justify-between items-center w-[420px] md:p-[16px] md:h-[50px] md:rounded-[12px]outline-none font-normal md:tracking-[0.32px] text-base gap-3',
             className
           )}
         >
           <input
-            className='flex-1 bg-transparent outline-none'
+            className='flex-1   outline-none'
             type={passwordVisibility ? 'text' : type}
             {...prop}
           />
@@ -40,7 +40,7 @@ export default function Input(props: InputProps) {
       return (
         <input
           className={clsx(
-            'block w-[420px] border-primary md:p-[16px] md:h-[50px] md:rounded-[12px] text-[#B3B3B3] bg-[#FAFAFA] outline-none font-normal md:tracking-[0.32px] text-base',
+            'block w-[420px] md:p-[16px] md:h-[50px] md:rounded-[12px] text-[#B3B3B3] bg-[#FAFAFA] outline-none font-normal md:tracking-[0.32px] text-base',
             className
           )}
           {...prop}
@@ -51,7 +51,7 @@ export default function Input(props: InputProps) {
       return (
         <input
           className={clsx(
-            'block w-[420px] border-primary md:p-[16px] md:h-[50px] md:rounded-[12px] text-[#B3B3B3] bg-[#FAFAFA] outline-none font-normal md:tracking-[0.32px] text-base',
+            'block w-[420px] md:p-[16px] md:h-[50px] md:rounded-[12px] text-[#B3B3B3] bg-[#FAFAFA] outline-none font-normal md:tracking-[0.32px] text-base',
             className
           )}
           {...prop}

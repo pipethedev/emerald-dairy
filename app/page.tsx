@@ -1,9 +1,8 @@
 'use client';
 
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { H2 } from '@/utils/typography';
+import { H2, H3, H4, P } from '@/utils/typography';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { Hearts, Info, MobileHearts, Verse } from '@/components/svgs';
@@ -46,53 +45,54 @@ export default function SignIn() {
   };
 
   return (
-    <main className='flex flex-row justify-center items-center gap-[80px]'>
-      <div className='py-[172px] px-[88px] flex flex-col items-start gap-[32px]'>
-        <H2>Sign In</H2>
-        {/* <h2 className='font-matter text-black leading-normal font-semibold md:text-[48px] text-center md:-tracking-[0.96px] -tracking-[0.64px] text-[32px]'>
+    <main className='w-full h-screen flex flex-col-reverse lg:grid grid-cols-5 justify-center items-center gap-8'>
+      <div className='h-full flex flex-col col-span-2 items-center justify-center'>
+        <div className='flex flex-col items-start gap-[32px]'>
+          <H2>Sign In</H2>
+          {/* <h2 className='font-matter text-black leading-normal font-semibold md:text-[48px] text-center md:-tracking-[0.96px] -tracking-[0.64px] text-[32px]'>
           Sign In
         </h2> */}
-
-        <form
-          className='flex flex-col items-center md:gap-[22px]'
-          onSubmit={handleSubmit}
-        >
-          <fieldset className='flex flex-col gap-3'>
-            <div className='flex flex-row justify-between'>
-              <label className='text-black font-aeonik -tracking-[0.28px] font-normal text-[14px]'>
-                Email Address
-              </label>
-              <Info />
-            </div>
-            <Input
-              type='email'
-              name='email'
-              value={formData?.email}
-              onChange={formDataHandler}
-              placeholder='Enter your Email Address'
-            />
-          </fieldset>
-          <fieldset className='flex flex-col gap-3'>
-            <div className='flex flex-row justify-between'>
-              <label className='text-black font-aeonik -tracking-[0.28px] font-normal text-[14px]'>
-                Password
-              </label>
-              <Info />
-            </div>
-            <Input
-              type='password'
-              name='password'
-              value={formData?.password}
-              onChange={formDataHandler}
-              placeholder='Enter Password'
-            />
-          </fieldset>
-          <fieldset>
-            <Button disabled={isDisabled} loading={loading}>
-              Sign In
-            </Button>
-          </fieldset>
-        </form>
+          <form
+            className='flex flex-col items-center md:gap-[22px]'
+            onSubmit={handleSubmit}
+          >
+            <fieldset className='flex flex-col gap-3'>
+              <div className='flex flex-row justify-between'>
+                <label className='text-black font-aeonik -tracking-[0.28px] font-normal text-[14px]'>
+                  Email Address
+                </label>
+                <Info />
+              </div>
+              <Input
+                type='email'
+                name='email'
+                value={formData?.email}
+                onChange={formDataHandler}
+                placeholder='Enter your Email Address'
+              />
+            </fieldset>
+            <fieldset className='flex flex-col gap-3'>
+              <div className='flex flex-row justify-between'>
+                <label className='text-black font-aeonik -tracking-[0.28px] font-normal text-[14px]'>
+                  Password
+                </label>
+                <Info />
+              </div>
+              <Input
+                type='password'
+                name='password'
+                value={formData?.password}
+                onChange={formDataHandler}
+                placeholder='Enter Password'
+              />
+            </fieldset>
+            <fieldset>
+              <Button disabled={isDisabled} loading={loading}>
+                Sign In
+              </Button>
+            </fieldset>
+          </form>
+        </div>
       </div>
 
       <figure
@@ -113,30 +113,29 @@ export default function SignIn() {
                   <MobileHearts />
                 </span>
               </span>
-              <p className='font-aeonik text-[7.5rem] leading-[6.5rem] font-bold tracking-[-0.375rem]'>
+              <h3 className='font-aeonikBold leading-[144px] text-[7.5rem] font-bold md:max-w-[447px] -tracking-[5%]'>
                 Emerald Diary
-              </p>
+              </h3>
             </div>
             <div
-              className='rounded-2xl flex pr-2 items-center justify-start gap-4'
+              className='group w-[566px] rounded-2xl flex pr-2 items-center justify-start gap-4 transition-all duration-300 hover:scale-[0.99]'
               style={{
                 background: 'rgba(255, 255, 255, 0.06)',
                 backdropFilter: 'blur(6px)',
               }}
             >
-              <Verse />
-              <div>
-                <p className='font-aeonik text-[0.875rem] leading-[155%]'>
-                  <b className='font-bold text-[1.25rem] mb-2.5 block'>
-                    Verse of the Day
-                  </b>
+              <figure>
+                <Verse />
+              </figure>
+
+              <div className='flex flex-col items-start gap-[24px]'>
+                <H3 className='text-[#FFFBF9]'>Verse of the Day</H3>
+                <P className='text-[#CCCCCC] max-w-[384px]'>
                   Behold, God is my salvation; I will trust, and will not be
                   afraid; for the LORD GOD is my strength and my song, and he
                   has become my salvation.
-                  <span className='font-medium text-[1rem] mt-2.5 block'>
-                    Isaiah 12 : 2
-                  </span>
-                </p>
+                </P>
+                <H4 className='text-#FFFBF9 mt-[9px]'>Isaiah 12 : 2</H4>
               </div>
             </div>
           </div>

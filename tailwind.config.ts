@@ -11,6 +11,7 @@ const config: Config = {
       fontFamily: {
         aeonik: ['Aeonik', 'sans-serif'],
         matter: ['Matter', 'sans-serif'],
+        aeonikBold: ['AeonikBold', 'sans-serif'],
       },
       colors: {
         'lg-heart': 'rgba(254, 246, 244, 0.12)',

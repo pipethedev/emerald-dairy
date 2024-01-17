@@ -9,9 +9,18 @@
   /* outline: 1px soid red; */
 }
 
+body {
+  font-family: 'Aeonik', sans-serif;
+}
+
 @font-face {
   font-family: 'Aeonik';
   src: url('../fonts/Aeonik/AeonikTRIAL-Regular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: AeonikBold;
+  src: url('../fonts/Aeonik/AeonikTRIAL-Bold.otf') format('truetype');
 }
 
 @font-face {
