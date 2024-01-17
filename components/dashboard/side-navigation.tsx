@@ -54,7 +54,7 @@ export default function DashboardSideNavigation() {
           <h1 className='text-[#AE8779] font-black font-aeonikBold -tracking-[0.1px] text-[10px] py-[12px]'>
             QUICK LINKS
           </h1>
-          <div>
+          <div className="flex flex-col gap-2">
             {sideNavigationLinksData.map((link, i) => {
               const isAllNotesActiveRoute = pathname === link.href;
 
