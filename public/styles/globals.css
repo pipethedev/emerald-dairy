@@ -6,7 +6,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* outline: 1px soid red; */
+  outline: 1px soid red;
 }
 
 body {
@@ -19,7 +19,7 @@ body {
 }
 
 @font-face {
-  font-family: AeonikBold;
+  font-family: 'AeonikBold';
   src: url('../fonts/Aeonik/AeonikTRIAL-Bold.otf') format('truetype');
 }
 

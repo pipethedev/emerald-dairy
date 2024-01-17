@@ -96,7 +96,7 @@ export default function SignIn() {
       </div>
 
       <figure
-        className='col-span-3 text-[#FFFBF9] h-full bg-[url(/images/bimbo.png)] bg-right bg-no-repeat flex items-center justify-center flex-col w-full lg:w-auto'
+        className='col-span-3 text-[#FFFBF9] h-full bg-[url(/images/overlay.png)] bg-right bg-no-repeat flex items-center justify-center flex-col w-full lg:w-auto'
         style={{ backgroundSize: '95%' }}
       >
         <div className='flex w-[70%] flex-col items-start justify-center'>

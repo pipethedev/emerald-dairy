@@ -23,7 +23,7 @@ export default function Input(props: InputProps) {
           )}
         >
           <input
-            className='flex-1   outline-none'
+            className='flex-1  bg-transparent  outline-none'
             type={passwordVisibility ? 'text' : type}
             {...prop}
           />

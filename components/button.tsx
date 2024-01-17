@@ -12,7 +12,7 @@ export default function Button(props: ButtonProps) {
     <button
       disabled={loading || disabled}
       className={clsx(
-        'w-[382px] p-4 rounded-[14px] grid place-items-center bg-[#956E60] text-white nd:text-[19px] -tracking-[0.38px] font-semibold font-matter disabled:cursor-not-allowed disabled:bg-opacity-60',
+        'w-[382px] p-4 rounded-[14px] grid place-items-center bg-[#956E60] text-white md:text-[19px] -tracking-[0.38px] font-semibold font-matter disabled:cursor-not-allowed disabled:bg-opacity-60',
         className
       )}
       {...prop}

@@ -367,3 +367,24 @@ export const TrashIcon = ({ className }: SVGProp) => {
     </svg>
   );
 };
+
+export function PlusIcon({ className }: svgProps) {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='14'
+      height='14'
+      className={className}
+      viewBox='0 0 14 14'
+      fill='none'
+    >
+      <path
+        d='M7.00008 2.91667V11.0833M2.91675 7H11.0834'
+        stroke='#956E60'
+        stroke-width='2'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+    </svg>
+  );
+}
