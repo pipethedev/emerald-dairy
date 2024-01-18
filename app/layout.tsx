@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import '@/public/styles/globals.css';
+import { Providers } from '@/store/provider';
 
-const popins = Poppins({ subsets: ['latin'], weight: ['100', '200', '300'] });
+// const popins = Poppins({ subsets: ['latin'], weight: ['100', '200', '300'] });
 
 const keyword = ['web-app', 'pwa', 'note-app'];
 
@@ -39,8 +40,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en'>
-      <body className={popins.className}>{children}</body>
-    </html>
+    <Providers>
+      <html lang='en'>
+        <body>{children}</body>
+      </html>
+    </Providers>
   );
 }

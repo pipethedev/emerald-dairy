@@ -10,7 +10,8 @@ import { sideNavigationLinksData } from '@/data/links';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
-import { H4, H5 } from '@/utils/typography';
+import { H4, H2, H5 } from '@/utils/typography';
+import VerseOfDay from './verseOfDay';
 
 export default function DashboardSideNavigation() {
   const pathname = usePathname();
@@ -50,11 +51,11 @@ export default function DashboardSideNavigation() {
           </div>
         </div>
         {/* quick links */}
-        <div className='border-b-[1px] border-b-[#F2F2F2] px-[12px] gap-[12px] py-[8px]'>
+        <div className='relative border-b-[1px] border-b-[#F2F2F2] px-[12px] gap-[12px] py-[8px]'>
           <h1 className='text-[#AE8779] font-black font-aeonikBold -tracking-[0.1px] text-[10px] py-[12px]'>
             QUICK LINKS
           </h1>
-          <div className="flex flex-col gap-2">
+          <div className='flex flex-col gap-2'>
             {sideNavigationLinksData.map((link, i) => {
               const isAllNotesActiveRoute = pathname === link.href;
 
@@ -123,7 +124,9 @@ export default function DashboardSideNavigation() {
           </div>
         </div>
         {/* verse of the day */}
-        <div></div>
+        <div className='absolute bottom-[18px]'>
+          <VerseOfDay />
+        </div>
       </div>
       <div className='w-[360px] border-r-[1px] border-r-[#F2F2F2]'>
         <header className='h-[72px] border-b-[1px] border-b-[#F2F2F2] flex px-[24px] gap-[12px] py-[16px]'>
@@ -138,6 +141,8 @@ export default function DashboardSideNavigation() {
             <AddIcon />
           </div>
         </header>
+        {/* ALL NOTES - SHOULD BE MOVED TO A SEPARATE COMPONENTS SOON */}
+        <div className='pt-[24px] mx-3'></div>
       </div>
     </div>
   );

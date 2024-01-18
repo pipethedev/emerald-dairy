@@ -18,7 +18,7 @@ export default function Input(props: InputProps) {
       return (
         <div
           className={clsx(
-            'flex justify-between items-center w-[420px] md:p-[16px] md:h-[50px] md:rounded-[12px]outline-none font-normal md:tracking-[0.32px] text-base gap-3',
+            'flex justify-between items-center text-[#B3B3B3] bg-[#FAFAFA] w-[382px] lg:w-[420px] md:p-[16px] md:h-[50px]s md:rounded-[12px] outline-none font-normal md:tracking-[0.32px] text-base gap-3',
             className
           )}
         >
@@ -40,7 +40,7 @@ export default function Input(props: InputProps) {
       return (
         <input
           className={clsx(
-            'block w-[420px] md:p-[16px] md:h-[50px] md:rounded-[12px] text-[#B3B3B3] bg-[#FAFAFA] outline-none font-normal md:tracking-[0.32px] text-base',
+            'block w-[382px] lg:w-[420px] md:p-[16px] md:h-[50px]s md:rounded-[12px] text-[#B3B3B3] bg-[#FAFAFA] outline-none font-normal md:tracking-[0.32px] text-base',
             className
           )}
           {...prop}
@@ -51,7 +51,7 @@ export default function Input(props: InputProps) {
       return (
         <input
           className={clsx(
-            'block w-[420px] md:p-[16px] md:h-[50px] md:rounded-[12px] text-[#B3B3B3] bg-[#FAFAFA] outline-none font-normal md:tracking-[0.32px] text-base',
+            'block w-[382px] lg:w-[420px] md:p-[16px] md:h-[50px] md:rounded-[12px] text-[#B3B3B3] bg-[#FAFAFA] outline-none font-normal md:tracking-[0.32px] text-base',
             className
           )}
           {...prop}

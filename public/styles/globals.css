@@ -9,8 +9,10 @@
   outline: 1px soid red;
 }
 
-body {
-  font-family: 'Aeonik', sans-serif;
+@layer base {
+  html {
+    font-family: 'Aeonik', sans-serif;
+  }
 }
 
 @font-face {
