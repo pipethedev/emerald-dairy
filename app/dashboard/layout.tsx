@@ -11,7 +11,7 @@ export default function DashboardLayout({
   return (
     <div className='flex h-[100vh]'>
       <DashboardSideNavigation />
-      <main className='flex-1 w-full'>{children}</main>
+      <main className='flex-1 w-full h-[100vh] overflow-y-auto'>{children}</main>
     </div>
   );
 }

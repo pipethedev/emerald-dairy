@@ -17,7 +17,6 @@ export default function DashboardSideNavigation() {
   const pathname = usePathname();
 
   return (
-    <div className='flex flex-row'>
       <div className='w-[255px] border-r-[1px] border-r-[#F2F2F2]'>
         <header className='h-[72px] border-b-[1px] border-b-[#F2F2F2] px-[12px] py-[14px] flex flex-row items-center gap-[11px]'>
           <div className='h-[44px] w-[44px] rounded-[8px] p-[10px] grid place-items-center bg-[#FEF6F4]'>
@@ -128,22 +127,5 @@ export default function DashboardSideNavigation() {
           <VerseOfDay />
         </div>
       </div>
-      <div className='w-[360px] border-r-[1px] border-r-[#F2F2F2]'>
-        <header className='h-[72px] border-b-[1px] border-b-[#F2F2F2] flex px-[24px] gap-[12px] py-[16px]'>
-          <div className='h-[40px] px-[16px] rounded-[10px] gap-[8px] flex-1 w-full bg-[#FAFAFA] flex items-center'>
-            <SearchIcon />
-            <input
-              className='outline-none placeholder-[#B3B3B3] text-[14px] bg-transparent'
-              placeholder='Search...'
-            />
-          </div>
-          <div className='h-[40px] w-[40px] ml-auto rounded-[8px] p-[8px] grid place-items-center bg-[#956E60]'>
-            <AddIcon />
-          </div>
-        </header>
-        {/* ALL NOTES - SHOULD BE MOVED TO A SEPARATE COMPONENTS SOON */}
-        <div className='pt-[24px] mx-3'></div>
-      </div>
-    </div>
   );
 }

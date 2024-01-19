@@ -53,7 +53,10 @@ export default function SignIn() {
     <main className='flex flex-col-reverse items-center justify-center w-full lg:h-screen lg:grid lg:grid-cols-5 gap-8'>
       <div className='flex flex-col items-center justify-center w-full h-full lg:col-span-2'>
         <div className='flex w-[90%] lg:w-auto lg:px-0 flex-col items-start gap-[32px]'>
-          <H2>Sign In</H2>
+          {/* <H2>Sign In</H2> */}
+          <h2 className='font-matter text-black leading-normal font-semibold md:text-[48px] text-center md:-tracking-[0.96px] -tracking-[0.64px] text-[32px]'>
+            Sign In
+          </h2>
           <form
             className='flex flex-col py-8 lg:py-0 w-full items-center gap-[22px]'
             onSubmit={handleSubmit}
