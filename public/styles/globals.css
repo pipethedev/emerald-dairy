@@ -6,26 +6,55 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  outline: 1px soid red;
+  /* outline: 1px solid red; */
+}
+
+body::-webkit-scrollbar {
+  @apply w-1 bg-transparent;
+}
+
+body::-webkit-scrollbar-corner {
+  @apply bg-transparent;
+}
+
+body::-webkit-scrollbar-track {
+  @apply bg-white;
+}
+
+body::-webkit-scrollbar-track-piece {
+  @apply bg-transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+  @apply transition-all duration-500 rounded-full bg-black/60 hover:bg-black/40;
+}
+
+html {
+  scrollbar-color: rgb(0, 0, 0, 0.4) rgb(0, 0, 0, 0);
+  scrollbar-width: thin;
 }
 
 @layer base {
   html {
-    font-family: 'Aeonik', sans-serif;
+    font-family: "Aeonik", sans-serif;
   }
 }
 
 @font-face {
-  font-family: 'Aeonik';
-  src: url('../fonts/Aeonik/AeonikTRIAL-Regular.otf') format('opentype');
+  font-family: "Aeonik";
+  src: url("../fonts/Aeonik/AeonikTRIAL-Regular.otf") format("opentype");
 }
 
 @font-face {
-  font-family: 'AeonikBold';
-  src: url('../fonts/Aeonik/AeonikTRIAL-Bold.otf') format('truetype');
+  font-family: "AeonikBold";
+  src: url("../fonts/Aeonik/AeonikTRIAL-Bold.otf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Matter';
-  src: url('../fonts/matter/Matter-Regular.ttf') format('truetype');
+  font-family: "Matter";
+  src: url("../fonts/matter/Matter-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "MatterSemiBold";
+  src: url("../fonts/matter/Matter-SemiBold.ttf") format("truetype");
 }

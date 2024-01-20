@@ -1,6 +1,6 @@
-import clsx from 'clsx';
-import { EyeIcon, EyeSlashIcon } from './svgs';
-import { useState } from 'react';
+import clsx from "clsx";
+import { EyeIcon, EyeSlashIcon } from "./svgs";
+import { useState } from "react";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   type: string;
@@ -14,21 +14,21 @@ export default function Input(props: InputProps) {
     setPasswordVisibility((prev) => !prev);
 
   switch (type) {
-    case 'password': {
+    case "password": {
       return (
         <div
           className={clsx(
-            'flex justify-between items-center text-[#B3B3B3] bg-[#FAFAFA] w-[382px] lg:w-[420px] md:p-[16px] md:h-[50px]s md:rounded-[12px] outline-none font-normal md:tracking-[0.32px] text-base gap-3',
+            "flex justify-between items-center text-[#B3B3B3] bg-[#FAFAFA] w-[382px] lg:w-[420px] p-[16px] md:rounded-[12px] outline-none font-normal md:tracking-[0.32px] text-base gap-3",
             className
           )}
         >
           <input
-            className='flex-1  bg-transparent  outline-none'
-            type={passwordVisibility ? 'text' : type}
+            className="flex-1  bg-transparent  outline-none"
+            type={passwordVisibility ? "text" : type}
             {...prop}
           />
           <span
-            className='transition-all duration-300 active:scale-[0.96]'
+            className="transition-all duration-300 active:scale-[0.96]"
             onClick={togglePassswordVisibility}
           >
             {passwordVisibility ? <EyeIcon /> : <EyeSlashIcon />}
@@ -36,11 +36,11 @@ export default function Input(props: InputProps) {
         </div>
       );
     }
-    case 'email': {
+    case "email": {
       return (
         <input
           className={clsx(
-            'block w-[382px] lg:w-[420px] md:p-[16px] md:h-[50px]s md:rounded-[12px] text-[#B3B3B3] bg-[#FAFAFA] outline-none font-normal md:tracking-[0.32px] text-base',
+            "block w-[382px] lg:w-[420px] p-[16px]  md:rounded-[12px] text-[#B3B3B3] bg-[#FAFAFA] outline-none font-normal md:tracking-[0.32px] text-base",
             className
           )}
           {...prop}
@@ -51,7 +51,7 @@ export default function Input(props: InputProps) {
       return (
         <input
           className={clsx(
-            'block w-[382px] lg:w-[420px] md:p-[16px] md:h-[50px] md:rounded-[12px] text-[#B3B3B3] bg-[#FAFAFA] outline-none font-normal md:tracking-[0.32px] text-base',
+            "block w-[382px] lg:w-[420px] p-[16px]  md:rounded-[12px] text-[#B3B3B3] bg-[#FAFAFA] outline-none font-normal md:tracking-[0.32px] text-base",
             className
           )}
           {...prop}
