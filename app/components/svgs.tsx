@@ -1,9 +1,12 @@
+import clsx from "clsx";
+
 interface SVGProp {
   className?: string;
 }
-export const EyeIcon = () => {
+export const EyeIcon = ({ className }: SVGProp) => {
   return (
     <svg
+      className={clsx("stroke-gray-700", className)}
       width="16"
       height="16"
       viewBox="0 0 24 24"
@@ -12,14 +15,14 @@ export const EyeIcon = () => {
     >
       <path
         d="M2.42012 12.7132C2.28394 12.4975 2.21584 12.3897 2.17772 12.2234C2.14909 12.0985 2.14909 11.9015 2.17772 11.7766C2.21584 11.6103 2.28394 11.5025 2.42012 11.2868C3.54553 9.50484 6.8954 5 12.0004 5C17.1054 5 20.4553 9.50484 21.5807 11.2868C21.7169 11.5025 21.785 11.6103 21.8231 11.7766C21.8517 11.9015 21.8517 12.0985 21.8231 12.2234C21.785 12.3897 21.7169 12.4975 21.5807 12.7132C20.4553 14.4952 17.1054 19 12.0004 19C6.8954 19 3.54553 14.4952 2.42012 12.7132Z"
-        stroke="black"
+        // stroke="black"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M12.0004 15C13.6573 15 15.0004 13.6569 15.0004 12C15.0004 10.3431 13.6573 9 12.0004 9C10.3435 9 9.0004 10.3431 9.0004 12C9.0004 13.6569 10.3435 15 12.0004 15Z"
-        stroke="black"
+        // stroke="black"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -28,9 +31,10 @@ export const EyeIcon = () => {
   );
 };
 
-export const EyeSlashIcon = () => {
+export const EyeSlashIcon = ({ className }: SVGProp) => {
   return (
     <svg
+      className={clsx("stroke-gray-700", className)}
       xmlns="http://www.w3.org/2000/svg"
       width="16"
       height="16"
@@ -40,14 +44,14 @@ export const EyeSlashIcon = () => {
       <g clipPath="url(#clip0_191_2382)">
         <path
           d="M9.41341 9.41343C9.23032 9.60993 9.00951 9.76754 8.76418 9.87685C8.51885 9.98616 8.25402 10.0449 7.98547 10.0497C7.71693 10.0544 7.45019 10.005 7.20115 9.90443C6.95212 9.80384 6.7259 9.65412 6.53598 9.4642C6.34606 9.27428 6.19634 9.04806 6.09575 8.79902C5.99516 8.54999 5.94577 8.28325 5.9505 8.0147C5.95524 7.74616 6.01402 7.48133 6.12333 7.236C6.23264 6.99067 6.39025 6.76986 6.58675 6.58677M11.9601 11.9601C10.8205 12.8288 9.43282 13.31 8.00008 13.3334C3.33341 13.3334 0.666748 8.0001 0.666748 8.0001C1.49601 6.4547 2.64617 5.1045 4.04008 4.0401L11.9601 11.9601ZM6.60008 2.82676C7.05897 2.71935 7.52879 2.66566 8.00008 2.66676C12.6667 2.66676 15.3334 8.0001 15.3334 8.0001C14.9287 8.75717 14.4461 9.46992 13.8934 10.1268L6.60008 2.82676Z"
-          stroke="#999999"
+          // stroke="#999999"
           strokeWidth="1.2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M0.666748 0.666748L15.3334 15.3334"
-          stroke="#999999"
+          // stroke="#999999"
           strokeWidth="1.2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -65,28 +69,28 @@ export const EyeSlashIcon = () => {
 export const Info: React.FC<svgProps> = ({ className }) => {
   return (
     <svg
+      className={clsx("stroke-gray-700", className)}
       xmlns="http://www.w3.org/2000/svg"
       width="16"
       height="17"
-      className={className}
       viewBox="0 0 16 17"
       fill="none"
     >
       <path
         d="M7.99992 15.1666C11.6818 15.1666 14.6666 12.1818 14.6666 8.49992C14.6666 4.81802 11.6818 1.83325 7.99992 1.83325C4.31802 1.83325 1.33325 4.81802 1.33325 8.49992C1.33325 12.1818 4.31802 15.1666 7.99992 15.1666Z"
-        stroke="#666666"
+        // stroke="#666666"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M6.06006 6.49989C6.21679 6.05434 6.52616 5.67863 6.93336 5.43931C7.34056 5.2 7.81932 5.11252 8.28484 5.19237C8.75036 5.27222 9.1726 5.51424 9.47678 5.87558C9.78095 6.23691 9.94743 6.69424 9.94673 7.16656C9.94673 8.49989 7.94673 9.16656 7.94673 9.16656"
-        stroke="#666666"
+        // stroke="#666666"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M8 11.8333H8.00667"
-        stroke="#666666"
+        // stroke="#666666"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -94,9 +98,10 @@ export const Info: React.FC<svgProps> = ({ className }) => {
   );
 };
 
-export const Hearts = () => {
+export const Hearts = ({ className }: SVGProp) => {
   return (
     <svg
+      className={clsx("stroke-gray-700", className)}
       xmlns="http://www.w3.org/2000/svg"
       width="48"
       height="48"
@@ -111,7 +116,7 @@ export const Hearts = () => {
       />
       <path
         d="M31.0911 19.8509C31.8389 18.5221 32.4625 17.323 32.8471 16.4104C34.7147 11.9789 32.868 6.88154 28.3539 4.80225C23.8397 2.72296 19.3068 4.87899 17.3174 9.04185C13.5131 6.4314 8.43836 6.81478 5.63977 10.8885C2.84119 14.9622 3.71951 20.2841 7.55258 23.1881C9.29221 24.5061 12.7327 26.4484 15.9719 28.1769M32.5944 23.4999C31.7502 18.964 27.8907 15.6467 23.0313 16.5483C18.1718 17.4499 15.0298 21.8342 15.6867 26.598C16.2145 30.4254 19.1278 39.4054 20.2528 42.788C20.4063 43.2496 20.4831 43.4804 20.6351 43.6413C20.7674 43.7815 20.9435 43.8831 21.1311 43.9277C21.3464 43.9788 21.5847 43.9299 22.0612 43.832C25.553 43.115 34.7866 41.148 38.3652 39.6914C42.8193 37.8784 45.1179 32.9682 43.3962 28.306C41.6745 23.6437 36.9447 21.963 32.5944 23.4999Z"
-        stroke="#FEF6F4"
+        // stroke="#FEF6F4"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -126,11 +131,11 @@ export function Verse({
 }: React.HTMLAttributes<HTMLOrSVGElement>) {
   return (
     <svg
+      className={clsx("", className)}
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
       width="135"
       height="201"
-      className={className}
       viewBox="0 0 135 201"
       fill="none"
       {...props}
@@ -174,9 +179,10 @@ export function Verse({
   );
 }
 
-export const MobileHearts = () => {
+export const MobileHearts = ({ className }: SVGProp) => {
   return (
     <svg
+      className={clsx("stroke-gray-700", className)}
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -191,16 +197,17 @@ export const MobileHearts = () => {
       />
       <path
         d="M15.5455 9.92543C15.9195 9.26103 16.2313 8.66151 16.4236 8.20521C17.3573 5.98947 16.434 3.44077 14.1769 2.40112C11.9199 1.36148 9.65341 2.4395 8.65871 4.52093C6.75657 3.2157 4.21918 3.40739 2.81989 5.44424C1.42059 7.48108 1.85975 10.142 3.77629 11.594C4.6461 12.253 6.36636 13.2242 7.98596 14.0884M16.2972 11.7499C15.8751 9.482 13.9454 7.82334 11.5156 8.27415C9.08592 8.72497 7.51488 10.9171 7.84335 13.299C8.10725 15.2127 9.56392 19.7027 10.1264 21.394C10.2032 21.6248 10.2415 21.7402 10.3175 21.8206C10.3837 21.8907 10.4717 21.9416 10.5655 21.9638C10.6732 21.9894 10.7923 21.9649 11.0306 21.916C12.7765 21.5575 17.3933 20.574 19.1826 19.8457C21.4096 18.9392 22.5589 16.4841 21.6981 14.153C20.8372 11.8219 18.4723 10.9815 16.2972 11.7499Z"
-        stroke="#956E60"
+        // stroke="#956E60"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
     </svg>
   );
 };
-export const HeartsIcon = () => {
+export const HeartsIcon = ({ className }: SVGProp) => {
   return (
     <svg
+      className={clsx("stroke-gray-700", className)}
       xmlns="http://www.w3.org/2000/svg"
       width={24}
       height={24}
@@ -215,7 +222,7 @@ export const HeartsIcon = () => {
       />
       <path
         d="M15.5455 9.92543C15.9195 9.26103 16.2313 8.66151 16.4236 8.20521C17.3573 5.98947 16.434 3.44077 14.1769 2.40112C11.9199 1.36148 9.65341 2.4395 8.65871 4.52093C6.75657 3.2157 4.21918 3.40739 2.81989 5.44424C1.42059 7.48108 1.85975 10.142 3.77629 11.594C4.6461 12.253 6.36636 13.2242 7.98596 14.0884M16.2972 11.7499C15.8751 9.482 13.9454 7.82334 11.5156 8.27415C9.08592 8.72497 7.51488 10.9171 7.84335 13.299C8.10725 15.2127 9.56392 19.7027 10.1264 21.394C10.2032 21.6248 10.2415 21.7402 10.3175 21.8206C10.3837 21.8907 10.4717 21.9416 10.5655 21.9638C10.6732 21.9894 10.7923 21.9649 11.0306 21.916C12.7765 21.5575 17.3933 20.574 19.1826 19.8457C21.4096 18.9392 22.5589 16.4841 21.6981 14.153C20.8372 11.8219 18.4723 10.9815 16.2972 11.7499Z"
-        stroke="#956E60"
+        // stroke="#956E60"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -223,9 +230,10 @@ export const HeartsIcon = () => {
   );
 };
 
-export const SettingsIcon = () => {
+export const SettingsIcon = ({ className }: SVGProp) => {
   return (
     <svg
+      className={clsx("stroke-gray-700", className)}
       xmlns="http://www.w3.org/2000/svg"
       width={24}
       height={24}
@@ -234,13 +242,13 @@ export const SettingsIcon = () => {
     >
       <path
         d="M12.0005 15C13.6573 15 15.0005 13.6569 15.0005 12C15.0005 10.3431 13.6573 9 12.0005 9C10.3436 9 9.00049 10.3431 9.00049 12C9.00049 13.6569 10.3436 15 12.0005 15Z"
-        stroke="black"
+        // stroke="black"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M9.28957 19.3711L9.87402 20.6856C10.0478 21.0768 10.3313 21.4093 10.6902 21.6426C11.0492 21.8759 11.4681 22.0001 11.8962 22C12.3244 22.0001 12.7433 21.8759 13.1022 21.6426C13.4612 21.4093 13.7447 21.0768 13.9185 20.6856L14.5029 19.3711C14.711 18.9047 15.0609 18.5159 15.5029 18.26C15.9477 18.0034 16.4622 17.8941 16.9729 17.9478L18.4029 18.1C18.8286 18.145 19.2582 18.0656 19.6396 17.8713C20.021 17.6771 20.3379 17.3763 20.5518 17.0056C20.766 16.635 20.868 16.2103 20.8455 15.7829C20.823 15.3555 20.677 14.9438 20.4251 14.5978L19.5785 13.4344C19.277 13.0171 19.1159 12.5148 19.1185 12C19.1184 11.4866 19.281 10.9864 19.5829 10.5711L20.4296 9.40778C20.6814 9.06175 20.8275 8.65007 20.85 8.22267C20.8725 7.79528 20.7704 7.37054 20.5562 7C20.3423 6.62923 20.0255 6.32849 19.644 6.13423C19.2626 5.93997 18.833 5.86053 18.4074 5.90556L16.9774 6.05778C16.4667 6.11141 15.9521 6.00212 15.5074 5.74556C15.0645 5.48825 14.7144 5.09736 14.5074 4.62889L13.9185 3.31444C13.7447 2.92317 13.4612 2.59072 13.1022 2.3574C12.7433 2.12408 12.3244 1.99993 11.8962 2C11.4681 1.99993 11.0492 2.12408 10.6902 2.3574C10.3313 2.59072 10.0478 2.92317 9.87402 3.31444L9.28957 4.62889C9.0825 5.09736 8.73245 5.48825 8.28957 5.74556C7.84479 6.00212 7.33024 6.11141 6.81957 6.05778L5.38513 5.90556C4.95946 5.86053 4.52987 5.93997 4.14844 6.13423C3.76702 6.32849 3.45014 6.62923 3.23624 7C3.02206 7.37054 2.92002 7.79528 2.94251 8.22267C2.96499 8.65007 3.11103 9.06175 3.36291 9.40778L4.20957 10.5711C4.51151 10.9864 4.67411 11.4866 4.67402 12C4.67411 12.5134 4.51151 13.0137 4.20957 13.4289L3.36291 14.5922C3.11103 14.9382 2.96499 15.3499 2.94251 15.7773C2.92002 16.2047 3.02206 16.6295 3.23624 17C3.45036 17.3706 3.76727 17.6712 4.14864 17.8654C4.53001 18.0596 4.95949 18.1392 5.38513 18.0944L6.81513 17.9422C7.3258 17.8886 7.84034 17.9979 8.28513 18.2544C8.72966 18.511 9.08134 18.902 9.28957 19.3711Z"
-        stroke="black"
+        // stroke="black"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -248,9 +256,10 @@ export const SettingsIcon = () => {
   );
 };
 
-export const AddIcon = () => {
+export const AddIcon = ({ className }: SVGProp) => {
   return (
     <svg
+      className={clsx("stroke-gray-700", className)}
       xmlns="http://www.w3.org/2000/svg"
       width={24}
       height={24}
@@ -259,7 +268,7 @@ export const AddIcon = () => {
     >
       <path
         d="M12 5V19M5 12H19"
-        stroke="white"
+        // stroke="white"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -267,9 +276,10 @@ export const AddIcon = () => {
   );
 };
 
-export const SearchIcon = () => {
+export const SearchIcon = ({ className }: SVGProp) => {
   return (
     <svg
+      className={clsx("stroke-gray-700", className)}
       xmlns="http://www.w3.org/2000/svg"
       width={24}
       height={24}
@@ -278,13 +288,13 @@ export const SearchIcon = () => {
     >
       <path
         d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z"
-        stroke="#011F3D"
+        // stroke="#011F3D"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M21.0004 21.0004L16.6504 16.6504"
-        stroke="black"
+        // stroke="black"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -295,8 +305,8 @@ export const SearchIcon = () => {
 export const DocIcon = ({ className }: SVGProp) => {
   return (
     <svg
+      className={clsx("stroke-gray-700", className)}
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
       width={22}
       height={22}
       viewBox="0 0 22 22"
@@ -315,8 +325,8 @@ export const DocIcon = ({ className }: SVGProp) => {
 export const HeartIcon = ({ className }: SVGProp) => {
   return (
     <svg
+      className={clsx("stroke-gray-700", className)}
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
       width={20}
       height={20}
       viewBox="0 0 20 20"
@@ -334,8 +344,8 @@ export const HeartIcon = ({ className }: SVGProp) => {
 export const ArchiveIcon = ({ className }: SVGProp) => {
   return (
     <svg
+      className={clsx(" stroke-gray-700_", className)}
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
       width={20}
       height={20}
       viewBox="0 0 20 20"
@@ -353,8 +363,8 @@ export const ArchiveIcon = ({ className }: SVGProp) => {
 export const TrashIcon = ({ className }: SVGProp) => {
   return (
     <svg
+      className={clsx("stroke-gray-700", className)}
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
       width={20}
       height={20}
       viewBox="0 0 20 20"
@@ -372,16 +382,16 @@ export const TrashIcon = ({ className }: SVGProp) => {
 export function PlusIcon({ className }: svgProps) {
   return (
     <svg
+      className={clsx("stroke-gray-700", className)}
       xmlns="http://www.w3.org/2000/svg"
       width="14"
       height="14"
-      className={className}
       viewBox="0 0 14 14"
       fill="none"
     >
       <path
         d="M7.00008 2.91667V11.0833M2.91675 7H11.0834"
-        stroke="#956E60"
+        // stroke="#956E60"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -390,9 +400,10 @@ export function PlusIcon({ className }: svgProps) {
   );
 }
 
-export const HorizontalDots = () => {
+export const HorizontalDots = ({ className }: SVGProp) => {
   return (
     <svg
+      className={clsx("stroke-gray-700", className)}
       width="24"
       height="24"
       viewBox="0 0 24 24"
@@ -401,21 +412,21 @@ export const HorizontalDots = () => {
     >
       <path
         d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"
-        stroke="black"
+        // stroke="black"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12C18 12.5523 18.4477 13 19 13Z"
-        stroke="black"
+        // stroke="black"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13Z"
-        stroke="black"
+        // stroke="black"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -427,16 +438,16 @@ export const HorizontalDots = () => {
 export function DropDown({ className }: svgProps) {
   return (
     <svg
+      className={clsx("stroke-gray-700", className)}
       xmlns="http://www.w3.org/2000/svg"
       width="20"
       height="21"
-      className={className}
       viewBox="0 0 20 21"
       fill="none"
     >
       <path
         d="M5 8L10 13L15 8"
-        stroke="#B3B3B3"
+        // stroke="#B3B3B3"
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -445,9 +456,10 @@ export function DropDown({ className }: svgProps) {
   );
 }
 
-export const ExpandMoreIcon = () => {
+export const ExpandMoreIcon = ({ className }: SVGProp) => {
   return (
     <svg
+      className={clsx("stroke-gray-700", className)}
       xmlns="http://www.w3.org/2000/svg"
       width={20}
       height={21}
@@ -456,7 +468,7 @@ export const ExpandMoreIcon = () => {
     >
       <path
         d="M5 8L10 13L15 8"
-        stroke="#B3B3B3"
+        // stroke="#B3B3B3"
         strokeWidth={2}
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -465,9 +477,10 @@ export const ExpandMoreIcon = () => {
   );
 };
 
-export const LeftAlignIcon = () => {
+export const LeftAlignIcon = ({ className }: SVGProp) => {
   return (
     <svg
+      className={clsx("stroke-gray-700", className)}
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -476,13 +489,13 @@ export const LeftAlignIcon = () => {
     >
       <path
         d="M14 10C14.9319 10 15.3978 10 15.7654 9.84776C16.2554 9.64477 16.6448 9.25542 16.8478 8.76537C17 8.39782 17 7.93188 17 7C17 6.06812 17 5.60218 16.8478 5.23463C16.6448 4.74458 16.2554 4.35523 15.7654 4.15224C15.3978 4 14.9319 4 14 4L6 4C5.06812 4 4.60218 4 4.23463 4.15224C3.74458 4.35523 3.35523 4.74458 3.15224 5.23463C3 5.60218 3 6.06812 3 7C3 7.93188 3 8.39782 3.15224 8.76537C3.35523 9.25542 3.74458 9.64477 4.23463 9.84776C4.60218 10 5.06812 10 6 10L14 10Z"
-        stroke="#956E60"
+        // stroke="#956E60"
         stroke-linecap="round"
         stroke-linejoin="round"
       />
       <path
         d="M18 20C18.9319 20 19.3978 20 19.7654 19.8478C20.2554 19.6448 20.6448 19.2554 20.8478 18.7654C21 18.3978 21 17.9319 21 17C21 16.0681 21 15.6022 20.8478 15.2346C20.6448 14.7446 20.2554 14.3552 19.7654 14.1522C19.3978 14 18.9319 14 18 14H6C5.06812 14 4.60218 14 4.23463 14.1522C3.74458 14.3552 3.35523 14.7446 3.15224 15.2346C3 15.6022 3 16.0681 3 17C3 17.9319 3 18.3978 3.15224 18.7654C3.35523 19.2554 3.74458 19.6448 4.23463 19.8478C4.60218 20 5.06812 20 6 20L18 20Z"
-        stroke="#956E60"
+        // stroke="#956E60"
         stroke-linecap="round"
         stroke-linejoin="round"
       />
@@ -490,9 +503,10 @@ export const LeftAlignIcon = () => {
   );
 };
 
-export const MoreHorisIcon = () => {
+export const MoreHorisIcon = ({ className }: SVGProp) => {
   return (
     <svg
+      className={clsx("stroke-gray-700", className)}
       xmlns="http://www.w3.org/2000/svg"
       width="16"
       height="16"
@@ -501,21 +515,21 @@ export const MoreHorisIcon = () => {
     >
       <path
         d="M8.00033 8.66732C8.36851 8.66732 8.66699 8.36884 8.66699 8.00065C8.66699 7.63246 8.36851 7.33398 8.00033 7.33398C7.63214 7.33398 7.33366 7.63246 7.33366 8.00065C7.33366 8.36884 7.63214 8.66732 8.00033 8.66732Z"
-        stroke="#999999"
+        // stroke="#999999"
         stroke-width="1.5"
         stroke-linecap="round"
         stroke-linejoin="round"
       />
       <path
         d="M12.667 8.66732C13.0352 8.66732 13.3337 8.36884 13.3337 8.00065C13.3337 7.63246 13.0352 7.33398 12.667 7.33398C12.2988 7.33398 12.0003 7.63246 12.0003 8.00065C12.0003 8.36884 12.2988 8.66732 12.667 8.66732Z"
-        stroke="#999999"
+        // stroke="#999999"
         stroke-width="1.5"
         stroke-linecap="round"
         stroke-linejoin="round"
       />
       <path
         d="M3.33366 8.66732C3.70185 8.66732 4.00033 8.36884 4.00033 8.00065C4.00033 7.63246 3.70185 7.33398 3.33366 7.33398C2.96547 7.33398 2.66699 7.63246 2.66699 8.00065C2.66699 8.36884 2.96547 8.66732 3.33366 8.66732Z"
-        stroke="#999999"
+        // stroke="#999999"
         stroke-width="1.5"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -524,9 +538,10 @@ export const MoreHorisIcon = () => {
   );
 };
 
-export const HeartsOutlineIcon = () => {
+export const HeartsOutlineIcon = ({ className }: SVGProp) => {
   return (
     <svg
+      className={clsx("stroke-gray-700", className)}
       xmlns="http://www.w3.org/2000/svg"
       width={16}
       height={16}
@@ -536,7 +551,7 @@ export const HeartsOutlineIcon = () => {
       <g clipPath="url(#clip0_1251_2504)">
         <path
           d="M10.3634 6.6176C10.6127 6.17467 10.8205 5.77499 10.9487 5.47079C11.5712 3.99363 10.9557 2.2945 9.45097 1.6014C7.94625 0.908303 6.43528 1.62698 5.77215 3.0146C4.50405 2.14445 2.81246 2.27224 1.8796 3.63014C0.946736 4.98804 1.23951 6.76201 2.5172 7.73001C3.09708 8.16934 4.24391 8.81678 5.32365 9.39295M10.8645 7.83395C10.5831 6.32198 9.29658 5.21621 7.67677 5.51675C6.05695 5.8173 5.00959 7.27871 5.22857 8.86665C5.40451 10.1425 6.37562 13.1358 6.75061 14.2633C6.80178 14.4172 6.82737 14.4941 6.87803 14.5477C6.92215 14.5945 6.98083 14.6284 7.04337 14.6432C7.11516 14.6603 7.19457 14.6439 7.35341 14.6113C8.51735 14.3723 11.5952 13.7167 12.7881 13.2311C14.2728 12.6268 15.039 10.9901 14.4651 9.43598C13.8912 7.88189 12.3146 7.32166 10.8645 7.83395Z"
-          stroke="#808080"
+          // stroke="#808080"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
@@ -550,9 +565,10 @@ export const HeartsOutlineIcon = () => {
   );
 };
 
-export const TagIcon = () => {
+export const TagIcon = ({ className }: SVGProp) => {
   return (
     <svg
+      className={clsx("stroke-gray-700", className)}
       xmlns="http://www.w3.org/2000/svg"
       width={16}
       height={16}
@@ -562,7 +578,7 @@ export const TagIcon = () => {
       <g clipPath="url(#clip0_1251_1860)">
         <path
           d="M5.33301 5.33398H5.33968M1.33301 3.46732L1.33301 6.45033C1.33301 6.77645 1.33301 6.93951 1.36985 7.09296C1.40251 7.22901 1.45638 7.35907 1.52949 7.47836C1.61194 7.61292 1.72724 7.72822 1.95785 7.95882L7.07027 13.0712C7.8623 13.8633 8.25832 14.2593 8.71497 14.4077C9.11666 14.5382 9.54935 14.5382 9.95104 14.4077C10.4077 14.2593 10.8037 13.8633 11.5958 13.0712L13.0703 11.5967C13.8623 10.8047 14.2583 10.4087 14.4067 9.95202C14.5372 9.55033 14.5372 9.11764 14.4067 8.71595C14.2583 8.25929 13.8623 7.86328 13.0703 7.07124L7.95785 1.95882C7.72724 1.72822 7.61194 1.61292 7.47739 1.53046C7.35809 1.45736 7.22803 1.40349 7.09198 1.37082C6.93853 1.33398 6.77547 1.33398 6.44935 1.33398L3.46634 1.33398C2.7196 1.33398 2.34624 1.33398 2.06102 1.47931C1.81014 1.60714 1.60616 1.81111 1.47833 2.062C1.33301 2.34721 1.33301 2.72058 1.33301 3.46732ZM5.66634 5.33398C5.66634 5.51808 5.5171 5.66732 5.33301 5.66732C5.14891 5.66732 4.99968 5.51808 4.99968 5.33398C4.99968 5.14989 5.14891 5.00065 5.33301 5.00065C5.5171 5.00065 5.66634 5.14989 5.66634 5.33398Z"
-          stroke="#808080"
+          // stroke="#808080"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
@@ -576,9 +592,10 @@ export const TagIcon = () => {
   );
 };
 
-export const EditIcon = () => {
+export const EditIcon = ({ className }: SVGProp) => {
   return (
     <svg
+      className={clsx("stroke-gray-700", className)}
       xmlns="http://www.w3.org/2000/svg"
       width="16"
       height="16"
@@ -587,7 +604,133 @@ export const EditIcon = () => {
     >
       <path
         d="M7.99998 13.3341H14M2 13.3341H3.11636C3.44248 13.3341 3.60554 13.3341 3.75899 13.2973C3.89504 13.2646 4.0251 13.2108 4.1444 13.1377C4.27895 13.0552 4.39425 12.9399 4.62486 12.7093L13 4.33414C13.5523 3.78185 13.5523 2.88642 13 2.33413C12.4477 1.78185 11.5523 1.78185 11 2.33414L2.62484 10.7093C2.39424 10.9399 2.27894 11.0552 2.19648 11.1898C2.12338 11.3091 2.0695 11.4391 2.03684 11.5752C2 11.7286 2 11.8917 2 12.2178V13.3341Z"
-        stroke="#808080"
+        // stroke="#808080"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+};
+
+export const FolderIcon = ({ className }: SVGProp) => {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={clsx("stroke-gray-700", className)}
+    >
+      <path
+        d="M13 7L11.8845 4.76892C11.5634 4.1268 11.4029 3.80573 11.1634 3.57116C10.9516 3.36373 10.6963 3.20597 10.4161 3.10931C10.0992 3 9.74021 3 9.02229 3H5.2C4.0799 3 3.51984 3 3.09202 3.21799C2.71569 3.40973 2.40973 3.71569 2.21799 4.09202C2 4.51984 2 5.0799 2 6.2V7M2 7H17.2C18.8802 7 19.7202 7 20.362 7.32698C20.9265 7.6146 21.3854 8.07354 21.673 8.63803C22 9.27976 22 10.1198 22 11.8V16.2C22 17.8802 22 18.7202 21.673 19.362C21.3854 19.9265 20.9265 20.3854 20.362 20.673C19.7202 21 18.8802 21 17.2 21H6.8C5.11984 21 4.27976 21 3.63803 20.673C3.07354 20.3854 2.6146 19.9265 2.32698 19.362C2 18.7202 2 17.8802 2 16.2V7Z"
+        // stroke="black"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+};
+
+export const Tag2Icon = ({ className }: SVGProp) => {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={clsx("stroke-gray-700", className)}
+    >
+      <path
+        d="M8 8H8.01M4.56274 2.93726L2.93726 4.56274C2.59136 4.90864 2.4184 5.0816 2.29472 5.28343C2.18506 5.46237 2.10425 5.65746 2.05526 5.86154C2 6.09171 2 6.3363 2 6.82548L2 9.67452C2 10.1637 2 10.4083 2.05526 10.6385C2.10425 10.8425 2.18506 11.0376 2.29472 11.2166C2.4184 11.4184 2.59135 11.5914 2.93726 11.9373L10.6059 19.6059C11.7939 20.7939 12.388 21.388 13.0729 21.6105C13.6755 21.8063 14.3245 21.8063 14.927 21.6105C15.612 21.388 16.2061 20.7939 17.3941 19.6059L19.6059 17.3941C20.7939 16.2061 21.388 15.612 21.6105 14.927C21.8063 14.3245 21.8063 13.6755 21.6105 13.0729C21.388 12.388 20.7939 11.7939 19.6059 10.6059L11.9373 2.93726C11.5914 2.59136 11.4184 2.4184 11.2166 2.29472C11.0376 2.18506 10.8425 2.10425 10.6385 2.05526C10.4083 2 10.1637 2 9.67452 2L6.82548 2C6.3363 2 6.09171 2 5.86154 2.05526C5.65746 2.10425 5.46237 2.18506 5.28343 2.29472C5.0816 2.4184 4.90865 2.59135 4.56274 2.93726ZM8.5 8C8.5 8.27614 8.27614 8.5 8 8.5C7.72386 8.5 7.5 8.27614 7.5 8C7.5 7.72386 7.72386 7.5 8 7.5C8.27614 7.5 8.5 7.72386 8.5 8Z"
+        // stroke="black"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+};
+
+export const Tag3Icon = ({ className }: SVGProp) => {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={clsx("stroke-gray-700", className)}
+    >
+      <path
+        d="M21 11L13.4059 3.40589C12.887 2.88703 12.6276 2.6276 12.3249 2.44208C12.0564 2.27759 11.7638 2.15638 11.4577 2.08289C11.1124 2 10.7455 2 10.0118 2L6 2M3 8.7L3 10.6745C3 11.1637 3 11.4083 3.05526 11.6385C3.10425 11.8425 3.18506 12.0376 3.29472 12.2166C3.4184 12.4184 3.59136 12.5914 3.93726 12.9373L11.7373 20.7373C12.5293 21.5293 12.9253 21.9253 13.382 22.0737C13.7837 22.2042 14.2163 22.2042 14.618 22.0737C15.0747 21.9253 15.4707 21.5293 16.2627 20.7373L18.7373 18.2627C19.5293 17.4707 19.9253 17.0747 20.0737 16.618C20.2042 16.2163 20.2042 15.7837 20.0737 15.382C19.9253 14.9253 19.5293 14.5293 18.7373 13.7373L11.4373 6.43726C11.0914 6.09136 10.9184 5.9184 10.7166 5.79472C10.5376 5.68506 10.3425 5.60425 10.1385 5.55526C9.90829 5.5 9.6637 5.5 9.17452 5.5H6.2C5.0799 5.5 4.51984 5.5 4.09202 5.71799C3.7157 5.90973 3.40973 6.21569 3.21799 6.59202C3 7.01984 3 7.57989 3 8.7Z"
+        // stroke="black"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+};
+
+export const Expand4Icon = ({ className }: SVGProp) => {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={clsx("stroke-gray-700", className)}
+    >
+      <path
+        d="M20 14V16.8C20 17.9201 20 18.4802 19.782 18.908C19.5903 19.2843 19.2843 19.5903 18.908 19.782C18.4802 20 17.9201 20 16.8 20H14M10 4H7.2C6.0799 4 5.51984 4 5.09202 4.21799C4.71569 4.40973 4.40973 4.71569 4.21799 5.09202C4 5.51984 4 6.07989 4 7.2V10M15 9L21 3M21 3H15M21 3V9M9 15L3 21M3 21H9M3 21L3 15"
+        // stroke="black"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+};
+
+export const Share5Icon = ({ className }: SVGProp) => {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={clsx("stroke-gray-700", className)}
+    >
+      <path
+        d="M21 6H17.8C16.1198 6 15.2798 6 14.638 6.32698C14.0735 6.6146 13.6146 7.07354 13.327 7.63803C13 8.27976 13 9.11984 13 10.8V12M21 6L18 3M21 6L18 9M10 3H7.8C6.11984 3 5.27976 3 4.63803 3.32698C4.07354 3.6146 3.6146 4.07354 3.32698 4.63803C3 5.27976 3 6.11984 3 7.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V14"
+        // stroke="black"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+};
+
+export const MessageChatCircleIcon = ({ className }: SVGProp) => {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={clsx("stroke-gray-700", className)}
+    >
+      <path
+        d="M6.09436 11.2288C6.03221 10.8282 5.99996 10.4179 5.99996 10C5.99996 5.58172 9.60525 2 14.0526 2C18.4999 2 22.1052 5.58172 22.1052 10C22.1052 10.9981 21.9213 11.9535 21.5852 12.8345C21.5154 13.0175 21.4804 13.109 21.4646 13.1804C21.4489 13.2512 21.4428 13.301 21.4411 13.3735C21.4394 13.4466 21.4493 13.5272 21.4692 13.6883L21.8717 16.9585C21.9153 17.3125 21.9371 17.4895 21.8782 17.6182C21.8266 17.731 21.735 17.8205 21.6211 17.8695C21.4911 17.9254 21.3146 17.8995 20.9617 17.8478L17.7765 17.3809C17.6101 17.3565 17.527 17.3443 17.4512 17.3448C17.3763 17.3452 17.3245 17.3507 17.2511 17.3661C17.177 17.3817 17.0823 17.4172 16.893 17.4881C16.0097 17.819 15.0524 18 14.0526 18C13.6344 18 13.2237 17.9683 12.8227 17.9073M7.63158 22C10.5965 22 13 19.5376 13 16.5C13 13.4624 10.5965 11 7.63158 11C4.66668 11 2.26316 13.4624 2.26316 16.5C2.26316 17.1106 2.36028 17.6979 2.53955 18.2467C2.61533 18.4787 2.65322 18.5947 2.66566 18.6739C2.67864 18.7567 2.68091 18.8031 2.67608 18.8867C2.67145 18.9668 2.65141 19.0573 2.61134 19.2383L2 22L4.9948 21.591C5.15827 21.5687 5.24 21.5575 5.31137 21.558C5.38652 21.5585 5.42641 21.5626 5.50011 21.5773C5.5701 21.5912 5.67416 21.6279 5.88227 21.7014C6.43059 21.8949 7.01911 22 7.63158 22Z"
+        // stroke="black"
         stroke-width="1.5"
         stroke-linecap="round"
         stroke-linejoin="round"

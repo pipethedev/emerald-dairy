@@ -28,7 +28,7 @@ export default function Dashboard() {
               />
             </div>
             <div className="h-[40px] w-[40px] ml-auto rounded-[8px] p-[8px] grid place-items-center bg-[#956E60]">
-              <AddIcon />
+              <AddIcon className="!stroke-white" />
             </div>
           </header>
           {/* ALL NOTES - SHOULD BE MOVED TO A SEPARATE COMPONENTS SOON */}

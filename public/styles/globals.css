@@ -6,7 +6,26 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* outline: 1px solid red; */
+}
+
+*::-webkit-scrollbar {
+  @apply w-1 h-1;
+}
+
+*::-webkit-scrollbar-thumb {
+  @apply bg-primary/50 border-2 w-1 border-white rounded-2xl;
+}
+
+*::-webkit-scrollbar-track {
+  @apply w-2 bg-transparent rounded-2xl;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary/60 rounded-2xl;
+}
+
+*::-webkit-scrollbar-thumb:active {
+  @apply bg-primary rounded-2xl;
 }
 
 body::-webkit-scrollbar {
