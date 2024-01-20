@@ -1,8 +1,3 @@
-interface TypographyProps extends React.HTMLProps<HTMLHeadingElement> {
-  children?: React.ReactNode;
-  className?: string;
-}
-
 export function H1({ children, className, ...props }: TypographyProps) {
   return (
     <h1 className={`sm:text-4xl text-3xl font-bold ${className}`} {...props}>

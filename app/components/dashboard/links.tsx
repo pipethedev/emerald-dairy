@@ -6,12 +6,6 @@ import {
 } from "@/app/components/svgs";
 import { SVGProps } from "react";
 
-interface SideNavigationLink {
-  href: string;
-  linkText: string;
-  leading: React.FC<SVGProps<SVGElement>>;
-}
-
 export const sideNavigationLinksData: Array<SideNavigationLink> = [
   {
     href: "/dashboard",

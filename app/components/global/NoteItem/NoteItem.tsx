@@ -10,18 +10,6 @@ import {
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 
-interface Note {
-  title: string;
-  subtitle: string;
-  date: number;
-  label?: any;
-  favourite?: boolean;
-  className?: string;
-  tag: string;
-  isActive?: boolean;
-  hoverEffect?: boolean;
-}
-
 export default function NoteItem(props: Note) {
   return (
     <div

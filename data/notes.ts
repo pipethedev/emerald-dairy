@@ -1,11 +1,3 @@
-interface notesPreviewData {
-  title: string;
-  subtitle: string;
-  date: string;
-  tag: string;
-  favorite: boolean;
-}
-
 export const notesPreviewData: Array<notesPreviewData> = [
   {
     title: "Prayer as an Anchor",

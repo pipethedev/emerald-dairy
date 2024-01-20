@@ -2,9 +2,6 @@ import clsx from "clsx";
 import { EyeIcon, EyeSlashIcon } from "./svgs";
 import { useState } from "react";
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  type: string;
-}
 export default function Input(props: InputProps) {
   const { type, className, ...prop } = props;
 
