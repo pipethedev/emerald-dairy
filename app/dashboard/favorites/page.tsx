@@ -1,13 +1,7 @@
+import { SearchBar } from "@/app/components/global";
+import { AddIcon, ExpandMoreIcon } from "@/app/components/svgs";
+import Image from "next/image";
+
 export default function Favorites() {
-
-    return (
-        <div>
-            <header className="h-[72px] border-b-[1px] border-b-[#F2F2F2]">
-
-            </header>
-            <div>
-                Favorites
-            </div>
-        </div>
-    )
+  return <div></div>;
 }

@@ -16,6 +16,8 @@ const config: Config = {
       },
       colors: {
         "lg-heart": "rgba(254, 246, 244, 0.12)",
+        primary: "#956E60",
+        body: "#FAFAFA",
       },
     },
   },

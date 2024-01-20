@@ -5,10 +5,7 @@ interface TypographyProps extends React.HTMLProps<HTMLHeadingElement> {
 
 export function H1({ children, className, ...props }: TypographyProps) {
   return (
-    <h1
-      className={`sm:text-4xl text-3xl font-bold mb-4 ${className}`}
-      {...props}
-    >
+    <h1 className={`sm:text-4xl text-3xl font-bold ${className}`} {...props}>
       {children}
     </h1>
   );

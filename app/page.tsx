@@ -5,10 +5,9 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { H2, H3, H4, P } from "@/utils/typography";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { Hearts, Info, MobileHearts, Verse } from "@/components/svgs";
-import Input from "@/components/input";
-import Button from "@/components/button";
-
+import { Hearts, Info, MobileHearts, Verse } from "@/app/components/svgs";
+import Input from "@/app/components/input";
+import Button from "@/app/components/button";
 interface formData {
   email: string;
   password: number | string;
@@ -54,6 +53,7 @@ export default function SignIn() {
       <div className="flex flex-col items-center justify-center w-full h-full lg:col-span-2">
         <div className="flex w-[90%] lg:w-auto lg:px-0 flex-col items-start gap-[32px]">
           {/* <H2>Sign In</H2> */}
+
           <h2 className="font-matter-semibold text-black leading-normal font-semibold md:text-[48px] text-center md:-tracking-[0.96px] -tracking-[0.64px] text-[32px]">
             Sign In
           </h2>
@@ -62,7 +62,7 @@ export default function SignIn() {
             onSubmit={handleSubmit}
           >
             <fieldset className="flex flex-col w-fit gap-3">
-              <div className="flex flex-row justify-between">
+              <div className="mx-2 flex flex-row justify-between">
                 <label className="text-black font-aeonik -tracking-[0.28px] font-normal text-[14px]">
                   Email Address
                 </label>
@@ -77,7 +77,7 @@ export default function SignIn() {
               />
             </fieldset>
             <fieldset className="flex flex-col w-fit md:gap-3">
-              <div className="flex flex-row justify-between">
+              <div className="mx-2 flex flex-row justify-between">
                 <label className="text-black font-aeonik -tracking-[0.28px] font-normal text-[14px]">
                   Password
                 </label>

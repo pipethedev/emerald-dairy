@@ -1,8 +1,8 @@
 "use client";
 
-import Button from "@/components/button";
-import Input from "@/components/input";
-import { Hearts, Info, MobileHearts, Verse } from "@/components/svgs";
+import Button from "@/app/components/button";
+import Input from "@/app/components/input";
+import { Hearts, Info, MobileHearts, Verse } from "@/app/components/svgs";
 import { H2, H3, H4, P } from "@/utils/typography";
 import axios from "axios";
 import { useRouter } from "next/navigation";
