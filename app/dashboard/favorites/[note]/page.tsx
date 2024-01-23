@@ -1,5 +1,5 @@
 import { FavouriteNotesHeader } from "@/app/components/dashboard/favourites";
-import { ParamsNav } from "@/app/components/global";
+import { Button, ParamsNav } from "@/app/components/global";
 import { DocIcon, EditIcon, TagIcon } from "@/app/components/svgs";
 import { H1 } from "@/utils/typography";
 import Image from "next/image";
@@ -46,6 +46,8 @@ export default async function NotePage({ params }: Props) {
               {paragraph}
             </p>
           ))}
+          <Button>Test Notification</Button>
+          <div className="mt-4"><Button test="modal">Test Modal</Button></div>
         </div>
       </div>
     </main>

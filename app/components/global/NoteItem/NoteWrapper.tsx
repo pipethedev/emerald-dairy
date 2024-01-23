@@ -10,6 +10,7 @@ import {
   useState,
 } from "react";
 import { ExpandMoreIcon } from "../../svgs";
+import { Button } from "..";
 
 type NoteWrapperProps = PropsWithChildren<{
   isActive: boolean;
@@ -71,7 +72,7 @@ export default function NoteWrapper({
         {children}
       </div>
       {isActive && !isInView && (
-        <div
+        <Button
           onClick={() =>
             noteRef.current?.scrollIntoView({
               behavior: "smooth",
@@ -89,7 +90,7 @@ export default function NoteWrapper({
           >
             <ExpandMoreIcon className="!stroke-white" />
           </figure>
-        </div>
+        </Button>
       )}
     </>
   );
