@@ -1,14 +1,16 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { AnimateInOutType } from "./types";
+import { ComponentProps, PropsWithChildren } from "react";
+
+type Props = {
+  show?: boolean;
+};
 
 export default function AnimateInOut({
   children,
   show,
   animate,
-  init,
-  out,
   drag,
   onDragEnd,
   className,
@@ -18,14 +20,13 @@ export default function AnimateInOut({
   dragElastic,
   onClick,
   title,
-}: AnimateInOutType) {
+  ...divProps
+}: PropsWithChildren<Props & ComponentProps<typeof motion.div>>) {
   return (
     <AnimatePresence>
       {show && (
         <motion.div
-          initial={init}
           animate={animate}
-          exit={out}
           drag={drag}
           onClick={onClick}
           onDragEnd={(e: PointerEvent, info) => onDragEnd && onDragEnd(e, info)}
@@ -36,6 +37,7 @@ export default function AnimateInOut({
           className={className}
           title={title}
           aria-label={title && title}
+          {...divProps}
         >
           {children}
         </motion.div>

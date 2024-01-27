@@ -29,13 +29,10 @@ interface SideNavigationLink {
 interface Note {
   title: string;
   subtitle: string;
-  date: number;
+  date: number | string;
   label?: any;
   favourite?: boolean;
-  className?: string;
   tag: string;
-  isActive?: boolean;
-  hoverEffect?: boolean;
 }
 
 interface TypographyProps extends React.HTMLProps<HTMLHeadingElement> {

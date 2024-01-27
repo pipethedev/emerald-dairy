@@ -26,6 +26,33 @@ const config: Config = {
         "couch-grey": "#666",
         body: "#FAFAFA",
       },
+      keyframes: {
+        "fade-in": {
+          "0%": {
+            transform: "scale(0.9)",
+            opacity: "0",
+          },
+          "100%": {
+            transform: "scale(1)",
+            opacity: "1",
+          },
+        },
+        "slide-up": {
+          "0%": {
+            transform: "translateY(100%)",
+            opacity: "0",
+          },
+          "100%": {
+            transform: "translateY(0)",
+            opacity: "1",
+          },
+        },
+      },
+      animation: {
+        "fade-in": "fade-in 300ms linear",
+        "slide-up": "slide-up 300ms linear",
+        "rotate-clockwise": "rotate-clockwise 1s infinite linear",
+      },
     },
   },
   plugins: [],

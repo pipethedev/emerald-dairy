@@ -1,6 +1,5 @@
 "use client";
 import clsx from "clsx";
-import { type } from "os";
 import {
   PropsWithChildren,
   RefObject,
@@ -11,11 +10,14 @@ import {
 } from "react";
 import { ExpandMoreIcon } from "../../svgs";
 import { Button } from "..";
+import AnimateInOut from "../AnimateInOut";
+import { motion } from "framer-motion";
 
 type NoteWrapperProps = PropsWithChildren<{
   isActive: boolean;
   containerRef: RefObject<HTMLDivElement>;
   title: string;
+  index: number;
 }>;
 
 const usePrevious = (value: any) => {
@@ -28,10 +30,11 @@ const usePrevious = (value: any) => {
 
 // This component which wraps the NoteItem component checks if a note item is in view and shows a little popup, which when clicked scrolls the active note item into view
 export default function NoteWrapper({
+  containerRef,
   children,
+  index,
   isActive,
   title,
-  containerRef,
 }: NoteWrapperProps) {
   const noteRef = useRef<HTMLDivElement>(null);
 
@@ -68,9 +71,18 @@ export default function NoteWrapper({
 
   return (
     <>
-      <div ref={noteRef} className="mb-2">
+      <motion.div
+        initial={{ translateY: 100 }}
+        animate={{ translateY: 0 }}
+        transition={{
+          delay: index / 10,
+          duration: (index + 2.1) / 10,
+        }}
+        ref={noteRef as any}
+        className="mb-2"
+      >
         {children}
-      </div>
+      </motion.div>
       {isActive && !isInView && (
         <Button
           onClick={() =>
@@ -80,7 +92,7 @@ export default function NoteWrapper({
             })
           }
           className={clsx(
-            "bg-primary active:scale-90 rounded-xl ml-6 w-60 mx-auto p-3 h-fit fixed bottom-0 flex items-center text-white transition-all duration-150",
+            "bg-primary active:scale-90 rounded-xl ml-6 w-60 mx-auto p-3 h-fit fixed bottom-0 flex items-center text-white transition-all duration-150 z-50",
             position === "top" ? "top-20" : "bottom-4"
           )}
         >

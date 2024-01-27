@@ -8,9 +8,14 @@ import {
   TagIcon,
 } from "../../svgs";
 import clsx from "clsx";
-import { usePathname } from "next/navigation";
 
-export default function NoteItem(props: Note) {
+export default function NoteItem(
+  props: Note & {
+    isActive?: boolean;
+    hoverEffect?: boolean;
+    className?: string;
+  }
+) {
   return (
     <div
       className={clsx(

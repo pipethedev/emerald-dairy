@@ -7,8 +7,13 @@ import {
 import { SVGProps } from "react";
 
 export const sideNavigationLinksData: Array<SideNavigationLink> = [
+  // {
+  //   href: "/dashboard",
+  //   linkText: "All Notes",
+  //   leading: DocIcon,
+  // },
   {
-    href: "/dashboard",
+    href: "/dashboard/all-notes",
     linkText: "All Notes",
     leading: DocIcon,
   },
