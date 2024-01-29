@@ -43,7 +43,7 @@ export function H5({ children, className, ...props }: TypographyProps) {
   return (
     <h5
       {...props}
-      className={`${className} font-normal text-[10px] font-aeonik  -tracking-[0.1px]`}
+      className={`${className} font-normal text-[10px] font-aeonik -tracking-[0.1px]`}
     >
       {children}
     </h5>

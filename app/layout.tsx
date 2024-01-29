@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
 import "@/public/styles/globals.css";
 import { Providers } from "@/store/provider";
 import { ModalContextProvider, NotificationContextProvider } from "@/context";
 import { PortalElements } from "./components/global/ClientOnlyPortal";
 
-const keyword = ["web-app", "pwa", "note-app"];
+const keyword = ["web-app", "pwa", "note-app", "emerald's diary"];
 
 const description = "'Personalized PWA note-app',";
 const title = "Emerald's Diary: A personalized PWA note-app";

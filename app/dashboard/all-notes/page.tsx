@@ -1,11 +1,10 @@
 import { CreateNoteLink, Notes } from "@/app/components/global";
+import { Greet } from "@/app/components/global/greet";
 import {
-  AddIcon,
   EditIcon,
   ExpandMoreIcon,
   HeartsOutlineIcon,
   LeftAlignIcon,
-  MobileHearts,
   MoreHorisIcon,
   SearchIcon,
   SettingsIcon,
@@ -46,24 +45,30 @@ export default function Dashboard() {
                   height={55}
                 />
               </figure>
-              <h1 className="text-[44px] font-bold">Morning Bimbo</h1>
+              <h1 className="text-[44px] font-bold">
+                <Greet name="Bimbo" />
+              </h1>
             </div>
             <div className="flex gap-[24px] flex-wrap">
-              <div className="p-[24px] bg-[#FEF6F4] rounded-[20px] w-full max-w-[308px]">
-                <figure className="mb-[50px]">
-                  <Image
-                    alt="Docs Icon"
-                    src="/icons/docs-icon.svg"
-                    width={72}
-                    height={72}
-                  />
-                </figure>
-                <h1 className="text-[#AE8779] text-[20px] font-bold mb-[5px]">
-                  Create your First note
-                </h1>
-                <p>You have no saved notes in your account.</p>
-              </div>
-              <div className="p-[24px] bg-[#FAFAFA] rounded-[20px] w-full max-w-[308px]">
+              {/* CREATE-NOTES */}
+              <Link href={`/dashboard/all-notes/create`}>
+                <div className="p-[24px] bg-[#FEF6F4] transition-all duration-200 active:scale-[0.98] rounded-[20px] w-full max-w-[308px]">
+                  <figure className="mb-[50px]">
+                    <Image
+                      alt="Docs Icon"
+                      src="/icons/docs-icon.svg"
+                      width={72}
+                      height={72}
+                    />
+                  </figure>
+                  <h1 className="text-[#AE8779] text-[20px] font-bold mb-[5px]">
+                    Create your First note
+                  </h1>
+                  <p>You have no saved notes in your account.</p>
+                </div>
+              </Link>
+              {/* FOLDER */}
+              <div className="cursor-pointer animation-all transition-all hover:bg-[#FEF6F4] p-[24px] bg-[#FAFAFA] rounded-[20px] w-full max-w-[308px]">
                 <figure className="mb-[32px]">
                   <Image
                     alt="Folder Icon"
@@ -79,7 +84,8 @@ export default function Dashboard() {
                   You have no saved notes in your account.
                 </p>
               </div>
-              <div className="p-[24px] bg-[#FAFAFA] rounded-[20px] w-full max-w-[308px]">
+              {/* ADD PROFILE PID */}
+              <div className="cursor-pointer animation-all transition-all hover:bg-[#FEF6F4] p-[24px] bg-[#FAFAFA] rounded-[20px] w-full max-w-[308px]">
                 <figure className="mb-[32px]">
                   <Image
                     alt="Camera Icon"
@@ -88,6 +94,7 @@ export default function Dashboard() {
                     height={90}
                   />
                 </figure>
+                {/*  */}
                 <h1 className="text-[20px] font-bold mb-[5px]">
                   Add a Profile Picture
                 </h1>
@@ -138,7 +145,9 @@ const DashboardMobile = () => {
                 height={35}
               />
             </figure>
-            <h1 className="text-[24px] font-bold">Morning Bimbo</h1>
+            <h1 className="text-[24px] font-bold">
+              <Greet name="Bimbo" />
+            </h1>
           </div>
           <div className="flex flex-col gap-[24px] flex-wrap">
             <div className="px-[24px] py-[34px] bg-[#FEF6F4] rounded-[20px] w-full flex gap-[22px]">
@@ -230,7 +239,7 @@ const Notes_ = () => {
                     {note.date}
                   </p>
                 </div>
-                {note.favorite && (
+                {note.favourite && (
                   <div className="h-[28px] px-[8px] rounded-[8px] bg-[#F2F2F2] grid place-items-center">
                     <HeartsOutlineIcon />
                   </div>

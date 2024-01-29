@@ -2,10 +2,13 @@
 import Image from "next/image";
 import {
   AddIcon,
+  FolderIcon,
+  FolderOutlineIcon,
   HeartsIcon,
   PlusIcon,
   SearchIcon,
   SettingsIcon,
+  TagIcon,
 } from "../svgs";
 import { sideNavigationLinksData } from "@/app/components/dashboard/links";
 import Link from "next/link";
@@ -13,6 +16,7 @@ import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import { H4, H2, H5 } from "@/utils/typography";
 import VerseOfDay from "./verseOfDay";
+import { Disclosure, Transition } from "@headlessui/react";
 
 export default function DashboardSideNavigation() {
   const pathname = usePathname();
@@ -68,7 +72,7 @@ export default function DashboardSideNavigation() {
                     className={clsx(
                       "w-full rounded-[8px]  hover:bg-[#956E60]/20 transition-all duration-300  px-[12px] py-[12px] flex items-center gap-[8px] text-[12px]",
                       isAllNotesActiveRoute &&
-                        "bg-[#FEF2EE] font-extrabold text-[#956E60]"
+                      "bg-[#FEF2EE] font-extrabold text-[#956E60]"
                     )}
                   >
                     <link.leading
@@ -87,7 +91,7 @@ export default function DashboardSideNavigation() {
                     className={clsx(
                       "w-full rounded-[8px] hover:bg-[#956E60]/20 transition-all duration-300 px-[12px] py-[12px] flex items-center gap-[8px] text-[12px]",
                       isActiveRoute &&
-                        "bg-[#FEF2EE] font-extrabold text-[#956E60]"
+                      "bg-[#FEF2EE] font-extrabold text-[#956E60]"
                     )}
                   >
                     <link.leading
@@ -107,20 +111,97 @@ export default function DashboardSideNavigation() {
         </div>
       </div>
       {/* Tags and folders */}
-      <div className="px-[14px] py-2 flex flex-col items-start gap-2">
-        {/* tags */}
-        <div className="flex flex-row items-center justify-between w-full">
-          <H5 className="text-[#AE8779]">TAGS</H5>
-          <figure>
-            <PlusIcon />
-          </figure>
-        </div>
+      <div className="px-[14px] py-2 flex flex-col items-start gap-[16px] mb-[16px]">
         {/* FOLDERS */}
-        <div className="flex flex-row items-center w-full justify-between">
-          <H5 className="text-[#AE8779]">FOLDERS</H5>
-          <figure>
-            <PlusIcon />
-          </figure>
+        <div className="w-full">
+          <Disclosure>
+            {({ open }) => (
+              <>
+                <Disclosure.Button className="flex flex-row items-center w-full justify-between">
+                  <H5 className="text-[#AE8779] !font-bold">TAGS</H5>
+                  <PlusIcon
+                    className={`${open ? 'rotate-180' : 'rotate-0'
+                      } transform transition`}
+                  />
+                </Disclosure.Button>
+                <Transition
+                  show={open}
+                  enter="transition-opacity duration-75"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="transition-opacity duration-150"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <Disclosure.Panel className="flex flex-col w-full pt-[5px]">
+                    <div className="p-[12px] flex items-center gap-[8px]">
+                      <TagIcon />
+                      <p className="text-[#808084] text-[12px]">School Notes</p>
+                    </div>
+                    <div className="p-[12px] flex items-center gap-[8px]">
+                      <TagIcon />
+                      <p className="text-[#808084] text-[12px]">Sermon Notes</p>
+                    </div>
+                    <div className="p-[12px] flex items-center gap-[8px]">
+                      <TagIcon />
+                      <p className="text-[#808084] text-[12px]">Archived</p>
+                    </div>
+                    <div className="p-[12px] flex items-center gap-[8px]">
+                      <TagIcon />
+                      <p className="text-[#808084] text-[12px]">Getting Started</p>
+                    </div>
+                    <div className="p-[12px] flex items-center gap-[8px]">
+                      <TagIcon />
+                      <p className="text-[#808084] text-[12px]">Getting Started</p>
+                    </div>
+                  </Disclosure.Panel>
+                </Transition>
+              </>
+            )}
+          </Disclosure>
+        </div>
+        <div className="w-full">
+          <Disclosure>
+            {({ open }) => (
+              <>
+                <Disclosure.Button className="flex flex-row items-center w-full justify-between">
+                  <H5 className="text-[#AE8779] !font-bold">FOLDERS</H5>
+                  <PlusIcon
+                    className={`${open ? 'rotate-180' : 'rotate-0'
+                      } transform transition`}
+                  />
+                </Disclosure.Button>
+                <Transition
+                  show={open}
+                  enter="transition-opacity duration-75"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="transition-opacity duration-150"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <Disclosure.Panel className="flex flex-col w-full pt-[5px]">
+                    <div className="p-[12px] flex items-center gap-[8px]">
+                      <FolderOutlineIcon />
+                      <p className="text-[#808084] text-[12px]">2021</p>
+                    </div>
+                    <div className="p-[12px] flex items-center gap-[8px]">
+                      <FolderOutlineIcon />
+                      <p className="text-[#808084] text-[12px]">2022</p>
+                    </div>
+                    <div className="p-[12px] flex items-center gap-[8px]">
+                      <FolderOutlineIcon />
+                      <p className="text-[#808084] text-[12px]">2023</p>
+                    </div>
+                    <div className="p-[12px] flex items-center gap-[8px]">
+                      <FolderOutlineIcon />
+                      <p className="text-[#808084] text-[12px]">2024</p>
+                    </div>
+                  </Disclosure.Panel>
+                </Transition>
+              </>
+            )}
+          </Disclosure>
         </div>
       </div>
       {/* verse of the day */}

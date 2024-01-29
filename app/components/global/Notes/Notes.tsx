@@ -41,7 +41,7 @@ export default function Notes({ notes = notesPreviewData }: Props) {
                   subtitle={note.subtitle}
                   tag={note.tag}
                   favourite={note.favourite}
-                  date={Date.now()}
+                  date={note.date}
                   isActive={isActive}
                   hoverEffect
                 />

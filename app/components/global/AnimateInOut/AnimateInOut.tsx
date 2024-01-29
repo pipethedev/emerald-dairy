@@ -28,15 +28,15 @@ export default function AnimateInOut({
         <motion.div
           animate={animate}
           drag={drag}
-          onClick={onClick}
-          onDragEnd={(e: PointerEvent, info) => onDragEnd && onDragEnd(e, info)}
-          dragConstraints={dragConstraints && dragConstraints}
-          dragElastic={dragElastic && dragElastic}
+          onClick={(e) => onClick?.(e)}
+          onDragEnd={(e: PointerEvent, info) => onDragEnd?.(e, info)}
+          dragConstraints={dragConstraints}
+          dragElastic={dragElastic}
           dragDirectionLock={dragDirectionLock}
           transition={transition}
           className={className}
           title={title}
-          aria-label={title && title}
+          aria-label={title}
           {...divProps}
         >
           {children}

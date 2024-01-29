@@ -12,6 +12,7 @@ import { ExpandMoreIcon } from "../../svgs";
 import { Button } from "..";
 import AnimateInOut from "../AnimateInOut";
 import { motion } from "framer-motion";
+import { checkInView } from "@/utils/helpers";
 
 type NoteWrapperProps = PropsWithChildren<{
   isActive: boolean;
@@ -38,35 +39,35 @@ export default function NoteWrapper({
 }: NoteWrapperProps) {
   const noteRef = useRef<HTMLDivElement>(null);
 
-  const [isInView, setIsInView] = useState<boolean>(false);
-  const [position, setPosition] = useState<"top" | "bottom">("top");
+  const [isInView, setIsInView] = useState<boolean | undefined>(undefined);
+  const [position, setPosition] = useState<"top" | "bottom" | undefined>(
+    undefined
+  );
+  const [loaded, setLoaded] = useState(false);
 
-  const checkInView = useCallback(() => {
-    const noteElementTop = noteRef.current?.offsetTop;
-    if (!noteElementTop) return;
-    const noteElementBottom = noteElementTop + noteRef.current?.clientHeight;
-    const containerTop = containerRef.current?.scrollTop;
-    if (!containerTop) return;
-    const containerBottom = containerTop + containerRef.current?.clientHeight;
-
-    if (noteElementBottom < containerTop) setPosition("top");
-    if (noteElementTop > containerBottom) setPosition("bottom");
-
-    setIsInView(
-      (noteElementTop >= containerTop &&
-        noteElementBottom <= containerBottom) ||
-        (noteElementTop < containerTop && containerTop < noteElementBottom) ||
-        (noteElementTop < containerBottom &&
-          containerBottom < noteElementBottom)
-    );
-  }, [containerRef]);
+  const handleCheckInView = () => {
+    const inViewValue = checkInView({
+      containerRef,
+      elementRef: noteRef,
+    });
+    setIsInView(inViewValue?.inViewVertical ?? false);
+    setPosition(inViewValue?.offsetVertical);
+  };
 
   useEffect(() => {
     const currentContainerRef = containerRef.current;
 
-    currentContainerRef?.addEventListener("scroll", checkInView);
+    if (!loaded) handleCheckInView();
+
+    currentContainerRef?.addEventListener("scroll", () => {
+      handleCheckInView();
+    });
+    setLoaded(true);
+
     return () =>
-      currentContainerRef?.removeEventListener("scroll", checkInView);
+      currentContainerRef?.removeEventListener("scroll", () => {
+        checkInView({ containerRef, elementRef: noteRef });
+      });
   }, [isActive, checkInView, containerRef]);
 
   return (
@@ -83,7 +84,7 @@ export default function NoteWrapper({
       >
         {children}
       </motion.div>
-      {isActive && !isInView && (
+      {isActive && isInView === false && (
         <Button
           onClick={() =>
             noteRef.current?.scrollIntoView({

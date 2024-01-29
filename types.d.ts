@@ -45,5 +45,5 @@ interface notesPreviewData {
   subtitle: string;
   date: string;
   tag: string;
-  favorite: boolean;
+  favourite: boolean;
 }

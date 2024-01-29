@@ -8,7 +8,6 @@ import axios from "axios";
 import { clsx } from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { type } from "os";
 import { type ChangeEvent, useState, type FormEvent } from "react";
 import toast from "react-hot-toast";
 
@@ -186,13 +185,15 @@ export default function AuthForm({ route = "sign-in" }: Props) {
               />
             </fieldset>
             <fieldset className="w-full">
-              <Button
-                disabled={isDisabled}
-                loading={loading}
-                className="capitalize w-full"
-              >
-                {route === "sign-up" ? "Get Started" : "Sign In"}
-              </Button>
+              <Link href={route === "sign-in" ? "/dashboard" : "/signin"}>
+                <Button
+                  disabled={isDisabled}
+                  loading={loading}
+                  className="capitalize w-full"
+                >
+                  {route === "sign-up" ? "Get Started" : "Sign In"}
+                </Button>
+              </Link>
             </fieldset>
             <p className="text-gray-700 w-fit mx-auto">
               {route === "sign-in"

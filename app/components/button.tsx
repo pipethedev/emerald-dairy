@@ -1,10 +1,11 @@
 import clsx from "clsx";
 
 export default function Button(props: ButtonProps) {
-  const { loading, className, children, disabled, ...prop } = props;
+  const { loading, className, onClick, children, disabled, ...prop } = props;
 
   return (
     <button
+      onClick={onClick}
       disabled={loading || disabled}
       className={clsx(
         "w-full max-w-[382px]_ md:max-w-[420px]_ p-4 rounded-[14px] grid place-items-center bg-[#956E60] text-white md:text-[19px] -tracking-[0.38px] font-semibold font-matter disabled:cursor-not-allowed disabled:bg-opacity-60",

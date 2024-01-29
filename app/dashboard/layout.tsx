@@ -1,7 +1,4 @@
-"use client";
-
 import DashboardSideNavigation from "@/app/components/dashboard/side-navigation";
-import { Metadata } from "next";
 
 export default function DashboardLayout({
   children,
