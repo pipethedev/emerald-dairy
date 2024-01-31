@@ -3,6 +3,7 @@
 import {
   CheckCircleIcon,
   File7Icon,
+  FontIcon,
   Image3Icon,
   Link1Icon,
   VideoRecorderIcon,
@@ -66,6 +67,11 @@ export default function Editor() {
 
   // Spammed addText. Coz why not lol.
   const tools: ComponentProps<typeof Toolbar>["tools"] = [
+    {
+      name: "add text",
+      icon: FontIcon,
+      action: addText,
+    },
     {
       name: "add image",
       icon: Image3Icon,

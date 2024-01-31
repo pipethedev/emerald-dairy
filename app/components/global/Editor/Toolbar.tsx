@@ -34,10 +34,6 @@ export default function Toolbar({ tools, containerRef }: Props) {
       // COMEBACK: Add background color to tailwind config
       className="space-y-3 h-fit bg-[#FAFAFA] w-fit rounded-lg p-2 border-[0.5px]"
     >
-      <IconButton>
-        {/* NOTE: Just a placeholder needs actual Icon */}
-        <p className="text-primary font-extralight text-3xl">T</p>
-      </IconButton>
       {tools.map((tool, i) => (
         <IconButton
           key={i}

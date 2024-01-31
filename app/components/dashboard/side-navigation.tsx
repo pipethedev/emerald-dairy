@@ -72,7 +72,7 @@ export default function DashboardSideNavigation() {
                     className={clsx(
                       "w-full rounded-[8px]  hover:bg-[#956E60]/20 transition-all duration-300  px-[12px] py-[12px] flex items-center gap-[8px] text-[12px]",
                       isAllNotesActiveRoute &&
-                      "bg-[#FEF2EE] font-extrabold text-[#956E60]"
+                        "bg-[#FEF2EE] font-extrabold text-[#956E60]"
                     )}
                   >
                     <link.leading
@@ -91,7 +91,7 @@ export default function DashboardSideNavigation() {
                     className={clsx(
                       "w-full rounded-[8px] hover:bg-[#956E60]/20 transition-all duration-300 px-[12px] py-[12px] flex items-center gap-[8px] text-[12px]",
                       isActiveRoute &&
-                      "bg-[#FEF2EE] font-extrabold text-[#956E60]"
+                        "bg-[#FEF2EE] font-extrabold text-[#956E60]"
                     )}
                   >
                     <link.leading
@@ -120,8 +120,9 @@ export default function DashboardSideNavigation() {
                 <Disclosure.Button className="flex flex-row items-center w-full justify-between">
                   <H5 className="text-[#AE8779] !font-bold">TAGS</H5>
                   <PlusIcon
-                    className={`${open ? 'rotate-180' : 'rotate-0'
-                      } transform transition`}
+                    className={`${
+                      open ? "rotate-180" : "rotate-0"
+                    } transform transition`}
                   />
                 </Disclosure.Button>
                 <Transition
@@ -148,11 +149,15 @@ export default function DashboardSideNavigation() {
                     </div>
                     <div className="p-[12px] flex items-center gap-[8px]">
                       <TagIcon />
-                      <p className="text-[#808084] text-[12px]">Getting Started</p>
+                      <p className="text-[#808084] text-[12px]">
+                        Getting Started
+                      </p>
                     </div>
                     <div className="p-[12px] flex items-center gap-[8px]">
                       <TagIcon />
-                      <p className="text-[#808084] text-[12px]">Getting Started</p>
+                      <p className="text-[#808084] text-[12px]">
+                        Getting Started
+                      </p>
                     </div>
                   </Disclosure.Panel>
                 </Transition>
@@ -167,8 +172,9 @@ export default function DashboardSideNavigation() {
                 <Disclosure.Button className="flex flex-row items-center w-full justify-between">
                   <H5 className="text-[#AE8779] !font-bold">FOLDERS</H5>
                   <PlusIcon
-                    className={`${open ? 'rotate-180' : 'rotate-0'
-                      } transform transition`}
+                    className={`${
+                      open ? "rotate-180" : "rotate-0"
+                    } transform transition`}
                   />
                 </Disclosure.Button>
                 <Transition
@@ -205,7 +211,7 @@ export default function DashboardSideNavigation() {
         </div>
       </div>
       {/* verse of the day */}
-      <div className="absolute bottom-[18px]">
+      <div className="hidden">
         <VerseOfDay />
       </div>
     </div>
