@@ -134,7 +134,7 @@ export default function DashboardSideNavigation() {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <Disclosure.Panel className="flex flex-col w-full pt-[5px]">
+                  <Disclosure.Panel className="cursor-pointer max-w-max flex flex-col w-fit pt-[5px]">
                     <div className="p-[12px] flex items-center gap-[8px]">
                       <TagIcon />
                       <p className="text-[#808084] text-[12px]">School Notes</p>
@@ -165,6 +165,7 @@ export default function DashboardSideNavigation() {
             )}
           </Disclosure>
         </div>
+        {/* FOLDERS */}
         <div className="w-full">
           <Disclosure>
             {({ open }) => (
@@ -186,20 +187,20 @@ export default function DashboardSideNavigation() {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <Disclosure.Panel className="flex flex-col w-full pt-[5px]">
-                    <div className="p-[12px] flex items-center gap-[8px]">
+                  <Disclosure.Panel className="flex flex-col w-fit cursor-pointer pt-[5px]">
+                    <div className="active:scale-95 transition-all duration-300 p-[12px] flex items-center gap-[8px]">
                       <FolderOutlineIcon />
                       <p className="text-[#808084] text-[12px]">2021</p>
                     </div>
-                    <div className="p-[12px] flex items-center gap-[8px]">
+                    <div className="active:scale-95 transition-all duration-300 p-[12px] flex items-center gap-[8px]">
                       <FolderOutlineIcon />
                       <p className="text-[#808084] text-[12px]">2022</p>
                     </div>
-                    <div className="p-[12px] flex items-center gap-[8px]">
+                    <div className="active:scale-95 transition-all duration-300 p-[12px] flex items-center gap-[8px]">
                       <FolderOutlineIcon />
                       <p className="text-[#808084] text-[12px]">2023</p>
                     </div>
-                    <div className="p-[12px] flex items-center gap-[8px]">
+                    <div className="active:scale-95 transition-all duration-300 p-[12px] flex items-center gap-[8px]">
                       <FolderOutlineIcon />
                       <p className="text-[#808084] text-[12px]">2024</p>
                     </div>
