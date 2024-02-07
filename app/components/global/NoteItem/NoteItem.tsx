@@ -16,7 +16,6 @@ export default function NoteItem(
     className?: string;
   }
 ) {
-  console.log({ props });
   return (
     <div
       className={clsx(

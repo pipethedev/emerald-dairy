@@ -53,7 +53,7 @@ export default function Notification() {
                     }}
                     drag
                     dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-                    className="fixed inset-0 z-50 w-11/12_ flex items-end w-full p-3 mx-auto bg-white border rounded-2xl shadow-lg md:w-80 md:rounded-xl outline_ outline-primary_ border-b-primary-3 md:border-primary-3 ring-offset-4_ -top-4 md:top-auto md:bottom-16 md:right-16 md:left-auto md:mx-0 h-20 md:h-fit shadow-primary-3/30 active:scale-90"
+                    className="fixed inset-0 z-50 w-11/12_ flex items-end w-full p-3 mx-auto bg-white border rounded-2xl shadow-lg md:w-80 md:rounded-xl outline_ outline-primary_ border-primary-3 md:border-primary-3 ring-offset-4_ -top-4 md:top-auto md:bottom-16 md:right-16 md:left-auto md:mx-0 h-20 md:h-fit shadow-primary-3/30 active:scale-90"
                   >
                     <div className="flex items-center w-full text-xl gap-2">
                       <span className="relative flex items-center justify-center text-primary">

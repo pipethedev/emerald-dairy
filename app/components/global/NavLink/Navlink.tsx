@@ -19,7 +19,8 @@ export default function NavLink({
   useEffect(() => {
     // const splitLink = href.split("/");
     // check if pathname includes characters passed through 'href'
-    pathname && pathname.includes(href.replace(/[^a-zA-Z0-9\/-]/g, ""))
+    pathname &&
+    pathname.includes(href.split("?")[0].replace(/[^a-zA-Z0-9\/-]/g, ""))
       ? setIsActive(true)
       : setIsActive(false);
   }, [href, pathname]);

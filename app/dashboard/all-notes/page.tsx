@@ -1,4 +1,4 @@
-import { CreateNoteLink, Notes } from "@/app/components/global";
+import { CreateNoteLink, NavButton, Notes } from "@/app/components/global";
 import { Greet } from "@/app/components/global/greet";
 import {
   EditIcon,
@@ -116,11 +116,7 @@ const DashboardMobile = () => {
   return (
     <div className="lg:hidden">
       <header className="h-[72px] border-b-[1px] border-b-[#F2F2F2] px-[12px] py-[14px] flex flex-row items-center gap-[11px]">
-        <div className="h-[44px] w-[44px] rounded-[8px] p-[10px] grid place-items-center bg-[#FEF6F4]">
-          <figure>
-            <LeftAlignIcon />
-          </figure>
-        </div>
+        <NavButton />
         <div className="h-[40px] px-[16px] rounded-[10px] gap-[8px] flex-1 w-full bg-[#FAFAFA] flex items-center">
           <SearchIcon />
           <input

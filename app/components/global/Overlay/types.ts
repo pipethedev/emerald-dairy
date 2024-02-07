@@ -3,4 +3,5 @@ export type OverlayProps = {
   disableOnClick?: boolean;
   handleShowOverlay?: Function;
   show: boolean;
+  className?: string;
 };

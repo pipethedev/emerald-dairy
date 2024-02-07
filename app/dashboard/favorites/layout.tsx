@@ -1,7 +1,9 @@
-import DashboardSideNavigation from "@/app/components/dashboard/side-navigation";
-import { CreateNoteLink, Notes, SearchBar } from "@/app/components/global";
-import { AddIcon } from "@/app/components/svgs";
-import { Metadata } from "next";
+import {
+  CreateNoteLink,
+  NavButton,
+  Notes,
+  SearchBar,
+} from "@/app/components/global";
 
 export default function DashboardLayout({
   children,
@@ -9,9 +11,10 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-[100vh]">
-      <div className="w-[360px] h-full flex flex-col border-r-[1px] border-r-[#F2F2F2]">
-        <header className="h-[72px] border-b-[1px] border-b-[#F2F2F2] flex px-[24px] gap-[12px] py-[16px]">
+    <div className="flex flex-col md:flex-row h-[100vh]">
+      <div className="md:w-[360px] h-fit md:h-full flex flex-col border-r-[1px] border-r-[#F2F2F2] overflow-auto">
+        <header className="h-[72px] border-b-[1px] border-b-[#F2F2F2] flex shrink-0 px-2 gap-1 items-center justify-between py-[16px]">
+          <NavButton />
           <SearchBar />
           <CreateNoteLink />
         </header>

@@ -61,7 +61,7 @@ export default function Modal() {
                       className={
                         "bg-body  fixed rounded-xl p-2 pb-0 w-full sm:w-96 z-50 border h-1/2 sm:h-auto bottom-0 sm:bottom-auto sm:-translate-x-1/2 sm:left-1/2 sm:-translate-y-1/2 sm:top-1/2"
                       }
-                      transition={{ type: "keyframes" }}
+                      transition={{ type: "keyframes", duration: 0.3 }}
                       initial={{
                         y: matches.small ? "100%" : 50,
                         opacity: matches.small ? 1 : 0,
@@ -82,7 +82,7 @@ export default function Modal() {
                       }}
                     >
                       <div className="w-[95%] flex flex-col space-y-4 h-full mx-auto">
-                        <div className="absolute z-50 cursor-pointer right-1 top-1">
+                        <div className="absolute z-[1000] cursor-pointer right-1 top-1">
                           <button
                             onClick={() => {
                               actionCancel()();

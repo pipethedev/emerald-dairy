@@ -9,6 +9,7 @@ export default function Overlay({
   disableOnClick,
   handleShowOverlay,
   show,
+  className,
 }: OverlayProps) {
   const overlayStyles = `fixed h-screen w-screen bg-primary/20 z-10 ${
     disableOnClick && "cursor-pointer"
@@ -51,7 +52,7 @@ export default function Overlay({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className={overlayStyles}
+            className={`${overlayStyles} ${className}`}
           />
         ))}
     </AnimatePresence>

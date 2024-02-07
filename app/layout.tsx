@@ -12,9 +12,60 @@ const title = "Emerald's Diary: A personalized PWA note-app";
 export const metadata: Metadata = {
   title: `Emerald's diary`,
   description: description,
-  icons: { apple: "/apple-touch-icon.png", icon: "" },
+  // icons: { apple: "/apple-touch-icon.png", icon: "" },
   viewport: { width: "device-width", initialScale: 1 },
+  manifest: "/manifest.webmanifest",
   keywords: keyword,
+  icons: [
+    {
+      rel: "icon",
+      type: "image/png",
+      sizes: "32x32",
+      url: "/favicon/favicon-32x32.png",
+    },
+    {
+      rel: "icon",
+      type: "image/png",
+      sizes: "16x16",
+      url: "/favicon/favicon-16x16.png",
+    },
+    {
+      rel: "icon",
+      type: "image/png",
+      sizes: "192x192",
+      url: "/favicon/favicon-192x192.png",
+    },
+    {
+      rel: "icon",
+      type: "image/png",
+      sizes: "384x384",
+      url: "/favicon/favicon-384x384.png",
+    },
+    {
+      rel: "icon",
+      type: "image/png",
+      sizes: "512x512",
+      url: "/favicon/favicon-512x512.png",
+    },
+    {
+      rel: "apple-touch-icon",
+      type: "image/png",
+      sizes: "180x180",
+      url: "/favicon/favicon-180x180.png",
+    },
+    {
+      rel: "android-chrome",
+      type: "image/png",
+      sizes: "192x192",
+      url: "/favicon/android-chrome-192x192.png",
+    },
+    {
+      rel: "android-chrome",
+      type: "image/png",
+      sizes: "512x512",
+      url: "/favicon/android-chrome-512x512.png",
+    },
+  ],
   openGraph: {
     type: "website",
     url: "/",

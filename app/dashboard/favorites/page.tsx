@@ -17,7 +17,7 @@ export default function Favorites() {
   return (
     <main className="flex h-full [&::-webkit-slider-thumb]:!bg-blue-500 flex-col overflow-auto">
       <FavouriteNotesHeader />
-      <div className="w-[80%] flex-1 overflow-auto [&::-webkit-slider-thumb]:!bg-blue-500 mx-auto pt-8">
+      <div className="w-[95%] md:w-[80%] flex-1 overflow-auto [&::-webkit-slider-thumb]:!bg-blue-500 mx-auto pt-8">
         {/* <H1 className="text-4xl">{"Prayer as an Anchor"}</H1> */}
         <div className="w-[70%] h-16 bg-gray-300" />
         <figure className="relative h-60 w-full mt-6 bg-gray-300 rounded-xl overflow-clip" />

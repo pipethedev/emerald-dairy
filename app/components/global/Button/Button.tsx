@@ -52,7 +52,7 @@ const Button = ({
 
   return (
     <button
-      onClick={() => onClick && onClick()}
+      onClick={(e) => onClick?.(e)}
       disabled={disabled}
       className={btnStyles + " " + className}
     >

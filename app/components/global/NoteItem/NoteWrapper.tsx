@@ -39,7 +39,7 @@ export default function NoteWrapper({
 }: NoteWrapperProps) {
   const noteRef = useRef<HTMLDivElement>(null);
 
-  const [isInView, setIsInView] = useState<boolean | undefined>(undefined);
+  const [isInView, setIsInView] = useState<boolean | undefined>();
   const [position, setPosition] = useState<"top" | "bottom" | undefined>(
     undefined
   );
@@ -50,7 +50,11 @@ export default function NoteWrapper({
       containerRef,
       elementRef: noteRef,
     });
-    setIsInView(inViewValue?.inViewVertical ?? false);
+    console.log("FIRST RUN", inViewValue?.inViewVertical);
+    if (inViewValue?.inViewVertical !== undefined) {
+      console.log("NO_UNDEF: ", inViewValue?.inViewVertical);
+      setIsInView(inViewValue?.inViewVertical);
+    }
     setPosition(inViewValue?.offsetVertical);
   };
 
@@ -68,7 +72,7 @@ export default function NoteWrapper({
       currentContainerRef?.removeEventListener("scroll", () => {
         checkInView({ containerRef, elementRef: noteRef });
       });
-  }, [isActive, checkInView, containerRef]);
+  }, []);
 
   return (
     <>
@@ -86,14 +90,16 @@ export default function NoteWrapper({
       </motion.div>
       {isActive && isInView === false && (
         <Button
-          onClick={() =>
+          onClick={(e) => {
             noteRef.current?.scrollIntoView({
               behavior: "smooth",
               block: "center",
-            })
-          }
+            });
+            e.stopPropagation();
+            e.preventDefault();
+          }}
           className={clsx(
-            "bg-primary active:scale-90 rounded-xl ml-6 w-60 mx-auto p-3 h-fit fixed bottom-0 flex items-center text-white transition-all duration-150 z-50",
+            "bg-primary active:scale-90 rounded-xl ml-6_ translate-x-1/2 right-1/2 md:translate-x-0 md:right-auto w-4/5 md:w-60 mx-auto p-3 h-fit !fixed  flex items-center text-white transition-all duration-150 z-[10]",
             position === "top" ? "top-20" : "bottom-4"
           )}
         >

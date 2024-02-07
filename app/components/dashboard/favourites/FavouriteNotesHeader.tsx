@@ -1,19 +1,23 @@
 "use client";
 import React from "react";
-import { ParamsNav } from "../../global";
+import { IconButton, ParamsNav } from "../../global";
 import {
+  DocIcon,
   EditIcon,
   Expand4Icon,
   FolderIcon,
   Hearts,
   HorizontalDots,
   MessageChatCircleIcon,
+  MoreHorisIcon,
   Share5Icon,
   Tag2Icon,
   Tag3Icon,
   TagIcon,
 } from "../../svgs";
 import clsx from "clsx";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 type NavOption = {
   title: string | React.ReactNode | React.FC<React.SVGProps<SVGElement>>;
@@ -51,10 +55,15 @@ const navOptions: NavOption[] = [
 ];
 
 export default function FavouriteNotesHeader() {
+  const pathname = usePathname();
+
   return (
     <header className="w-full overflow-auto">
-      <div className="flex h-full items-center w-[90%] py-2 mx-auto gap-2">
+      <div className="flex h-full items-center px-2 md:px-0 md:w-[90%] py-2 mx-auto gap-2">
         <div className="flex items-center gap-3">
+          <Link href={`${pathname}?show-notes=true`}>
+            <IconButton icon={DocIcon} title="show all notes" />
+          </Link>
           <ParamsNav
             args={navOptions}
             searchParam="view"
