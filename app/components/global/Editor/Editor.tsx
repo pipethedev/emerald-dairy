@@ -50,7 +50,7 @@ const Editor: React.FC = () => {
   //     console.log({ preview, data });
   //     setNewContent({ value: data, type: "image", saved: false });
   //     setImageContent(preview);
-  //   };
+  //   };npm install --save mtn-momo
 
   //   // COMEBACK: Might make this auto save
   //   const saveProgress = () => {
@@ -183,7 +183,7 @@ const Editor: React.FC = () => {
   //             />
   //           ) : null}
   //         </article>
-  //         <Button onClick={() => saveProgress()}>Save progress</Button>
+  //         <Button onClick={() => saveProgress()}>Save progress</Button
   //       </div>
   //     </div>
   //   );
