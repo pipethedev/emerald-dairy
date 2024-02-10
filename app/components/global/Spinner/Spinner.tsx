@@ -10,7 +10,7 @@ const LARGE = "w-16 h-16";
 const LARGE_CHILD = "w-8 h-8";
 const LARGE_PSEUDO = "before:w-8 before:h-8 after:w-8 after:h-8";
 
-const PRIMARY_PSEUDO = "before:bg-gradient-primary after:bg-gradient-primary";
+const PRIMARY_PSEUDO = "before:bg-primary after:bg-primary";
 const BODY_PSEUDO = "before:bg-body after:bg-body";
 
 export default function Spinner({
@@ -49,7 +49,7 @@ export default function Spinner({
   switch (color) {
     case "primary":
       spinColor = `${PRIMARY_PSEUDO}`;
-      childColor = "bg-gradient-primary";
+      childColor = "bg-primary";
       break;
 
     case "body":
@@ -60,7 +60,7 @@ export default function Spinner({
 
     default:
       spinColor = `${PRIMARY_PSEUDO}`;
-      childColor = "bg-gradient-primary";
+      childColor = "bg-primary";
       break;
   }
 

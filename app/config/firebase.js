@@ -2,6 +2,8 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -14,11 +16,12 @@ const firebaseConfig = {
   storageBucket: "emerald-diary.appspot.com",
   messagingSenderId: "1048143865347",
   appId: "1:1048143865347:web:6c26e6bc4eb70e6a115036",
-  measurementId: "G-17WS4P9QPS"
+  measurementId: "G-17WS4P9QPS",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
-export { db };
+export { app, db, storage };

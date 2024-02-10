@@ -14,7 +14,7 @@ import { notesPreviewData } from "@/data/notes";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Dashboard() {
+export default function DashboardCreate() {
   return (
     <>
       <div className="hidden h-full lg:flex flex-row">
@@ -30,7 +30,7 @@ export default function Dashboard() {
             <CreateNoteLink />
           </header>
           {/* ALL NOTES - SHOULD BE MOVED TO A SEPARATE COMPONENTS SOON */}
-          <Notes />
+          <Notes path="/dashboard/all-notes/" />
         </div>
         <div className="flex flex-col overflow-auto">
           <header className="h-[72px] shrink-0 border-b-[1px] border-b-[#F2F2F2]"></header>

@@ -50,7 +50,7 @@ const config: Config = {
       },
       animation: {
         "fade-in": "fade-in 300ms linear",
-        "slide-up": "slide-up 300ms linear",
+        "slide-up": "slide-up 300ms linear forwards",
         "rotate-clockwise": "rotate-clockwise 1s infinite linear",
       },
     },

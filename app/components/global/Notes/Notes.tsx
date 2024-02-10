@@ -1,19 +1,23 @@
 "use client";
 
 import { IconButton, NavLink, NoteItem } from "..";
-import { ExpandMoreIcon, XClose } from "../../svgs";
+import { ExpandMoreIcon, Info, XClose } from "../../svgs";
 import NoteWrapper from "../NoteItem/NoteWrapper";
-import { useRef } from "react";
 import { notesPreviewData } from "@/data/notes";
 import { usePathname, useSearchParams } from "next/navigation";
 import clsx from "clsx";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { db } from "../../../config/firebase";
+import { collection, getDocs, QueryDocumentSnapshot } from "firebase/firestore";
+import Spinner from "../Spinner/Spinner";
 
 type Props = {
   notes?: Note[];
+  path: string;
 };
 
-export default function Notes({ notes = notesPreviewData }: Props) {
+export default function Notes({ notes, path }: Props) {
   const notesRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -22,13 +26,37 @@ export default function Notes({ notes = notesPreviewData }: Props) {
 
   console.log({ showNotes, shouldNotShow: showNotes === "false" });
 
+  const [fetchedNotes, setFetchedNotes] = useState<Note[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchNotes = async () => {
+      try {
+        setLoading(true);
+        const notesSnapshot = await getDocs(collection(db, "notes"));
+        const notesData = notesSnapshot.docs.map((doc) => doc.data() as Note);
+        setFetchedNotes(notesData);
+
+        console.log("hello", notesData);
+      } catch (error) {
+        console.error("Error fetching notes:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNotes();
+  }, []);
+
+  console.log("hello", fetchedNotes);
+
   return (
     <div
       className={clsx(
-        "flex-1 overflow-auto",
-        showNotes === "false"
-          ? "translate-y-full fixed md:relative md:translate-y-[1px] w-full z-[100] md:w-auto"
-          : "relative"
+        "flex-1 overflow-auto"
+        // showNotes === "false"
+        //   ? "translate-y-full fixed md:relative md:translate-y-[1px] w-full z-[100] md:w-auto"
+        //   : "relative"
       )}
     >
       <div
@@ -48,33 +76,44 @@ export default function Notes({ notes = notesPreviewData }: Props) {
           </Link>
         </header>
         <div className="space-y-2">
-          {notes.map((note, i) => (
-            <NavLink
-              href={`/dashboard/favorites/${
-                note.date.toString().replace(/[^a-zA-Z0-9]/g, "") + i
-              }?show-notes=false`}
-              key={(note.date + i.toString()).toString()}
-            >
-              {({ isActive }) => (
-                <NoteWrapper
-                  index={i}
-                  title={note.title}
-                  containerRef={notesRef}
-                  isActive={isActive}
-                >
-                  <NoteItem
+          {loading ? (
+            <div className="mt-12 flex items-center justify-center">
+              <Spinner />
+            </div>
+          ) : fetchedNotes.length ? (
+            fetchedNotes.map((note, i) => (
+              <NavLink
+                href={`${path}/${note.id}?show-notes=false`}
+                key={(note.date + i.toString()).toString()}
+              >
+                {({ isActive }) => (
+                  <NoteWrapper
+                    index={i}
                     title={note.title}
-                    subtitle={note.subtitle}
-                    tag={note.tag}
-                    favourite={note.favourite}
-                    date={note.date}
+                    containerRef={notesRef}
                     isActive={isActive}
-                    hoverEffect
-                  />
-                </NoteWrapper>
-              )}
-            </NavLink>
-          ))}
+                  >
+                    <NoteItem
+                      title={note.title}
+                      subtitle={note.subtitle}
+                      tag={note.tag}
+                      favourite={note.favourite}
+                      date={note?.date}
+                      isActive={isActive}
+                      hoverEffect
+                    />
+                  </NoteWrapper>
+                )}
+              </NavLink>
+            ))
+          ) : (
+            <div>
+              <div className="mt-12 flex gap-3 items-center justify-center">
+                <Info className="!stroke-primary" />
+                <p className="text-2xl text-gray-800">No notes available</p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -1,9 +1,9 @@
 import clsx from "clsx";
 
-interface SVGProp {
+interface SVGProps {
   className?: string;
 }
-export const EyeIcon = ({ className }: SVGProp) => {
+export const EyeIcon = ({ className }: SVGProps) => {
   return (
     <svg
       className={clsx("stroke-gray-700", className)}
@@ -31,7 +31,7 @@ export const EyeIcon = ({ className }: SVGProp) => {
   );
 };
 
-export const EyeSlashIcon = ({ className }: SVGProp) => {
+export const EyeSlashIcon = ({ className }: SVGProps) => {
   return (
     <svg
       className={clsx("stroke-gray-700", className)}
@@ -98,7 +98,7 @@ export const Info: React.FC<svgProps> = ({ className }) => {
   );
 };
 
-export const Hearts = ({ className }: SVGProp) => {
+export const Hearts = ({ className }: SVGProps) => {
   return (
     <svg
       className={clsx("stroke-gray-700", className)}
@@ -179,7 +179,7 @@ export function Verse({
   );
 }
 
-export const MobileHearts = ({ className }: SVGProp) => {
+export const MobileHearts = ({ className }: SVGProps) => {
   return (
     <svg
       className={clsx("stroke-gray-700", className)}
@@ -204,7 +204,7 @@ export const MobileHearts = ({ className }: SVGProp) => {
     </svg>
   );
 };
-export const HeartsIcon = ({ className }: SVGProp) => {
+export const HeartsIcon = ({ className }: SVGProps) => {
   return (
     <svg
       className={clsx("stroke-gray-700", className)}
@@ -230,7 +230,7 @@ export const HeartsIcon = ({ className }: SVGProp) => {
   );
 };
 
-export const SettingsIcon = ({ className }: SVGProp) => {
+export const SettingsIcon = ({ className }: SVGProps) => {
   return (
     <svg
       className={clsx("stroke-gray-700", className)}
@@ -256,7 +256,7 @@ export const SettingsIcon = ({ className }: SVGProp) => {
   );
 };
 
-export const AddIcon = ({ className }: SVGProp) => {
+export const AddIcon = ({ className }: SVGProps) => {
   return (
     <svg
       className={clsx("stroke-gray-700", className)}
@@ -276,7 +276,7 @@ export const AddIcon = ({ className }: SVGProp) => {
   );
 };
 
-export const SearchIcon = ({ className }: SVGProp) => {
+export const SearchIcon = ({ className }: SVGProps) => {
   return (
     <svg
       className={clsx("stroke-gray-700", className)}
@@ -302,7 +302,7 @@ export const SearchIcon = ({ className }: SVGProp) => {
   );
 };
 
-export const DocIcon = ({ className }: SVGProp) => {
+export const DocIcon = ({ className }: SVGProps) => {
   return (
     <svg
       className={clsx("stroke-gray-700", className)}
@@ -322,7 +322,7 @@ export const DocIcon = ({ className }: SVGProp) => {
   );
 };
 
-export const HeartIcon = ({ className }: SVGProp) => {
+export const HeartIcon = ({ className }: SVGProps) => {
   return (
     <svg
       className={clsx("stroke-gray-700", className)}
@@ -341,7 +341,7 @@ export const HeartIcon = ({ className }: SVGProp) => {
   );
 };
 
-export const ArchiveIcon = ({ className }: SVGProp) => {
+export const ArchiveIcon = ({ className }: SVGProps) => {
   return (
     <svg
       className={clsx(" stroke-gray-700_", className)}
@@ -360,7 +360,7 @@ export const ArchiveIcon = ({ className }: SVGProp) => {
   );
 };
 
-export const TrashIcon = ({ className }: SVGProp) => {
+export const TrashIcon = ({ className }: SVGProps) => {
   return (
     <svg
       className={clsx("stroke-gray-700", className)}
@@ -400,7 +400,7 @@ export function PlusIcon({ className }: svgProps) {
   );
 }
 
-export const HorizontalDots = ({ className }: SVGProp) => {
+export const HorizontalDots = ({ className }: SVGProps) => {
   return (
     <svg
       className={clsx("stroke-gray-700", className)}
@@ -456,7 +456,7 @@ export function DropDown({ className }: svgProps) {
   );
 }
 
-export const ExpandMoreIcon = ({ className }: SVGProp) => {
+export const ExpandMoreIcon = ({ className }: SVGProps) => {
   return (
     <svg
       className={clsx("stroke-gray-700", className)}
@@ -477,7 +477,7 @@ export const ExpandMoreIcon = ({ className }: SVGProp) => {
   );
 };
 
-export const LeftAlignIcon = ({ className }: SVGProp) => {
+export const LeftAlignIcon = ({ className }: SVGProps) => {
   return (
     <svg
       className={clsx("stroke-gray-700", className)}
@@ -503,7 +503,7 @@ export const LeftAlignIcon = ({ className }: SVGProp) => {
   );
 };
 
-export const MoreHorisIcon = ({ className }: SVGProp) => {
+export const MoreHorisIcon = ({ className }: SVGProps) => {
   return (
     <svg
       className={clsx("stroke-gray-700", className)}
@@ -538,7 +538,7 @@ export const MoreHorisIcon = ({ className }: SVGProp) => {
   );
 };
 
-export const HeartsOutlineIcon = ({ className }: SVGProp) => {
+export const HeartsOutlineIcon = ({ className }: SVGProps) => {
   return (
     <svg
       className={clsx("stroke-gray-700", className)}
@@ -565,7 +565,7 @@ export const HeartsOutlineIcon = ({ className }: SVGProp) => {
   );
 };
 
-export const TagIcon = ({ className }: SVGProp) => {
+export const TagIcon = ({ className }: SVGProps) => {
   return (
     <svg
       className={clsx("stroke-gray-700", className)}
@@ -592,7 +592,7 @@ export const TagIcon = ({ className }: SVGProp) => {
   );
 };
 
-export const EditIcon = ({ className }: SVGProp) => {
+export const EditIcon = ({ className }: SVGProps) => {
   return (
     <svg
       className={clsx("stroke-gray-700", className)}
@@ -613,7 +613,7 @@ export const EditIcon = ({ className }: SVGProp) => {
   );
 };
 
-export const FolderIcon = ({ className }: SVGProp) => {
+export const FolderIcon = ({ className }: SVGProps) => {
   return (
     <svg
       width="24"
@@ -634,7 +634,7 @@ export const FolderIcon = ({ className }: SVGProp) => {
   );
 };
 
-export const Tag2Icon = ({ className }: SVGProp) => {
+export const Tag2Icon = ({ className }: SVGProps) => {
   return (
     <svg
       width="24"
@@ -655,7 +655,7 @@ export const Tag2Icon = ({ className }: SVGProp) => {
   );
 };
 
-export const Tag3Icon = ({ className }: SVGProp) => {
+export const Tag3Icon = ({ className }: SVGProps) => {
   return (
     <svg
       width="24"
@@ -676,7 +676,7 @@ export const Tag3Icon = ({ className }: SVGProp) => {
   );
 };
 
-export const Expand4Icon = ({ className }: SVGProp) => {
+export const Expand4Icon = ({ className }: SVGProps) => {
   return (
     <svg
       width="24"
@@ -697,7 +697,7 @@ export const Expand4Icon = ({ className }: SVGProp) => {
   );
 };
 
-export const Share5Icon = ({ className }: SVGProp) => {
+export const Share5Icon = ({ className }: SVGProps) => {
   return (
     <svg
       width="24"
@@ -718,7 +718,7 @@ export const Share5Icon = ({ className }: SVGProp) => {
   );
 };
 
-export const MessageChatCircleIcon = ({ className }: SVGProp) => {
+export const MessageChatCircleIcon = ({ className }: SVGProps) => {
   return (
     <svg
       width="24"
@@ -739,7 +739,7 @@ export const MessageChatCircleIcon = ({ className }: SVGProp) => {
   );
 };
 
-export const XClose = ({ className }: SVGProp) => {
+export const XClose = ({ className }: SVGProps) => {
   return (
     <svg
       width="24"
@@ -760,7 +760,7 @@ export const XClose = ({ className }: SVGProp) => {
   );
 };
 
-export const Bell1 = ({ className }: SVGProp) => {
+export const Bell1 = ({ className }: SVGProps) => {
   return (
     <svg
       width="24"
@@ -781,7 +781,7 @@ export const Bell1 = ({ className }: SVGProp) => {
   );
 };
 
-export const BellRinging1 = ({ className }: SVGProp) => {
+export const BellRinging1 = ({ className }: SVGProps) => {
   return (
     <svg
       width="24"
@@ -802,7 +802,7 @@ export const BellRinging1 = ({ className }: SVGProp) => {
   );
 };
 
-export const AlertCircle = ({ className }: SVGProp) => {
+export const AlertCircle = ({ className }: SVGProps) => {
   return (
     <svg
       width="24"
@@ -823,7 +823,7 @@ export const AlertCircle = ({ className }: SVGProp) => {
   );
 };
 
-export const Image3Icon = ({ className }: SVGProp) => {
+export const Image3Icon = ({ className }: SVGProps) => {
   return (
     <svg
       width="24"
@@ -844,7 +844,7 @@ export const Image3Icon = ({ className }: SVGProp) => {
   );
 };
 
-export const Link1Icon = ({ className }: SVGProp) => {
+export const Link1Icon = ({ className }: SVGProps) => {
   return (
     <svg
       width="24"
@@ -865,7 +865,7 @@ export const Link1Icon = ({ className }: SVGProp) => {
   );
 };
 
-export const VideoRecorderIcon = ({ className }: SVGProp) => {
+export const VideoRecorderIcon = ({ className }: SVGProps) => {
   return (
     <svg
       width="24"
@@ -893,7 +893,7 @@ export const VideoRecorderIcon = ({ className }: SVGProp) => {
   );
 };
 
-export const File7Icon = ({ className }: SVGProp) => {
+export const File7Icon = ({ className }: SVGProps) => {
   return (
     <svg
       width="24"
@@ -914,7 +914,7 @@ export const File7Icon = ({ className }: SVGProp) => {
   );
 };
 
-export const CheckCircleIcon = ({ className }: SVGProp) => {
+export const CheckCircleIcon = ({ className }: SVGProps) => {
   return (
     <svg
       width="24"
@@ -935,7 +935,7 @@ export const CheckCircleIcon = ({ className }: SVGProp) => {
   );
 };
 
-export const FolderOutlineIcon = ({ className }: SVGProp) => {
+export const FolderOutlineIcon = ({ className }: SVGProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -955,7 +955,7 @@ export const FolderOutlineIcon = ({ className }: SVGProp) => {
   );
 };
 
-export const FontIcon = ({ className }: SVGProp) => {
+export const FontIcon = ({ className }: SVGProps) => {
   return (
     <svg
       width="15"
@@ -969,6 +969,39 @@ export const FontIcon = ({ className }: SVGProp) => {
         d="M13.8867 0.109375L14.0625 3.83594H13.6172C13.5312 3.17969 13.4141 2.71094 13.2656 2.42969C13.0234 1.97656 12.6992 1.64453 12.293 1.43359C11.8945 1.21484 11.3672 1.10547 10.7109 1.10547H8.47266V13.2461C8.47266 14.2227 8.57812 14.832 8.78906 15.0742C9.08594 15.4023 9.54297 15.5664 10.1602 15.5664H10.7109V16H3.97266V15.5664H4.53516C5.20703 15.5664 5.68359 15.3633 5.96484 14.957C6.13672 14.707 6.22266 14.1367 6.22266 13.2461V1.10547H4.3125C3.57031 1.10547 3.04297 1.16016 2.73047 1.26953C2.32422 1.41797 1.97656 1.70312 1.6875 2.125C1.39844 2.54688 1.22656 3.11719 1.17188 3.83594H0.726562L0.914062 0.109375H13.8867Z"
         fill="#956E60"
       />
+    </svg>
+  );
+};
+
+export const NoteIcon = ({ className }: SVGProps) => {
+  return (
+    <svg
+      width="251"
+      height="250"
+      className={className}
+      viewBox="0 0 251 250"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g clip-path="url(#clip0_22_2455)">
+        <rect x="0.5" width="250" height="250" rx="125" fill="#FEF2EE" />
+        <path
+          d="M48.6667 117.833C48.6667 100.332 48.6667 91.5809 52.0727 84.8961C55.0688 79.0161 59.8494 74.2354 65.7295 71.2394C72.4142 67.8333 81.165 67.8333 98.6667 67.8333H165.333C182.835 67.8333 191.586 67.8333 198.271 71.2394C204.151 74.2354 208.931 79.0161 211.927 84.8961C215.333 91.5809 215.333 100.332 215.333 117.833V226.167C215.333 243.668 215.333 252.419 211.927 259.104C208.931 264.984 204.151 269.765 198.271 272.761C191.586 276.167 182.835 276.167 165.333 276.167H98.6667C81.165 276.167 72.4142 276.167 65.7295 272.761C59.8494 269.765 55.0688 264.984 52.0727 259.104C48.6667 252.419 48.6667 243.668 48.6667 226.167V117.833Z"
+          fill="#FBD8CC"
+        />
+        <path
+          d="M152.833 161.583H90.3334M111.167 203.25H90.3334M173.667 119.917H90.3334M215.333 117.833V226.167C215.333 243.668 215.333 252.419 211.927 259.104C208.931 264.984 204.151 269.765 198.271 272.761C191.586 276.167 182.835 276.167 165.333 276.167H98.6667C81.165 276.167 72.4142 276.167 65.7295 272.761C59.8494 269.765 55.0688 264.984 52.0727 259.104C48.6667 252.419 48.6667 243.668 48.6667 226.167V117.833C48.6667 100.332 48.6667 91.5809 52.0727 84.8961C55.0688 79.0161 59.8494 74.2354 65.7295 71.2394C72.4142 67.8333 81.165 67.8333 98.6667 67.8333H165.333C182.835 67.8333 191.586 67.8333 198.271 71.2394C204.151 74.2354 208.931 79.0161 211.927 84.8961C215.333 91.5809 215.333 100.332 215.333 117.833Z"
+          stroke="#FEF2EE"
+          stroke-width="12"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_22_2455">
+          <rect x="0.5" width="250" height="250" rx="125" fill="white" />
+        </clipPath>
+      </defs>
     </svg>
   );
 };

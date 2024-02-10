@@ -55,23 +55,31 @@ export const ModalContextProvider = ({
     show,
     type,
     icon = AlertCircle,
+    children,
   }: triggerModalType) => {
     console.log("Triggered");
+
     show !== undefined
       ? setModalState((prev) => ({ ...prev, showModal: show }))
       : modalState.showModal
       ? setModalState((prev) => ({ ...prev, showModal: false }))
       : setModalState((prev) => ({ ...prev, showModal: true }));
-    message &&
-      setModalState((prev) => ({ ...prev, modalMessage: message, type, icon }));
-    confirm &&
-      typeof confirm === "function" &&
-      setModalState((prev) => ({ ...prev, actionConfirm: confirm }));
+
     cancel &&
       typeof cancel === "function" &&
       setModalState((prev) => ({ ...prev, actionCancel: cancel }));
+
     typeof clickToDisable === "boolean" &&
       setModalState((prev) => ({ ...prev, disableOnClick: clickToDisable }));
+
+    confirm &&
+      typeof confirm === "function" &&
+      setModalState((prev) => ({ ...prev, actionConfirm: confirm }));
+
+    if (children) return setModalState((prev) => ({ ...prev, children }));
+
+    message &&
+      setModalState((prev) => ({ ...prev, modalMessage: message, type, icon }));
   };
 
   const closeModal = () => {
@@ -91,6 +99,7 @@ export const ModalContextProvider = ({
         type: modalState.type,
         icon: modalState.icon,
         closeModal,
+        children: modalState.children,
       }}
     >
       {children}

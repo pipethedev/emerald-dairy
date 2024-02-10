@@ -1,11 +1,6 @@
-import { FavouriteNotesHeader } from "@/app/components/dashboard/favourites";
-import { Button, NoteSection, ParamsNav } from "@/app/components/global";
-import { DocIcon, EditIcon, TagIcon } from "@/app/components/svgs";
+import { NoteSection } from "@/app/components/global";
 import { db } from "@/app/config/firebase";
-import { H1, H2 } from "@/utils/typography";
-import clsx from "clsx";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import Image from "next/image";
 
 type Props = {
   params: {
@@ -60,7 +55,7 @@ export default async function NotePage({ params }: Props) {
 
   return (
     <main className="flex h-full [&::-webkit-slider-thumb]:!bg-blue-500 flex-col overflow-auto">
-      <FavouriteNotesHeader />
+      {/* <FavouriteNotesHeader /> */}
       <div className="w-[95%] md:w-[80%] flex-1 overflow-auto [&::-webkit-slider-thumb]:!bg-blue-500 mx-auto pt-8">
         <NoteSection note={note} />
       </div>

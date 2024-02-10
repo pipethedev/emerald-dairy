@@ -19,11 +19,14 @@ import VerseOfDay from "./verseOfDay";
 import { Disclosure, Transition } from "@headlessui/react";
 import { useAppDispatch, useAppSelector } from "@/hooks/store";
 import { toggleNavbar } from "@/store/slices/navbar";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { IconButton, Overlay } from "../global";
 import Media from "react-media";
+import { ModalContext } from "@/context";
 
 export default function DashboardSideNavigation() {
+  const { triggerModal, closeModal } = useContext(ModalContext);
+
   const pathname = usePathname();
 
   const [smallScreen, setSmallScreen] = useState(false);
@@ -85,16 +88,20 @@ export default function DashboardSideNavigation() {
                 {/* <div className="h-[40px] w-[40px] rounded-[8px] p-[8px] grid place-items-center bg-[#FAFAFA] transition-all duration-300 active:scale-90">
                   <SettingsIcon />
                 </div> */}
-                <Link href={"/settings"} className="ml-auto">
-                  <IconButton
-                    style={{
-                      stroke: "black",
-                    }}
-                    stroke="!stroke-gray-800"
-                    className="!bg-[#FAFAFA]"
-                    icon={SettingsIcon}
-                  />
-                </Link>
+                <IconButton
+                  onClick={() =>
+                    triggerModal({
+                      children: <div className=""></div>,
+                      cancel: () => closeModal,
+                    })
+                  }
+                  style={{
+                    stroke: "black",
+                  }}
+                  stroke="!stroke-gray-800"
+                  className="!bg-[#FAFAFA] ml-auto"
+                  icon={SettingsIcon}
+                />
               </header>
               <div className="h-[72px] px-[12px] py-[16px] flex items-center gap-[11px] border-b-[1px] border-b-[#F2F2F2]">
                 <figure>
@@ -296,7 +303,7 @@ export default function DashboardSideNavigation() {
             </div>
           );
         }}
-      </Media>{" "}
+      </Media>
     </>
   );
 }

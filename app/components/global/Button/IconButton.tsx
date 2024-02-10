@@ -29,7 +29,7 @@ export default function IconButton({
     <button
       {...buttonProps}
       className={clsx(
-        "p-3 w-10 h-10 aspect-square bg-white hover:bg-primary-13 rounded-xl flex items-center justify-center",
+        "p-3 w-10 h-10 aspect-square bg-white hover:!bg-primary-13 rounded-xl flex items-center justify-center",
         isActive && "outline-primary outline-1 outline !bg-primary-10",
         className
       )}

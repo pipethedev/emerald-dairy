@@ -9,6 +9,10 @@
   /* outline: 0.1px solid red; */
 }
 
+*::selection {
+  @apply bg-primary/60 text-white;
+}
+
 *::-webkit-scrollbar {
   @apply w-1 h-1;
 }
@@ -77,4 +81,8 @@ html {
 @font-face {
   font-family: "MatterSemiBold";
   src: url("../fonts/matter/Matter-SemiBold.ttf") format("truetype");
+}
+
+button:active {
+  @apply scale-95 transition-all duration-200;
 }

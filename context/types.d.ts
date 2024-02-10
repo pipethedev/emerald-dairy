@@ -8,6 +8,7 @@ type ModalContextType = {
   actionConfirm: Function;
   actionCancel: Function;
   disableOnClick: boolean;
+  children?: React.ReactNode;
   type?: "info" | "error" | "warning";
   icon?: React.FC<React.SVGProps<SVGElement>>;
 };
@@ -20,6 +21,7 @@ type triggerModalType = {
   show?: boolean;
   type?: ModalContextType["type"];
   icon?: ModalContextType["icon"];
+  children?: ModalContextType["children"];
 };
 
 // NOTIFICATION

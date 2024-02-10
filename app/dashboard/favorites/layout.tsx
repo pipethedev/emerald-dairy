@@ -5,7 +5,7 @@ import {
   SearchBar,
 } from "@/app/components/global";
 
-export default function DashboardLayout({
+export default function FavoritesLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -18,7 +18,7 @@ export default function DashboardLayout({
           <SearchBar />
           <CreateNoteLink />
         </header>
-        <Notes />
+        <Notes path="/dashboard/favorites/" />
       </div>
       <main className="flex-1 w-full h-[100vh] overflow-y-auto">
         {children}

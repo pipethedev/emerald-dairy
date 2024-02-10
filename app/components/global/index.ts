@@ -8,6 +8,7 @@ export { default as NavButton } from "./Button/NavButton";
 export { default as NavLink } from "./NavLink";
 export { default as NoteItem } from "./NoteItem";
 export { default as Notes } from "./Notes";
+export { default as NoteSection } from "./NoteSection";
 export { default as Notification } from "./Notification";
 export { default as Overlay } from "./Overlay";
 export { default as ParamsNav } from "./ParamsNav";

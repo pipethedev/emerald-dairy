@@ -26,13 +26,20 @@ interface SideNavigationLink {
   leading: React.FC<SVGProps<SVGElement>>;
 }
 
+interface Content {
+  type: "heading" | "image" | "paragraph";
+  value: string; //other image types
+}
+
 interface Note {
+  id?: string;
   title: string;
   subtitle: string;
   date: number | string;
   label?: any;
   favourite?: boolean;
   tag: string;
+  content?: Content[];
 }
 
 interface TypographyProps extends React.HTMLProps<HTMLHeadingElement> {
