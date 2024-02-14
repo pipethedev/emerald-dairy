@@ -53,10 +53,10 @@ export default function Notes({ notes, path }: Props) {
   return (
     <div
       className={clsx(
-        "flex-1 overflow-auto"
-        // showNotes === "false"
-        //   ? "translate-y-full fixed md:relative md:translate-y-[1px] w-full z-[100] md:w-auto"
-        //   : "relative"
+        "flex-1 overflow-auto",
+        showNotes === "false"
+          ? "translate-y-full fixed md:relative md:translate-y-[1px] w-full z-[100] md:w-auto"
+          : "relative"
       )}
     >
       <div

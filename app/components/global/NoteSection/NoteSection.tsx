@@ -19,7 +19,7 @@ export default function NoteSection({ note }: { note: Note }) {
               "outline-none text-3xl border-none font-bold placeholder:text-gray-300 overflow-hidden w-full text-wrap text-gray-800"
             )}
           >
-            {item.value}
+            {item.value as string}
           </H2>
         ) : item.type === "paragraph" ? (
           <div key={i} className="relative group">
@@ -29,13 +29,13 @@ export default function NoteSection({ note }: { note: Note }) {
                 "group-hover:outline-primary group-hover:outline_ group-hover:!bg-body group-hover:outline-1"
               )}
             >
-              {item.value}
+              {item.value as string}
             </p>
           </div>
         ) : item.type === "image" ? (
           <div key={i} className="relative">
             <Image
-              src={item.value}
+              src={item.value as string}
               alt={item.type}
               width={720}
               height={720}

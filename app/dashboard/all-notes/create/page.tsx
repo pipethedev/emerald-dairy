@@ -67,7 +67,7 @@ export default function CreateNote() {
   };
   return (
     <>
-      <header className="h-[72px] fixed md:hidden w-full bg-body border-b-[1px] border-b-[#F2F2F2] flex px-[24px] gap-[12px] py-[16px] shrink-0">
+      <header className="h-[72px] fixed md:hidden w-full bg-body border-b-[1px] border-b-[#F2F2F2] flex px-[24px] gap-[12px] py-[16px] shrink-0 z-50">
         <NavButton />
         <H1 className="text-2xl">Create Note</H1>
       </header>

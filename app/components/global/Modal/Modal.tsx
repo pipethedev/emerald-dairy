@@ -62,7 +62,7 @@ export default function Modal() {
                     // <div className="relative w-full bg-red-400 h-full sm:w-fit sm:h-fit">
                     <motion.div
                       className={
-                        "bg-body  fixed rounded-xl p-2 pb-0 w-full sm:w-96 z-50 border h-1/2 sm:h-auto bottom-0 sm:bottom-auto sm:-translate-x-1/2 sm:left-1/2 sm:-translate-y-1/2 sm:top-1/2"
+                        "bg-body  fixed rounded-xl p-2 pt-10 md:pt-0 pb-0 w-full sm:w-96 z-50 border h-3/5 sm:h-auto bottom-0 sm:bottom-auto sm:-translate-x-1/2 sm:left-1/2 sm:-translate-y-1/2 sm:top-1/2"
                       }
                       transition={{ type: "keyframes", duration: 0.2 }}
                       initial={{
@@ -116,12 +116,12 @@ export default function Modal() {
                               )}
                             </figure>
                           </div>
-                          <div className="overflow-auto space-y-4 flex-1 pb-4">
+                          <div className="overflow-auto overscroll-none space-y-4 flex-1 pb-4">
                             <div>
                               <div className="font-bold text-2xl">
                                 {modalMessage.title}
                               </div>
-                              <div className={"break-all"}>
+                              <div className={"break-word"}>
                                 {modalMessage.text}
                               </div>
                             </div>

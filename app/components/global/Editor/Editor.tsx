@@ -1,90 +1,390 @@
-// "use client";
+"use client";
 
-// import {
-//   CheckCircleIcon,
-//   File7Icon,
-//   // FontIcon,
-//   Image3Icon,
-//   Link1Icon,
-//   VideoRecorderIcon,
-// } from "@/app/components/svgs";
-// import Toolbar from "./Toolbar";
-// import { ComponentProps, useEffect, useRef, useState, FormEvent, ChangeEvent } from "react";
-// import { H2 } from "@/utils/typography";
-// import Image from "next/image";
-// import { Button } from "..";
-// import clsx from "clsx";
-// import {
-//   addItemToLocalStorage,
-//   getItemFromLocalStorage,
-//   removeItemFromLocalStorage,
-// } from "@/utils/helpers";
-// import { createNoteWithImage } from "./createNote"
+import {
+  CheckCircleIcon,
+  File7Icon,
+  FontIcon,
+  Image3Icon,
+  Link1Icon,
+  TrashIcon,
+  VideoRecorderIcon,
+} from "@/app/components/svgs";
+import Toolbar from "./Toolbar";
+import {
+  ComponentProps,
+  useEffect,
+  useRef,
+  useState,
+  FormEvent,
+  useContext,
+  FormEventHandler,
+} from "react";
+import { H2 } from "@/utils/typography";
+import Image from "next/image";
+import { Button, IconButton, Overlay } from "..";
+import clsx from "clsx";
+import {
+  addItemToLocalStorage,
+  getItemFromLocalStorage,
+  removeItemFromLocalStorage,
+} from "@/utils/helpers";
+import { createNoteWithImage } from "./createNote";
+import { ModalContext } from "@/context";
+import TextArea from "./TextArea";
+import Preview from "./Preview";
+import Edit from "./Edit";
+import { motion } from "framer-motion";
+import Spinner from "../Spinner/Spinner";
 
-// type Content = {
-//   type: "heading" | "image" | "paragraph";
-//   value: string; //other image types
-// };
+export type ImagePreview = string | ArrayBuffer | null | undefined;
 
-// const Editorzz= () => {
-//   const [title, setTitle] = useState<string>("");
-//   const [content, setContent] = useState<string>("");
-//   const [image, setImage] = useState<File | null>(null);
+const Editor = () => {
+  const { triggerModal, closeModal } = useContext(ModalContext);
 
-//   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-//     if (e.target.files && e.target.files[0]) {
-//       setImage(e.target.files[0]);
-//     }
-//   };
+  const editorRef = useRef<HTMLDivElement>(null);
+  const paragraphInputRef = useRef<HTMLDivElement>(null);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState<
+    (Content & {
+      preview?: ImagePreview;
+    })[]
+  >([]);
+  const [loading, setLoading] = useState(false);
+  const [newContent, setNewContent] = useState<
+    Content & {
+      preview?: ImagePreview;
+      saved?: boolean;
+    }
+  >();
 
-//   const handleCreateNote = async (e: FormEvent) => {
-//     e.preventDefault();
-//     if (title.trim() === "" || content.trim() === "" || !image) {
-//       // Check if title, content, and image are provided
-//       alert("Please provide a title, content, and image.");
-//       return;
-//     }
+  const addText = () => {
+    saveProgress();
+    setNewContent({ type: "paragraph", value: "", saved: false });
+  };
 
-//     // Call createNoteWithImage function to create a new note
-//     await createNoteWithImage(title, content, image);
+  const addCheck = () => {
+    saveProgress();
+    setNewContent({
+      type: "check",
+      value: { checked: false, label: "" },
+      saved: false,
+    });
+  };
 
-//     // Reset form fields
-//     setTitle("");
-//     setContent("");
-//     setImage(null);
-//   };
+  const addImage = ({
+    preview,
+    data,
+  }: {
+    preview?: string | ArrayBuffer | null;
+    data: File | null;
+  }) => {
+    saveProgress();
+    console.log({ preview, data });
+    setNewContent({ value: data as any, type: "image", preview, saved: false });
+  };
 
-//   return (
-//     <form onSubmit={handleCreateNote}>
-//       <label htmlFor="title">Title:</label>
-//       <input
-//         type="text"
-//         id="title"
-//         value={title}
-//         onChange={(e) => setTitle(e.target.value)}
-//         required
-//       />
+  const addVideo = ({
+    preview,
+    data,
+  }: {
+    preview?: string | ArrayBuffer | null;
+    data: File | null;
+  }) => {
+    saveProgress();
+    console.log({ preview, data });
+    setNewContent({ value: data as any, type: "video", preview, saved: false });
+  };
 
-//       <label htmlFor="content">Content:</label>
-//       <textarea
-//         id="content"
-//         value={content}
-//         onChange={(e) => setContent(e.target.value)}
-//         required
-//       ></textarea>
+  const inputCacheDependencyArray = () => {
+    const checkValue =
+      typeof newContent?.value !== "string" ? newContent?.value.label : "";
+    const checkLabel =
+      typeof newContent?.value !== "string" ? newContent?.value.checked : "";
+    return [newContent?.value, checkValue, checkLabel];
+  };
+  useEffect(() => {
+    inputCacheDependencyArray;
+    console.log("SAVING");
+    const timeout = setTimeout(() => {
+      addItemToLocalStorage({
+        item: JSON.stringify(newContent),
+        name: "editing",
+      });
+    }, 2000);
+    return () => clearTimeout(timeout);
+  }, inputCacheDependencyArray());
 
-//       <label htmlFor="image">Image:</label>
-//       <input
-//         type="file"
-//         id="image"
-//         accept="image/*"
-//         onChange={handleFileChange}
-//         required
-//       />
+  // COMEBACK: Might make this auto save
+  const saveProgress = () => {
+    console.log("SAVE: ", { newContent });
+    if (!newContent || !newContent.value) return;
+    if (newContent.type === "check" && typeof newContent.value !== "string")
+      if (!newContent.value.label) return;
+    setContent((prev) => [
+      ...prev,
+      {
+        type: newContent.type,
+        // COMEBACK: would get to this soon
+        value: newContent?.value,
+        preview: newContent.preview,
+      },
+    ]);
+    setNewContent(undefined);
+  };
 
-//       <button type="submit">Create Note</button>
-//     </form>
-//   );
-// };
+  const cacheInput = () => {
+    console.log("CACHE INPUT: ", { newContent });
+    if (!newContent) return;
+    // if (newContent.type !== "paragraph")
+    if (!newContent.value) return;
+    setContent((prev) => [
+      ...prev,
+      {
+        type: newContent.type,
+        // COMEBACK: would get to this soon
+        value: paragraphInputRef.current?.innerHTML || newContent?.value,
+      },
+    ]);
+    setNewContent(undefined);
+  };
 
-// export default Editor;
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      // Call createNote function to add a new note
+      // COMEBACK: Add image fle
+      await createNoteWithImage(
+        title,
+        content.map((item) => ({
+          value: item.value as string,
+          type: item.type,
+        })),
+        ""
+      );
+
+      // Reset form fields after successful note creation
+      setTitle("");
+      setContent([]);
+    } catch (error) {
+      console.error("Error creating note: ", error);
+      // Handle error if needed
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      addItemToLocalStorage({
+        item: JSON.stringify({ content, title }),
+        name: "content",
+      });
+    }, 2000);
+    return () => clearTimeout(timeout);
+  }, [content.length]);
+
+  useEffect(() => {
+    let editingData;
+
+    const cachedData: any = getItemFromLocalStorage("content");
+    const cachedEditing: any = getItemFromLocalStorage("editing");
+    if (!cachedData) return;
+    const data = JSON.parse(cachedData);
+
+    if (cachedEditing !== "undefined") {
+      console.log({ cachedEditing });
+      editingData = JSON.parse(cachedEditing);
+    }
+
+    console.log("Cached Data", { data });
+    const { title: cachedTitle, content: cachedContent } = data;
+    console.log({ cachedTitle, cachedContent });
+    setTitle(cachedTitle);
+    setContent(cachedContent);
+    setNewContent(editingData);
+  }, []);
+
+  // Spammed addText. Coz why not lol.
+  const tools: ComponentProps<typeof Toolbar>["tools"] = [
+    {
+      name: "add text",
+      icon: FontIcon,
+      action: addText,
+    },
+    {
+      name: "add image",
+      icon: Image3Icon,
+      altIcon: <ImageInput getImage={addImage} />,
+    },
+
+    { name: "add link", icon: Link1Icon, action: addText },
+    {
+      name: "add video",
+      icon: Image3Icon,
+      altIcon: <VideoInput getVideo={addVideo} />,
+    },
+    { name: "another value", icon: File7Icon, action: addText },
+    { name: "add check", icon: CheckCircleIcon, action: addCheck },
+  ];
+
+  return (
+    <>
+      <Overlay show={loading} className="flex items-center justify-center">
+        <div className="w-fit">
+          <Spinner />
+          <p className="w-fit mx-auto">saving in progress...</p>
+        </div>
+      </Overlay>
+      <div className="flex h-full w-full flex-col">
+        <header className="h-[72px] w-full border-b-[1px] border-b-[#F2F2F2] shrink-0">
+          <div className="w-[95%] h-full flex items-center justify-center mx-auto">
+            <motion.button
+              onClick={handleSubmit}
+              className={clsx(
+                "flex items-center p-2 ml-auto bg-[#F2F2F2] rounded-lg gap-2 "
+              )}
+            >
+              <figure>
+                <CheckCircleIcon className="!stroke-gray-800" />
+              </figure>
+              <p className="capitalize">save note</p>
+            </motion.button>
+          </div>
+        </header>
+
+        <div
+          ref={editorRef}
+          className="flex-1 flex w-full overflow-auto relative"
+        >
+          <div className="">
+            <div className="mx-auto mt-8 w-fit">
+              <Toolbar containerRef={editorRef} tools={tools} />
+            </div>
+          </div>
+          <div className="space-y-4">
+            <article className="w-[95%] space-y-6 pt-8 mx-auto">
+              <Preview
+                content={content}
+                setContent={setContent}
+                setNewContent={setNewContent}
+                setTitle={setTitle}
+                title={title}
+              />
+              <Edit newContent={newContent} setNewContent={setNewContent} />
+            </article>
+            <Button onClick={() => saveProgress()}>Save progress</Button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+type ImageInputProps = {
+  getImage(params: {
+    preview?: string | ArrayBuffer | null;
+    data: File | null;
+  }): void;
+};
+
+function ImageInput({ getImage }: ImageInputProps) {
+  const [image, setImage] = useState("");
+
+  const readURI = (img: Blob, value: File | null) => {
+    if (img) {
+      let reader = new FileReader();
+      reader.onload = function (ev: ProgressEvent<FileReader>) {
+        getImage({
+          preview: ev.target?.result,
+          // data: ev.target?.result as string,
+          data: value,
+        });
+      };
+      return reader.readAsDataURL(img);
+    }
+  };
+  return (
+    <>
+      <label htmlFor="image" className="bg-red-400">
+        <Image3Icon className="w-6 h-6 stroke-primary" />
+      </label>
+      <input
+        type="file"
+        id="image"
+        accept="image/*"
+        hidden
+        multiple={false}
+        onInput={(e) => {
+          const target = e.target as HTMLInputElement;
+          const value = target.files ? target.files[0] : null;
+
+          console.log("IMAGE_FILE", { value });
+
+          // @ts-ignore TODO
+          //TODO COMEBACK ADD_TYPES
+          const img = Object.values<any>(target.files)[0];
+
+          readURI(img, value);
+          console.log({ value: target.value });
+          return setImage(img);
+        }}
+      />
+    </>
+  );
+}
+
+type VideoInputProps = {
+  getVideo(params: {
+    preview?: string | ArrayBuffer | null;
+    data: File | null;
+  }): void;
+};
+
+function VideoInput({ getVideo }: VideoInputProps) {
+  const [video, setVideo] = useState("");
+
+  const readURI = (video: Blob, value: File | null) => {
+    if (video) {
+      let reader = new FileReader();
+      reader.onload = function (ev: ProgressEvent<FileReader>) {
+        getVideo({
+          preview: ev.target?.result,
+          // data: ev.target?.result as string,
+          data: value,
+        });
+      };
+      return reader.readAsDataURL(video);
+    }
+  };
+  return (
+    <>
+      <label htmlFor="video" className="bg-red-400">
+        <VideoRecorderIcon className="w-6 h-6 stroke-primary" />
+      </label>
+      <input
+        type="file"
+        id="video"
+        accept="video/mp4,video/x-m4v/video/quicktime,video/*"
+        hidden
+        multiple={false}
+        onInput={(e) => {
+          const target = e.target as HTMLInputElement;
+          const value = target.files ? target.files[0] : null;
+
+          console.log("VIDEO_FILE", { value });
+
+          // @ts-ignore TODO
+          //TODO COMEBACK ADD_TYPES
+          const video = Object.values<any>(target.files)[0];
+
+          readURI(video, value);
+          console.log({ value: target.value });
+          return setVideo(video);
+        }}
+      />
+    </>
+  );
+}
+
+export default Editor;
