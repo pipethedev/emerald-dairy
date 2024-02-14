@@ -10,10 +10,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { type ChangeEvent, useState, type FormEvent } from "react";
 import toast from "react-hot-toast";
+import { app } from "../config/firebase";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword  } from 'firebase/auth';
 
 interface formData {
   email: string;
-  password: string | number;
+  password: string;
   firstName: string;
   lastName: string;
 }
@@ -22,9 +24,15 @@ type Props = {
   route: "sign-up" | "sign-in";
 };
 
+const auth = getAuth(app);
+
 export default function AuthForm({ route = "sign-in" }: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
 
   const [formData, setFormData] = useState<formData>({
     email: "",
@@ -48,15 +56,36 @@ export default function AuthForm({ route = "sign-in" }: Props) {
     setLoading(true);
 
     try {
-      // NOTE: Check route value. Send request to the API endpoint accordingly
-      let response = await axios.post("api/login", formData);
-      console.log(response);
-      toast.success("Login successful"); // Or sign-up successful
-      router.push("/dashboard");
+      const userCredential = await signInWithEmailAndPassword(auth, formData?.email, formData?.password);
+      // User signed in successfully
+      const user = userCredential.user;
+      console.log('User signed in:', user);
     } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
+      console.error('Error signing in:');
+    }
+
+    // try {
+    //   // NOTE: Check route value. Send request to the API endpoint accordingly
+    //   let response = await axios.post("api/login", formData);
+    //   console.log(response);
+    //   toast.success("Login successful"); // Or sign-up successful
+    //   router.push("/dashboard");
+    // } catch (error) {
+    //   console.log(error);
+    // } finally {
+    //   setLoading(false);
+    // }
+  };
+
+  const handleSignUp = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      // User signed up successfully
+      const user = userCredential.user;
+      console.log('User signed up:', user);
+    } catch (error) {
+      console.error('Error signing up:');
     }
   };
 
@@ -116,45 +145,21 @@ export default function AuthForm({ route = "sign-in" }: Props) {
           <h2 className="font-matter text-black leading-normal font-semibold md:text-[48px] text-center md:-tracking-[0.96px] -tracking-[0.64px] text-[32px]">
             Sign {route === "sign-up" ? "Up" : "In"}
           </h2>
-          <form
-            className="flex flex-col py-8 lg:py-0 w-full items-start md:items-center gap-[22px]"
-            onSubmit={handleSubmit}
-          >
-            {route === "sign-up" && (
-              <div className="w-[382px]_ lg:w-[420px]_ flex-wrap flex items-start gap-[12px] lg:gap-[24px] self-stretch">
-                <fieldset className="flex flex-col gap-3 w-full">
-                  <div className="flex flex-row justify-between">
-                    <label className="text-black font-aeonik -tracking-[0.28px] font-normal text-[14px]">
-                      Firstname
-                    </label>
-                    <Info />
-                  </div>
-                  <Input
-                    type="text"
-                    name="firstName"
-                    value={formData?.firstName}
-                    onChange={formDataHandler}
-                    placeholder="Enter Firstname"
-                  />
-                </fieldset>
-                <fieldset className="flex flex-col gap-3 w-full">
-                  <div className="flex flex-row justify-between">
-                    <label className="text-black font-aeonik -tracking-[0.28px] font-normal text-[14px]">
-                      Lastname
-                    </label>
-                    <Info />
-                  </div>
-                  <Input
-                    type="text"
-                    name="lastName"
-                    value={formData?.lastName}
-                    onChange={formDataHandler}
-                    placeholder="Enter Lastname"
-                  />
-                </fieldset>
-              </div>
-            )}
-            <fieldset className="flex flex-col gap-3 w-full">
+          
+            {route === "sign-up" ? (
+              <form
+              className="flex flex-col py-8 lg:py-0 w-full items-start md:items-center gap-[22px]"
+              onSubmit={handleSignUp}
+            >
+             
+              
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+              <button type="submit">Sign Up</button>
+      
+            </form>
+            ) : (
+<form onSubmit={handleSubmit}>  <fieldset className="flex flex-col gap-3 w-full">
               <div className="flex flex-row justify-between">
                 <label className="text-black font-aeonik -tracking-[0.28px] font-normal text-[14px]">
                   Email Address
@@ -185,16 +190,19 @@ export default function AuthForm({ route = "sign-in" }: Props) {
               />
             </fieldset>
             <fieldset className="w-full">
-              <Link href={route === "sign-in" ? "/dashboard" : "/signin"}>
-                <Button
+
+                {/* <Button
                   disabled={isDisabled}
                   loading={loading}
                   className="capitalize w-full"
                 >
-                  {route === "sign-up" ? "Get Started" : "Sign In"}
-                </Button>
-              </Link>
-            </fieldset>
+                  {"Sign In"}
+                </Button> */}
+
+                <button type="submit">Sign In</button>
+            </fieldset></form>
+            )}
+          
             <p className="text-gray-700 w-fit mx-auto">
               {route === "sign-in"
                 ? "Don't have an account?"
@@ -206,7 +214,7 @@ export default function AuthForm({ route = "sign-in" }: Props) {
                 {route === "sign-in" ? "Sign Up" : "Sign In"}
               </Link>
             </p>
-          </form>
+     
         </div>
       </div>
     </main>

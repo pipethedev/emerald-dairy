@@ -91,7 +91,7 @@ export default function DashboardSideNavigation() {
                 <IconButton
                   onClick={() =>
                     triggerModal({
-                      children: <div className=""></div>,
+                      children: <div className="">yooo</div>,
                       cancel: () => closeModal,
                     })
                   }

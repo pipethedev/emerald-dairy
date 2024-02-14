@@ -2,7 +2,7 @@ export { default as Modal } from "./Modal";
 export { default as ClientOnlyPortal } from "./ClientOnlyPortal";
 export { default as CreateNoteLink } from "./CreateNoteLink";
 export { default as Button } from "./Button";
-export { default as Editor } from "./Editor";
+// export { default as Editor } from "./Editor";
 export { default as IconButton } from "./Button/IconButton";
 export { default as NavButton } from "./Button/NavButton";
 export { default as NavLink } from "./NavLink";
