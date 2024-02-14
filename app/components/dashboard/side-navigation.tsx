@@ -24,9 +24,10 @@ import { IconButton, Overlay } from "../global";
 import Media from "react-media";
 import { ModalContext } from "@/context";
 
-export default function DashboardSideNavigation() {
-  const { triggerModal, closeModal } = useContext(ModalContext);
 
+export default function DashboardSideNavigation() {
+
+  const { triggerModal, closeModal } = useContext(ModalContext);
   const pathname = usePathname();
 
   const [smallScreen, setSmallScreen] = useState(false);
@@ -46,6 +47,16 @@ export default function DashboardSideNavigation() {
     }
     toggleNav(false);
   }, [pathname, smallScreen]);
+
+  useEffect(() => {
+    const currentUser = typeof window !== 'undefined' ? localStorage.getItem("currentUser") : null;
+    console.log(currentUser);
+  
+    if(currentUser == null){ 
+      location.href ='/signin'
+    }
+  }, []);
+
 
   const NavOverlay = () => {
     return (
