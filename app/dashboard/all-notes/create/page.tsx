@@ -2,7 +2,7 @@
 
 import Button from "@/app/components/button";
 import Note from "@/app/components/dashboard/note";
-import { NavButton, NoteItem } from "@/app/components/global"; // try re importing EDITOR HERE
+import { Editor, NavButton, NoteItem } from "@/app/components/global";
 import { AddIcon, CheckCircleIcon, SearchIcon } from "@/app/components/svgs";
 import { H1 } from "@/utils/typography";
 import Image from "next/image";
