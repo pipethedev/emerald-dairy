@@ -18,20 +18,7 @@ export default function DashboardCreate() {
   return (
     <>
       <div className="hidden h-full lg:flex flex-row">
-        <div className="w-[360px] flex flex-col overflow-auto shrink-0 border-r-[1px] border-r-[#F2F2F2]">
-          <header className="h-[72px] shrink-0 border-b-[1px] border-b-[#F2F2F2] flex px-[24px] gap-[12px] py-[16px]">
-            <div className="h-[40px] px-[16px] rounded-[10px] gap-[8px] flex-1 w-full bg-[#FAFAFA] flex items-center">
-              <SearchIcon />
-              <input
-                className="outline-none placeholder-[#B3B3B3] text-[14px] bg-transparent"
-                placeholder="Search..."
-              />
-            </div>
-            <CreateNoteLink />
-          </header>
-          {/* ALL NOTES - SHOULD BE MOVED TO A SEPARATE COMPONENTS SOON */}
-          <Notes path="/dashboard/all-notes/" />
-        </div>
+
         <div className="flex flex-col overflow-auto">
           <header className="h-[72px] shrink-0 border-b-[1px] border-b-[#F2F2F2]"></header>
           <div className="p-[56px] flex-1 overflow-auto">

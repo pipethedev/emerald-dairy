@@ -77,7 +77,7 @@ export default function DashboardSideNavigation() {
           console.log({ smallScreen, matchesSmall: matches.small });
           if (matches.small !== smallScreen) {
             // console.log("CHANGED!");
-            setSmallScreen(matches.small && true);
+            // setSmallScreen(matches.small && true);
           }
           return (
             <div

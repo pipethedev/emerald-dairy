@@ -84,6 +84,8 @@ export default function NoteItem(
             />
           </div>
         )}
+
+        <div>fewgrwg</div>
         <div
           className={clsx(
             "h-[28px] px-[8px] rounded-[8px] bg-[#F2F2F2] flex gap-[8px] items-center",

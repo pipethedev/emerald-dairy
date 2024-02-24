@@ -9,15 +9,16 @@ import clsx from "clsx";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { db } from "../../../config/firebase";
-import { collection, getDocs, QueryDocumentSnapshot } from "firebase/firestore";
+import { collection, getDocs, query, QueryDocumentSnapshot, where } from "firebase/firestore";
 import Spinner from "../Spinner/Spinner";
 
 type Props = {
   notes?: Note[];
   path: string;
+  type: string;
 };
 
-export default function Notes({ notes, path }: Props) {
+export default function Notes({ notes, path, type }: Props) {
   const notesRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -33,20 +34,43 @@ export default function Notes({ notes, path }: Props) {
     const fetchNotes = async () => {
       try {
         setLoading(true);
-        const notesSnapshot = await getDocs(collection(db, "notes"));
-        const notesData = notesSnapshot.docs.map((doc) => doc.data() as Note);
-        setFetchedNotes(notesData);
-
-        console.log("hello", notesData);
+        let querySnapshot;
+  
+        if (type === "all") {
+          querySnapshot = await getDocs(collection(db, "notes"));
+        } else if (type === "favourites") {
+          // Use the `query` function to construct the query
+          const q = query(collection(db, "notes"), where("type", "==", "favourite"));
+          querySnapshot = await getDocs(q);
+        } else if (type === "archived") {
+          // Use the `query` function to construct the query
+          const q = query(collection(db, "notes"), where("type", "==", "archived"));
+          querySnapshot = await getDocs(q);
+        } else if (type === "deleted") {
+          // Use the `query` function to construct the query
+          const q = query(collection(db, "notes"), where("type", "==", "deleted"));
+          querySnapshot = await getDocs(q);
+        }
+  
+        if (querySnapshot) {
+          const notesData = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }) as Note);
+          setFetchedNotes(notesData);
+        } else {
+          console.log(`No notes found for type: ${type}`);
+        }
       } catch (error) {
         console.error("Error fetching notes:", error);
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchNotes();
-  }, []);
+  }, [type]);
+  
 
   console.log("hello", fetchedNotes);
 
@@ -66,7 +90,7 @@ export default function Notes({ notes, path }: Props) {
         )}
       >
         <header className="flex items-center gap-[5px] mb-[24px]">
-          <h1 className="text-[24px] font-bold">All Notes</h1>
+          <h1 className="text-[24px] font-bold">{type == "all" ? "All Notes" : type == "favourites" ? "Favourite Notes" : type == "archived" ? "Archived Notes" : type == "deleted" ? "Recently Deleted Notes" : "Notes"}</h1>
           <ExpandMoreIcon />
           <Link
             href={`${pathname}?show-notes=false`}
