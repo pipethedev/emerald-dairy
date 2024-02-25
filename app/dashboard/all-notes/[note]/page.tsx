@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 import { NoteSection } from "@/app/components/global";
 import { db } from "@/app/config/firebase";
 import {
@@ -10,8 +10,8 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { DocumentData } from 'firebase/firestore';
-import { FavouriteNotesHeader } from "@/app/components/dashboard/favourites";
+import { DocumentData } from "firebase/firestore";
+import NotesHeader from "@/app/components/dashboard/NotesHeader";
 
 type Props = {
   params: {
@@ -22,12 +22,12 @@ type Props = {
 export default async function NotePage({ params }: Props) {
   const noteId = params.note;
 
-  const [note, setNote] = useState<Note | null>(null);
+  let note: Note | undefined;
 
+  // const [note, setNote] = useState<Note | null>(null);
 
-useEffect(() => {
-
-  const fetchData = async () => {
+  // useEffect(() => {
+  // const fetchData = async () => {
   try {
     const noteRef = doc(db, "notes", noteId); // "notes" is the collection name
 
@@ -35,33 +35,36 @@ useEffect(() => {
 
     if (noteDoc.exists()) {
       const noteData = noteDoc.data();
-      setNote(noteData as Note)
+      note = noteData as Note;
+      // setNote(noteData as Note);
       console.log("Note was found", noteData);
       // Do something with the noteData
     } else {
-      console.log("Note not found");
+      console.log("Note not found", { noteDoc: noteDoc.data() });
+      note = undefined;
       // Handle case when note is not found
     }
   } catch (error) {
     console.error("Error fetching note:", error);
+    note = undefined;
     // alert("An error occured");
   }
-}
+  // };
 
-fetchData();
-}, [])
+  //   fetchData();
+  // }, []);
 
   return (
     <main className="flex h-full [&::-webkit-slider-thumb]:!bg-blue-500 flex-col overflow-auto">
-      <FavouriteNotesHeader />
+      <NotesHeader />
       {note && note ? (
-      <div className="w-[95%] md:w-[80%] flex-1 overflow-auto [&::-webkit-slider-thumb]:!bg-blue-500 mx-auto pt-8">
-        <NoteSection note={note} />
-      </div>
+        <div className="w-[95%] md:w-[80%] flex-1 overflow-auto [&::-webkit-slider-thumb]:!bg-blue-500 mx-auto pt-8">
+          <NoteSection note={note} />
+        </div>
       ) : (
         // Render a message when note is not available
         <div className="text-3xl mt-24 text-center">
-          {"Couldn't"} fetch note data
+          {"Couldn't"} fetch note data_ and more
         </div>
       )}
     </main>

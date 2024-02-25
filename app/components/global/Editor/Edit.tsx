@@ -32,7 +32,7 @@ export default function Edit({ newContent, setNewContent }: Props) {
   return (
     <>
       {newContent && (
-        <div className="relative group -z-10">
+        <div className="relative group">
           <IconButton
             onClick={deleteNewContent}
             icon={TrashIcon}
@@ -96,6 +96,7 @@ export default function Edit({ newContent, setNewContent }: Props) {
                 checked={newContent.value.checked}
               />
               <TextArea
+                autoFocus
                 onChange={(e) => {
                   typeof newContent.value !== "string" &&
                     setNewContent({

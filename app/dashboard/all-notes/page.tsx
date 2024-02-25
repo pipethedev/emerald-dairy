@@ -18,9 +18,8 @@ export default function DashboardCreate() {
   return (
     <>
       <div className="hidden h-full lg:flex flex-row">
-
         <div className="flex flex-col overflow-auto">
-          <header className="h-[72px] shrink-0 border-b-[1px] border-b-[#F2F2F2]"></header>
+          {/* <header className="h-[72px] shrink-0 border-b-[1px] border-b-[#F2F2F2]"></header> */}
           <div className="p-[56px] flex-1 overflow-auto">
             <div className="flex items-center gap-[13px] mb-[53px]">
               <figure className="bg-[#F2F2F2] h-[80px] w-[80px] rounded-full grid place-items-center">
@@ -102,7 +101,7 @@ export default function DashboardCreate() {
 const DashboardMobile = () => {
   return (
     <div className="lg:hidden">
-      <header className="h-[72px] border-b-[1px] border-b-[#F2F2F2] px-[12px] py-[14px] flex flex-row items-center gap-[11px]">
+      {/* <header className="h-[72px] border-b-[1px] border-b-[#F2F2F2] px-[12px] py-[14px] flex flex-row items-center gap-[11px]">
         <NavButton />
         <div className="h-[40px] px-[16px] rounded-[10px] gap-[8px] flex-1 w-full bg-[#FAFAFA] flex items-center">
           <SearchIcon />
@@ -114,9 +113,9 @@ const DashboardMobile = () => {
         <div className="h-[40px] w-[40px] ml-auto rounded-[8px] p-[8px] grid place-items-center bg-[#FAFAFA] transition-all duration-300 active:scale-90">
           <SettingsIcon />
         </div>
-      </header>
+      </header> */}
       <div>
-        <header className="h-[72px] border-b-[1px] border-b-[#F2F2F2]"></header>
+        {/* <header className="h-[72px] border-b-[1px] border-b-[#F2F2F2]"></header> */}
         <div className="p-[24px]">
           <div className="flex items-center gap-[13px] mb-[24px]">
             <figure className="bg-[#F2F2F2] h-[50px] w-[50px] rounded-full grid place-items-center">

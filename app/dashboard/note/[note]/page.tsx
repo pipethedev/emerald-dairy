@@ -1,5 +1,5 @@
 "use client";
-import { FavouriteNotesHeader } from "@/app/components/dashboard/favourites";
+import NotesHeader from "@/app/components/dashboard/NotesHeader";
 import { Button, ParamsNav } from "@/app/components/global";
 import { DocIcon, EditIcon, TagIcon } from "@/app/components/svgs";
 import { H1 } from "@/utils/typography";
@@ -49,7 +49,7 @@ export default function NotePage({ params }: Props) {
 
   return (
     <main className="flex h-full [&::-webkit-slider-thumb]:!bg-blue-500 flex-col overflow-auto">
-      <FavouriteNotesHeader />
+      <NotesHeader />
       <div className="w-[95%] md:w-[80%] flex-1 overflow-auto [&::-webkit-slider-thumb]:!bg-blue-500 mx-auto pt-8">
         <H1 className="text-4xl">{note?.title}</H1>
         {/* <p>{note?.content}</p> */}

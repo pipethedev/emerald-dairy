@@ -30,7 +30,6 @@ import {
 } from "@/utils/helpers";
 import { createNoteWithImage } from "./createNote";
 import { ModalContext } from "@/context";
-import TextArea from "./TextArea";
 import Preview from "./Preview";
 import Edit from "./Edit";
 import { motion } from "framer-motion";
@@ -112,7 +111,15 @@ const Editor = () => {
       });
     }, 2000);
     return () => clearTimeout(timeout);
-  }, inputCacheDependencyArray());
+  }, [inputCacheDependencyArray()]);
+
+  // COMEBACK: check if this is needed
+  const validateNoteData = () => {
+    if (!newContent || !newContent.value) return false;
+    if (newContent.type === "check" && typeof newContent.value !== "string")
+      if (!newContent.value.label) return false;
+    return true;
+  };
 
   // COMEBACK: Might make this auto save
   const saveProgress = () => {
@@ -257,12 +264,12 @@ const Editor = () => {
           ref={editorRef}
           className="flex-1 flex w-full overflow-auto relative"
         >
-          <div className="">
+          <div className="z-50">
             <div className="mx-auto mt-8 w-fit">
               <Toolbar containerRef={editorRef} tools={tools} />
             </div>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-4 w-full">
             <article className="w-[95%] space-y-6 pt-8 mx-auto">
               <Preview
                 content={content}

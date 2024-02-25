@@ -5,11 +5,7 @@ import {
   SearchBar,
 } from "@/app/components/global";
 
-export default function FavoritesLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RecentlyDeleted() {
   return (
     <div className="flex flex-col md:flex-row h-[100vh]">
       <div className="md:w-[360px] h-fit md:h-full flex flex-col border-r-[1px] border-r-[#F2F2F2] overflow-auto">
@@ -20,9 +16,7 @@ export default function FavoritesLayout({
         </header>
         <Notes type="deleted" path="/dashboard/archived/" />
       </div>
-      <main className="flex-1 w-full h-[100vh] overflow-y-auto">
-        {children}
-      </main>
+      <main className="flex-1 w-full h-[100vh] overflow-y-auto"></main>
     </div>
   );
 }

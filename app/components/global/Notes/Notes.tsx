@@ -9,13 +9,21 @@ import clsx from "clsx";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { db } from "../../../config/firebase";
-import { collection, getDocs, query, QueryDocumentSnapshot, where } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  query,
+  QueryDocumentSnapshot,
+  where,
+} from "firebase/firestore";
 import Spinner from "../Spinner/Spinner";
+import { useAppDispatch, useAppSelector } from "@/hooks/store";
+import { toggleNotesBar } from "@/store/slices/notesbar";
 
 type Props = {
   notes?: Note[];
   path: string;
-  type: string;
+  type?: "all" | "favourites" | "archived" | "deleted" | "notes";
 };
 
 export default function Notes({ notes, path, type }: Props) {
@@ -23,40 +31,57 @@ export default function Notes({ notes, path, type }: Props) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
-  const showNotes = searchParams.get("show-notes");
+  const showNotes = useAppSelector((state) => state.notesBar);
+  const dispatch = useAppDispatch();
 
-  console.log({ showNotes, shouldNotShow: showNotes === "false" });
+  const toggleNotes = () => {
+    dispatch(toggleNotesBar());
+  };
 
   const [fetchedNotes, setFetchedNotes] = useState<Note[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const show = searchParams.get("show-notes");
 
   useEffect(() => {
     const fetchNotes = async () => {
       try {
         setLoading(true);
         let querySnapshot;
-  
+
         if (type === "all") {
           querySnapshot = await getDocs(collection(db, "notes"));
         } else if (type === "favourites") {
           // Use the `query` function to construct the query
-          const q = query(collection(db, "notes"), where("type", "==", "favourite"));
+          const q = query(
+            collection(db, "notes"),
+            where("type", "==", "favourite")
+          );
           querySnapshot = await getDocs(q);
         } else if (type === "archived") {
           // Use the `query` function to construct the query
-          const q = query(collection(db, "notes"), where("type", "==", "archived"));
+          const q = query(
+            collection(db, "notes"),
+            where("type", "==", "archived")
+          );
           querySnapshot = await getDocs(q);
         } else if (type === "deleted") {
           // Use the `query` function to construct the query
-          const q = query(collection(db, "notes"), where("type", "==", "deleted"));
+          const q = query(
+            collection(db, "notes"),
+            where("type", "==", "deleted")
+          );
           querySnapshot = await getDocs(q);
         }
-  
+
         if (querySnapshot) {
-          const notesData = querySnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-          }) as Note);
+          const notesData = querySnapshot.docs.map(
+            (doc) =>
+              ({
+                id: doc.id,
+                ...doc.data(),
+              } as Note)
+          );
           setFetchedNotes(notesData);
         } else {
           console.log(`No notes found for type: ${type}`);
@@ -67,19 +92,16 @@ export default function Notes({ notes, path, type }: Props) {
         setLoading(false);
       }
     };
-  
+
     fetchNotes();
   }, [type]);
-  
-
-  console.log("hello", fetchedNotes);
 
   return (
     <div
       className={clsx(
-        "flex-1 overflow-auto",
-        showNotes === "false"
-          ? "translate-y-full fixed md:relative md:translate-y-[1px] w-full z-[100] md:w-auto"
+        "flex-1 overflow-auto h-full transition-all duration-200 z-[100]",
+        !showNotes
+          ? "translate-y-full fixed md:static md:translate-y-[0px] w-full md:w-auto"
           : "relative"
       )}
     >
@@ -90,14 +112,24 @@ export default function Notes({ notes, path, type }: Props) {
         )}
       >
         <header className="flex items-center gap-[5px] mb-[24px]">
-          <h1 className="text-[24px] font-bold">{type == "all" ? "All Notes" : type == "favourites" ? "Favourite Notes" : type == "archived" ? "Archived Notes" : type == "deleted" ? "Recently Deleted Notes" : "Notes"}</h1>
+          <h1 className="text-[24px] font-bold">
+            {type == "all"
+              ? "All Notes"
+              : type == "favourites"
+              ? "Favourite Notes"
+              : type == "archived"
+              ? "Archived Notes"
+              : type == "deleted"
+              ? "Recently Deleted Notes"
+              : "Notes"}
+          </h1>
           <ExpandMoreIcon />
-          <Link
-            href={`${pathname}?show-notes=false`}
-            className="ml-auto md:hidden"
-          >
-            <IconButton icon={XClose} title="hide notes" />
-          </Link>
+          <IconButton
+            icon={XClose}
+            title="hide notes"
+            onClick={() => toggleNotes()}
+            className="ml-auto"
+          />
         </header>
         <div className="space-y-2">
           {loading ? (
@@ -107,8 +139,9 @@ export default function Notes({ notes, path, type }: Props) {
           ) : fetchedNotes.length ? (
             fetchedNotes.map((note, i) => (
               <NavLink
-                href={`${path}/${note.id}?show-notes=false`}
+                href={`${path}${note.id}`}
                 key={(note.date + i.toString()).toString()}
+                onClick={() => toggleNotes()}
               >
                 {({ isActive }) => (
                   <NoteWrapper

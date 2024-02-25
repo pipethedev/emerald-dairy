@@ -1,18 +1,34 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import {
+  AnchorHTMLAttributes,
+  DetailedHTMLProps,
+  LinkHTMLAttributes,
+  MouseEventHandler,
+  PropsWithChildren,
+  useEffect,
+  useState,
+} from "react";
 import { usePathname } from "next/navigation";
+import { Interface } from "readline";
 
-export default function NavLink({
-  href,
-  className,
-  children,
-}: {
+// interface Props
+//   extends DetailedHTMLProps<
+//     AnchorHTMLAttributes<HTMLAnchorElement>,
+//     HTMLAnchorElement
+//   > {
+//   href: string;
+//   children({ isActive }: { isActive: boolean }): React.ReactNode;
+// }
+
+interface Props {
   href: string;
-  className?: string;
   children({ isActive }: { isActive: boolean }): React.ReactNode;
-}) {
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
+}
+
+export default function NavLink({ href, children, onClick }: Props) {
   const [isActive, setIsActive] = useState(false);
   const pathname = usePathname();
 
@@ -26,7 +42,7 @@ export default function NavLink({
   }, [href, pathname]);
 
   return (
-    <Link href={href} className={className}>
+    <Link onClick={(e) => onClick?.(e)} href={href}>
       {children({ isActive })}
     </Link>
   );

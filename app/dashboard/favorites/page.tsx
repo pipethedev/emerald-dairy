@@ -1,4 +1,4 @@
-import { FavouriteNotesHeader } from "@/app/components/dashboard/favourites";
+import NotesHeader from "@/app/components/dashboard/NotesHeader";
 import { SearchBar } from "@/app/components/global";
 import { AddIcon, ExpandMoreIcon } from "@/app/components/svgs";
 import clsx from "clsx";
@@ -16,7 +16,7 @@ const paragraphs = Array(4)
 export default function Favorites() {
   return (
     <main className="flex h-full [&::-webkit-slider-thumb]:!bg-blue-500 flex-col overflow-auto">
-      <FavouriteNotesHeader />
+      <NotesHeader />
       <div className="w-[95%] md:w-[80%] flex-1 overflow-auto [&::-webkit-slider-thumb]:!bg-blue-500 mx-auto pt-8">
         {/* <H1 className="text-4xl">{"Prayer as an Anchor"}</H1> */}
         <div className="w-[70%] h-16 bg-gray-300" />

@@ -24,9 +24,7 @@ import { IconButton, Overlay } from "../global";
 import Media from "react-media";
 import { ModalContext } from "@/context";
 
-
 export default function DashboardSideNavigation() {
-
   const { triggerModal, closeModal } = useContext(ModalContext);
   const pathname = usePathname();
 
@@ -46,17 +44,20 @@ export default function DashboardSideNavigation() {
       return;
     }
     toggleNav(false);
-  }, [pathname, smallScreen]);
+  }, [pathname, smallScreen, toggleNav]);
 
   useEffect(() => {
-    const currentUser = typeof window !== 'undefined' ? localStorage.getItem("currentUser") : null;
+    const currentUser =
+      typeof window !== "undefined"
+        ? localStorage.getItem("currentUser")
+        : null;
     console.log(currentUser);
-  
-    if(currentUser == null){ 
-      location.href ='/signin'
-    }
-  }, []);
 
+    // NOTE:COMEBACK
+    // if(currentUser == null){
+    //   location.href ='/signin'
+    // }
+  }, []);
 
   const NavOverlay = () => {
     return (
@@ -77,7 +78,8 @@ export default function DashboardSideNavigation() {
           console.log({ smallScreen, matchesSmall: matches.small });
           if (matches.small !== smallScreen) {
             // console.log("CHANGED!");
-            // setSmallScreen(matches.small && true);
+            // NOTE: Yeah, I know this throws dirty warnings, but just let it be for now. It works, so we should prolly let it be until a better solution pops up.
+            setSmallScreen(matches.small && true);
           }
           return (
             <div

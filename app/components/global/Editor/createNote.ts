@@ -29,7 +29,7 @@ const createNoteWithImage = async (
 
     // Add the note to the Firestore database
     const docRef = await addDoc(collection(db, "notes"), {
-      id: uuidV4(),
+      // id: uuidV4(),
       title: title,
       content: content,
       timestamp: Timestamp.fromDate(new Date()),

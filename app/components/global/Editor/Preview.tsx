@@ -70,7 +70,7 @@ export default function Preview({
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Note Title"
-        className="text-4xl md:text-6xl"
+        className="text-4xl md:text-6xl !bg-transparent"
       />
       {content.map((item, i) =>
         item.type === "heading" ? (
