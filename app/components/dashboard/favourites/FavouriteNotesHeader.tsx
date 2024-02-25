@@ -73,8 +73,8 @@ export default function FavouriteNotesHeader() {
   };
 
   const archive = () => {
-    alert('archived')
-  }
+    alert("archived");
+  };
 
   const [noteId, setNoteId] = useState<string | null>(null);
 
@@ -83,7 +83,7 @@ export default function FavouriteNotesHeader() {
     const pathname = window.location.pathname;
 
     // Split the pathname by '/' to get an array of path segments
-    const parts = pathname.split('/');
+    const parts = pathname.split("/");
 
     // Get the last part of the pathname
     const lastPart = parts[parts.length - 1];
@@ -92,22 +92,22 @@ export default function FavouriteNotesHeader() {
     setNoteId(lastPart);
   }, []);
 
-  console.log("noteId", noteId)
+  console.log("noteId", noteId);
 
   const addOrUpdateTag = async (noteId: any, type: any) => {
     try {
       const noteRef = doc(db, "notes", noteId); // Reference to the note document
-  
+
       // Get the document snapshot
       const docSnap = await getDoc(noteRef);
-  
+
       // Check if the note document exists
       if (docSnap.exists()) {
         // If the tag field already exists, update it
         // Otherwise, add the tag field to the document
         if (docSnap.data().type) {
           await updateDoc(noteRef, {
-            type: type
+            type: type,
           });
         } else {
           await setDoc(noteRef, { type: type }, { merge: true });
@@ -129,40 +129,44 @@ export default function FavouriteNotesHeader() {
     let modalContent = null;
 
     if (activeModal === "this") {
-      modalContent = <p>This is the content for the 'This' icon.</p>;
+      modalContent = <p>{`This is the content for the 'This' icon.`}</p>;
     } else if (activeModal === "that") {
-      modalContent = <div>This is the content for the 'That' icon. 
-        <p onClick={() => addOrUpdateTag(noteId, 'archived')}>Archive Note</p>
-      <p onClick={() => addOrUpdateTag(noteId, 'deleted')}>Delete</p>
-      <p onClick={() => addOrUpdateTag(noteId, 'favourite')}>Add to Favourites</p>
-      </div>;
+      modalContent = (
+        <div>
+          {`This is the content for the 'That' icon.`}
+          <p onClick={() => addOrUpdateTag(noteId, "archived")}>Archive Note</p>
+          <p onClick={() => addOrUpdateTag(noteId, "deleted")}>Delete</p>
+          <p onClick={() => addOrUpdateTag(noteId, "favourite")}>
+            Add to Favourites
+          </p>
+        </div>
+      );
     } else if (activeModal === "those") {
-      modalContent = <p>This is the content for the 'Those' icon.</p>;
+      modalContent = <p>{`This is the content for the 'Those' icon.`}</p>;
     }
 
     return (
       <div
-      className={clsx(
-        "fixed top-50 right-0 ml-1/2 -translate-x-1/2",
-        open ? "visible" : "hidden",
-        "z-50"
-      )}
-      onClick={onClose}
-    >
-      <div className="bg-white p-8 rounded-lg">
-        <h2 className="text-xl font-bold mb-4">Custom Modal</h2>
-        {modalContent}
-        <button
-          className="bg-blue-500 text-white px-4 py-2 mt-4 rounded-lg"
-          onClick={onClose}
-        >
-          Close
-        </button>
+        className={clsx(
+          "fixed top-50 right-0 ml-1/2 -translate-x-1/2",
+          open ? "visible" : "hidden",
+          "z-50"
+        )}
+        onClick={onClose}
+      >
+        <div className="bg-white p-8 rounded-lg">
+          <h2 className="text-xl font-bold mb-4">Custom Modal</h2>
+          {modalContent}
+          <button
+            className="bg-blue-500 text-white px-4 py-2 mt-4 rounded-lg"
+            onClick={onClose}
+          >
+            Close
+          </button>
+        </div>
       </div>
-    </div>
     );
   };
-
 
   return (
     <header className="w-full overflow-auto">
