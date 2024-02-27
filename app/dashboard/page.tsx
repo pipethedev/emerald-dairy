@@ -31,7 +31,7 @@ export default function Dashboard() {
             <CreateNoteLink />
           </header>
           {/* ALL NOTES - SHOULD BE MOVED TO A SEPARATE COMPONENTS SOON */}
-          <Notes path="/dashboard" />
+          <Notes type="all" path="/dashboard/all-notes/" />
         </div>
         <div className="flex flex-col overflow-auto">
           <header className="h-[72px] shrink-0 border-b-[1px] border-b-[#F2F2F2]"></header>

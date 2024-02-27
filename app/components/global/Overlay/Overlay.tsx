@@ -11,7 +11,7 @@ export default function Overlay({
   show,
   className,
 }: OverlayProps) {
-  const overlayStyles = `fixed h-screen w-screen bg-primary/20 z-10 ${
+  const overlayStyles = `fixed h-screen w-screen bg-primary/20 z-20 ${
     disableOnClick && "cursor-pointer"
   } top-0 left-0 flex items-center justify-center backdrop-blur-sm` as React.HTMLAttributes<HTMLDivElement>["className"];
 

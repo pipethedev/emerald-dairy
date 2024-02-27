@@ -23,6 +23,8 @@ import { useContext, useEffect, useState } from "react";
 import { IconButton, Overlay } from "../global";
 import Media from "react-media";
 import { ModalContext } from "@/context";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/app/config/firebase";
 
 export default function DashboardSideNavigation() {
   const { triggerModal, closeModal } = useContext(ModalContext);
@@ -70,6 +72,51 @@ export default function DashboardSideNavigation() {
     );
   };
 
+  const hi = () =>{ alert("hello")} 
+  const [fetchedFolder, setFetchedFolders] = useState<any>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchFolders = async () => {
+      try {
+        setLoading(true);
+        let querySnapshot;
+  
+      
+          querySnapshot = await getDocs(collection(db, "folders"));
+  
+  
+        if (querySnapshot) {
+          const notesData = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }) as Note);
+          setFetchedFolders(notesData);
+
+          console.log(notesData)
+        } else {
+          console.log(`No favourites found`);
+        }
+      } catch (error) {
+        console.error("Error fetching notes:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchFolders();
+  }, []);
+
+  const [selectedFolder, setSelectedFolder] = useState('');
+
+  // Function to handle click event
+  const handleFolderClick = (folder: any) => {
+    // Set the selected folder to localStorage
+    localStorage.setItem('selectedFolder', folder);
+    // Update the state
+    setSelectedFolder(folder);
+  };
+
   return (
     <>
       {smallScreen && <NavOverlay />}
@@ -104,7 +151,7 @@ export default function DashboardSideNavigation() {
                 <IconButton
                   onClick={() =>
                     triggerModal({
-                      children: <div className="">yooo</div>,
+                      children: <div className="" onClick={hi}>yooo</div>,
                       cancel: () => closeModal,
                     })
                   }
@@ -277,30 +324,15 @@ export default function DashboardSideNavigation() {
                             leaveTo="opacity-0"
                           >
                             <Disclosure.Panel className="flex flex-col w-fit cursor-pointer pt-[5px]">
+                            {fetchedFolder.map((item: any, index: any) => (
+                              <Link key={index} href={`/dashboard/folder?folder=${item.folder}`} onClick={() => handleFolderClick(item.folder)}>
                               <div className="active:scale-95 transition-all duration-300 p-[12px] flex items-center gap-[8px]">
-                                <FolderOutlineIcon />
-                                <p className="text-[#808084] text-[12px]">
-                                  2021
-                                </p>
+                                <FolderOutlineIcon className="w-6 h-6" />
+                                <p className="text-[#808084] text-[12px]">{item.folder}</p>
                               </div>
-                              <div className="active:scale-95 transition-all duration-300 p-[12px] flex items-center gap-[8px]">
-                                <FolderOutlineIcon />
-                                <p className="text-[#808084] text-[12px]">
-                                  2022
-                                </p>
-                              </div>
-                              <div className="active:scale-95 transition-all duration-300 p-[12px] flex items-center gap-[8px]">
-                                <FolderOutlineIcon />
-                                <p className="text-[#808084] text-[12px]">
-                                  2023
-                                </p>
-                              </div>
-                              <div className="active:scale-95 transition-all duration-300 p-[12px] flex items-center gap-[8px]">
-                                <FolderOutlineIcon />
-                                <p className="text-[#808084] text-[12px]">
-                                  2024
-                                </p>
-                              </div>
+                            </Link> 
+                            ))}
+      
                             </Disclosure.Panel>
                           </Transition>
                         </>

@@ -5,8 +5,9 @@ import clsx from "clsx";
 import { IconButton } from "..";
 import { useContext } from "react";
 import { ModalContext } from "@/context";
-import { TrashIcon } from "../../svgs";
+import { File7Icon, TrashIcon } from "../../svgs";
 import Image from "next/image";
+import Link from "next/link";
 
 type Props = {
   title: string;
@@ -94,6 +95,19 @@ export default function Preview({
               {item.value as string}
             </p>
           </div>
+        ) : item.type === "link" ? (
+          <div key={i} className="relative group">
+            <DeleteContent item={item} />
+            <Link
+              href={item.value as string}
+              className={clsx(
+                "outline-none text-xl border-none font-bold placeholder:text-gray-300 overflow-hidden w-full text-wrap text-blue-900 rounded-md p-1",
+                "group-hover:outline-primary group-hover:outline group-hover:!bg-body group-hover:outline-1"
+              )}
+            >
+              {item.value as string}
+            </Link>
+          </div>
         ) : item.type === "image" ? (
           <div key={i} className="relative">
             <DeleteContent item={item} />
@@ -104,6 +118,21 @@ export default function Preview({
               height={720}
               className="w-full h-60 rounded-xl object-cover bg-gray-400"
             />
+          </div>
+        ) : item.type === "video" ? (
+          <div key={i} className="relative">
+            <DeleteContent item={item} />
+            <video
+              src={item.preview as string}
+              width={720}
+              height={720}
+              controls
+              className="w-full h-60 rounded-xl object-cover bg-gray-400"
+            />
+          </div>
+        ) : item.type === "file" ? (
+          <div className="w-24 h-24">
+            <File7Icon className="w-full h-full" />
           </div>
         ) : item.type === "check" && typeof item.value !== "string" ? (
           <div key={i} className="relative group">

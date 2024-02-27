@@ -8,6 +8,8 @@ interface Note {
   label?: any;
   favourite?: boolean;
   className?: string;
+  folder?: string;
+  type?: string;
 }
 
 const Note = (params: Note) => {

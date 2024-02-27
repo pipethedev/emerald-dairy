@@ -61,6 +61,11 @@ const Editor = () => {
     setNewContent({ type: "paragraph", value: "", saved: false });
   };
 
+  const addLink = () => {
+    saveProgress();
+    setNewContent({ type: "link", value: "", saved: false });
+  };
+
   const addCheck = () => {
     saveProgress();
     setNewContent({
@@ -92,6 +97,18 @@ const Editor = () => {
     saveProgress();
     console.log({ preview, data });
     setNewContent({ value: data as any, type: "video", preview, saved: false });
+  };
+
+  const addFile = ({
+    preview,
+    data,
+  }: {
+    preview?: string | ArrayBuffer | null;
+    data: File | null;
+  }) => {
+    saveProgress();
+    console.log({ preview, data });
+    setNewContent({ value: data as any, type: "file", preview, saved: false });
   };
 
   const inputCacheDependencyArray = () => {
@@ -171,8 +188,9 @@ const Editor = () => {
       );
 
       // Reset form fields after successful note creation
-      setTitle("");
-      setContent([]);
+      // COMEBACK
+      // setTitle("");
+      // setContent([]);
     } catch (error) {
       console.error("Error creating note: ", error);
       // Handle error if needed
@@ -182,9 +200,13 @@ const Editor = () => {
   };
 
   useEffect(() => {
+    const filteredContent = content.filter(
+      (data) => data.type !== "video" && data.type !== "file"
+    );
+
     const timeout = setTimeout(() => {
       addItemToLocalStorage({
-        item: JSON.stringify({ content, title }),
+        item: JSON.stringify({ content: filteredContent, title }),
         name: "content",
       });
     }, 2000);
@@ -225,13 +247,17 @@ const Editor = () => {
       altIcon: <ImageInput getImage={addImage} />,
     },
 
-    { name: "add link", icon: Link1Icon, action: addText },
+    { name: "add link", icon: Link1Icon, action: addLink },
     {
       name: "add video",
       icon: Image3Icon,
       altIcon: <VideoInput getVideo={addVideo} />,
     },
-    { name: "another value", icon: File7Icon, action: addText },
+    {
+      name: "another value",
+      icon: File7Icon,
+      altIcon: <FileInput getFile={addFile} />,
+    },
     { name: "add check", icon: CheckCircleIcon, action: addCheck },
   ];
 
@@ -264,12 +290,12 @@ const Editor = () => {
           ref={editorRef}
           className="flex-1 flex w-full overflow-auto relative"
         >
-          <div className="z-50">
+          <div className="z-10">
             <div className="mx-auto mt-8 w-fit">
               <Toolbar containerRef={editorRef} tools={tools} />
             </div>
           </div>
-          <div className="space-y-4 w-full">
+          <div className="space-y-4 w-full pb-4">
             <article className="w-[95%] space-y-6 pt-8 mx-auto">
               <Preview
                 content={content}
@@ -280,7 +306,12 @@ const Editor = () => {
               />
               <Edit newContent={newContent} setNewContent={setNewContent} />
             </article>
-            <Button onClick={() => saveProgress()}>Save progress</Button>
+            <Button
+              onClick={() => saveProgress()}
+              className="mx-auto w-[95%] md:w-fit"
+            >
+              Save progress
+            </Button>
           </div>
         </div>
       </div>
@@ -388,6 +419,59 @@ function VideoInput({ getVideo }: VideoInputProps) {
           readURI(video, value);
           console.log({ value: target.value });
           return setVideo(video);
+        }}
+      />
+    </>
+  );
+}
+
+type FileInputProps = {
+  getFile(params: {
+    preview?: string | ArrayBuffer | null;
+    data: File | null;
+  }): void;
+};
+
+function FileInput({ getFile }: FileInputProps) {
+  const [file, setFile] = useState("");
+
+  const readURI = (file: Blob, value: File | null) => {
+    if (file) {
+      let reader = new FileReader();
+      reader.onload = function (ev: ProgressEvent<FileReader>) {
+        getFile({
+          preview: ev.target?.result,
+          // data: ev.target?.result as string,
+          data: value,
+        });
+      };
+      return reader.readAsDataURL(file);
+    }
+  };
+  return (
+    <>
+      <label htmlFor="file" className="bg-red-400">
+        <File7Icon className="w-6 h-6 stroke-primary" />
+      </label>
+      <input
+        type="file"
+        id="file"
+        accept="file/pdf,file/doc,file/docx,file/txt,file/*"
+        hidden
+        multiple={false}
+        onInput={(e) => {
+          const target = e.target as HTMLInputElement;
+          const value = target.files ? target.files[0] : null;
+
+          console.log("VIDEO_FILE", { value });
+
+          // @ts-ignore TODO
+          //TODO COMEBACK ADD_TYPES
+          const file = Object.values<any>(target.files)[0];
+
+          readURI(file, value);
+          console.log({ value: target.value });
+          return setFile(file);
         }}
       />
     </>

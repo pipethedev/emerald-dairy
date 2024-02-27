@@ -7,6 +7,7 @@ import {
   EditIcon,
   Expand4Icon,
   FolderIcon,
+  FolderOutlineIcon,
   Hearts,
   HorizontalDots,
   MessageChatCircleIcon,
@@ -19,7 +20,14 @@ import {
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "@/app/config/firebase";
 import { toggleNotesBar } from "@/store/slices/notesbar";
 import { useAppDispatch } from "@/hooks/store";
@@ -124,6 +132,68 @@ export default function NotesHeader() {
     }
   };
 
+  const moveToFolder = async (noteId: any, type: any) => {
+    try {
+      const noteRef = doc(db, "notes", noteId); // Reference to the note document
+
+      // Get the document snapshot
+      const docSnap = await getDoc(noteRef);
+
+      // Check if the note document exists
+      if (docSnap.exists()) {
+        // If the tag field already exists, update it
+        // Otherwise, add the tag field to the document
+        if (docSnap.data().folder) {
+          await updateDoc(noteRef, {
+            folder: type,
+          });
+        } else {
+          await setDoc(noteRef, { folder: type }, { merge: true });
+        }
+        console.log("Tag added/updated successfully");
+      } else {
+        console.log("Note document does not exist");
+      }
+    } catch (error) {
+      console.error("Error adding/updating tag:", error);
+    }
+  };
+
+  const [fetchedFolder, setFetchedFolders] = useState<any>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchFolders = async () => {
+      try {
+        setLoading(true);
+        let querySnapshot;
+
+        querySnapshot = await getDocs(collection(db, "folders"));
+
+        if (querySnapshot) {
+          const notesData = querySnapshot.docs.map(
+            (doc) =>
+              ({
+                id: doc.id,
+                ...doc.data(),
+              } as Note)
+          );
+          setFetchedFolders(notesData);
+
+          console.log(notesData);
+        } else {
+          console.log(`No favourites found`);
+        }
+      } catch (error) {
+        console.error("Error fetching notes:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFolders();
+  }, []);
+
   // Custom Modal Component
   const CustomModal: React.FC<{ open: boolean; onClose: () => void }> = ({
     open,
@@ -132,7 +202,21 @@ export default function NotesHeader() {
     let modalContent = null;
 
     if (activeModal === "this") {
-      modalContent = <p>{`This is the content for the 'This' icon.`}</p>;
+      modalContent = (
+        <div>
+          <h2 className="text-xl font-bold mb-4">{`Move note to Folder`}</h2>
+          {fetchedFolder.map((item: any, index: any) => (
+            <div
+              key={Math.random()}
+              className="active:scale-95 transition-all duration-300 p-[12px] flex items-center gap-[8px]"
+              onClick={() => moveToFolder(noteId, item.folder)}
+            >
+              <FolderOutlineIcon className="w-6 h-6" />
+              <p className="text-[#808084] text-[12px]">{item.folder}</p>
+            </div>
+          ))}
+        </div>
+      );
     } else if (activeModal === "that") {
       modalContent = (
         <div>
@@ -158,7 +242,6 @@ export default function NotesHeader() {
         onClick={onClose}
       >
         <div className="bg-white p-8 rounded-lg">
-          <h2 className="text-xl font-bold mb-4">Custom Modal</h2>
           {modalContent}
           <button
             className="bg-blue-500 text-white px-4 py-2 mt-4 rounded-lg"

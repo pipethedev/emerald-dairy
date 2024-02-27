@@ -27,7 +27,7 @@ interface SideNavigationLink {
 }
 
 interface Content {
-  type: "heading" | "image" | "paragraph" | "video" | "file" | "check";
+  type: "heading" | "image" | "paragraph" | "video" | "file" | "check" | "link";
   value: string | { checked: boolean; label: string }; //other image types
 }
 

@@ -22,11 +22,12 @@ import { toggleNotesBar } from "@/store/slices/notesbar";
 
 type Props = {
   notes?: Note[];
+  folder?: any;
   path: string;
   type?: "all" | "favourites" | "archived" | "deleted" | "notes";
 };
 
-export default function Notes({ notes, path, type }: Props) {
+export default function Notes({ notes, path, type, folder }: Props) {
   const notesRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -73,7 +74,14 @@ export default function Notes({ notes, path, type }: Props) {
           );
           querySnapshot = await getDocs(q);
         }
-
+        else if (folder) {
+          // Use the `query` function to construct the query
+          const q = query(
+            collection(db, "notes"),
+            where("folder", "==", folder)
+          );
+          querySnapshot = await getDocs(q);
+        }
         if (querySnapshot) {
           const notesData = querySnapshot.docs.map(
             (doc) =>
@@ -99,10 +107,8 @@ export default function Notes({ notes, path, type }: Props) {
   return (
     <div
       className={clsx(
-        "flex-1 overflow-auto h-full transition-all duration-200 z-[100]",
-        !showNotes
-          ? "translate-y-full fixed md:static md:translate-y-[0px] w-full md:w-auto"
-          : "relative"
+        "flex-1 overflow-auto h-full w-full md:w-auto fixed md:static transition-all duration-200 z-[100] rounded-t-xl mt-4",
+        !showNotes && "translate-y-full md:translate-y-[0px]  md:w-auto"
       )}
     >
       <div
@@ -116,11 +122,11 @@ export default function Notes({ notes, path, type }: Props) {
             {type == "all"
               ? "All Notes"
               : type == "favourites"
-              ? "Favourite Notes"
+              ? "Favourites"
               : type == "archived"
-              ? "Archived Notes"
+              ? "Archived"
               : type == "deleted"
-              ? "Recently Deleted Notes"
+              ? "Recently Deleted"
               : "Notes"}
           </h1>
           <ExpandMoreIcon />

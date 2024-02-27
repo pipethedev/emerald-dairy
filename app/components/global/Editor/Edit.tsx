@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { IconButton } from "..";
-import { TrashIcon } from "../../svgs";
+import { File7Icon, TrashIcon } from "../../svgs";
 import Image from "next/image";
 import { ImagePreview } from "./Editor";
 import TextArea from "./TextArea";
@@ -60,6 +60,24 @@ export default function Edit({ newContent, setNewContent }: Props) {
               )}
               // placeholder="enter text"
             />
+          ) : newContent?.type === "link" ? (
+            <TextArea
+              // ref={paragraphInputRef}
+              autoFocus
+              onChange={(e) =>
+                setNewContent((prev) => {
+                  if (!prev) return undefined;
+                  return {
+                    ...prev,
+                    value: e.target.value,
+                  };
+                })
+              }
+              value={newContent?.value as string}
+              // contentEditable
+              className={clsx("text-xl !text-blue-900")}
+              // placeholder="enter text"
+            />
           ) : newContent?.type === "image" ? (
             <Image
               src={newContent.preview as string}
@@ -76,6 +94,10 @@ export default function Edit({ newContent, setNewContent }: Props) {
               controls
               className="w-full h-60 rounded-xl object-cover bg-gray-400"
             />
+          ) : newContent?.type === "file" ? (
+            <div className="w-24 h-24">
+              <File7Icon className="w-full h-full" />
+            </div>
           ) : newContent?.type === "check" &&
             typeof newContent.value !== "string" ? (
             <label className="flex gap-2" htmlFor="check">
