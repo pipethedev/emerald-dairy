@@ -28,12 +28,13 @@ import {
   getItemFromLocalStorage,
   removeItemFromLocalStorage,
 } from "@/utils/helpers";
-import { createNoteWithImage } from "./createNote";
+// import { createNoteWithImage } from "./createNote";
 import { ModalContext } from "@/context";
 import Preview from "./Preview";
 import Edit from "./Edit";
 import { motion } from "framer-motion";
 import Spinner from "../Spinner/Spinner";
+import { createNoteWithImage } from "@/controllers/note";
 
 export type ImagePreview = string | ArrayBuffer | null | undefined;
 

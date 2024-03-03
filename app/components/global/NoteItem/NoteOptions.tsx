@@ -15,40 +15,59 @@ import {
   TrashIcon,
   User3Icon,
 } from "../../svgs";
+import { deleteNote } from "@/controllers/note";
+import { ComponentProps } from "react";
 
-const options = [
+const options: ComponentProps<typeof DropdownMenu>["menuItems"][number][] = [
   {
-    href: "favourite",
     icon: <HeartsOutlineIcon className="!stroke-primary" />,
     label: "add to favourite",
   },
   {
-    href: "appearance",
+    action() {
+      console.log("ACTION");
+      deleteNote("");
+    },
     icon: <SearchIcon className="!stroke-primary" />,
     label: "search note",
   },
   {
-    href: "security",
+    action() {
+      console.log("ACTION");
+      deleteNote("");
+    },
     icon: <FolderDownLoadIcon className="!stroke-primary rotate-90" />,
     label: "move to folder",
   },
   {
-    href: "tag",
+    action() {
+      console.log("ACTION");
+      deleteNote("");
+    },
     icon: <TagIcon className="!stroke-primary" />,
     label: "add tag",
   },
   {
-    href: "logout",
+    action() {
+      console.log("ACTION");
+      deleteNote("");
+    },
     icon: <InfoCircleIcon className="!stroke-primary" />,
     label: "note info",
   },
   {
-    href: "logout",
+    action() {
+      console.log("ACTION");
+      deleteNote("");
+    },
     icon: <ArchiveIcon className="!stroke-primary" />,
     label: "archive note",
   },
   {
-    href: "logout",
+    action(id: string, okay) {
+      console.log("ACTION");
+      deleteNote("");
+    },
     icon: <TrashIcon className="!stroke-red-400" />,
     label: "delete note",
   },

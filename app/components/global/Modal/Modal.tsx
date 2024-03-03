@@ -11,11 +11,13 @@ import Button from "../../button";
 import clsx from "clsx";
 import { H2 } from "@/utils/typography";
 import Media from "react-media";
+import { useAppDispatch, useAppSelector } from "@/hooks/store";
+import { closeModal, triggerModal } from "@/store/slices/modal";
+import { IconButton } from "..";
 
 export default function Modal() {
   const {
     showModal,
-    triggerModal,
     modalMessage,
     actionConfirm,
     actionCancel,
@@ -23,7 +25,13 @@ export default function Modal() {
     icon,
     type,
     children,
-  } = useContext(ModalContext);
+  } = useAppSelector((state) => state.modal);
+
+  const dispatch = useAppDispatch();
+
+  const cancel = () => {
+    actionCancel ? actionCancel() : dispatch(closeModal());
+  };
 
   const Icon = icon as React.FC<React.SVGProps<SVGElement>>;
 
@@ -41,17 +49,9 @@ export default function Modal() {
         <>
           {/* {showModal && ( */}
           <ClientOnlyPortal selector={"#modal"}>
-            {/* <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className={`fixed ${
-                !showModal && "hidden"
-              }  top-0 left-0 z-[999] flex items-center justify-center w-full h-full`}
-            > */}
             <Overlay
               show={showModal}
-              handleShowOverlay={actionCancel}
+              handleShowOverlay={() => cancel}
               disableOnClick={disableOnClick}
               className="z-[999]"
             />
@@ -97,18 +97,17 @@ export default function Modal() {
                         const offset = info.offset.y;
 
                         if (offset > 100) {
-                          actionCancel?.()();
+                          cancel();
                         }
                       }}
                     >
                       <div className="absolute z-[999] cursor-pointer right-1 top-1">
-                        <button
+                        <IconButton
+                          icon={XClose}
                           onClick={() => {
-                            actionCancel?.()();
+                            cancel();
                           }}
-                        >
-                          <XClose />
-                        </button>
+                        />
                       </div>
                       <div className="p-2 h-full pt-6 pb-4 flex flex-col">
                         {children ? (
@@ -137,10 +136,10 @@ export default function Modal() {
                             <div className="overflow-auto overscroll-none space-y-4 flex-1 pb-4">
                               <div>
                                 <div className="font-bold text-2xl">
-                                  {modalMessage.title}
+                                  {modalMessage?.title}
                                 </div>
                                 <div className={"break-word"}>
-                                  {modalMessage.text}
+                                  {modalMessage?.text}
                                 </div>
                               </div>
                             </div>
@@ -154,8 +153,7 @@ export default function Modal() {
                           <Button
                             className="border bg-primary/10 !text-primary"
                             onClick={() => {
-                              actionCancel?.();
-                              triggerModal({});
+                              cancel();
                             }}
                           >
                             Cancel

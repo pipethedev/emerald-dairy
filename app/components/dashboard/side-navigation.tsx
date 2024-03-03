@@ -44,6 +44,8 @@ import { ModalContext } from "@/context";
 import AnimateInOut from "../global/AnimateInOut/AnimateInOut";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/app/config/firebase";
+import { triggerModal } from "@/store/slices/modal";
+import { triggerNotification } from "@/store/slices/notification";
 
 const menuItems = [
   {
@@ -69,7 +71,6 @@ const menuItems = [
 ];
 
 export default function DashboardSideNavigation() {
-  const { triggerModal, closeModal } = useContext(ModalContext);
   const pathname = usePathname();
 
   const [smallScreen, setSmallScreen] = useState(false);
@@ -88,6 +89,7 @@ export default function DashboardSideNavigation() {
       toggleNav(true);
       return;
     }
+
     toggleNav(false);
   }, [pathname]);
 
@@ -204,7 +206,16 @@ export default function DashboardSideNavigation() {
                       <HeartsIcon className="stroke-primary" />
                     </figure>
                   </div>
-                  <H4 className="font-bold font-aeonikBold -tracking-[0.16px] text-black">
+                  <H4
+                    onClick={() => {
+                      dispatch(
+                        triggerNotification({
+                          message: "Testing Notification",
+                        })
+                      );
+                    }}
+                    className="font-bold cursor-pointer font-aeonikBold -tracking-[0.16px] text-black"
+                  >
                     <span className="text-[#956E60]">Emerald</span>{" "}
                     <span>Diary</span>
                   </H4>

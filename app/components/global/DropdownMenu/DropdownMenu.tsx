@@ -16,13 +16,15 @@ import { ModalContext } from "@/context";
 import AnimateInOut from "../AnimateInOut/AnimateInOut";
 import clsx from "clsx";
 import { motion } from "framer-motion";
+import { useAppDispatch } from "@/hooks/store";
+import { closeModal, triggerModal } from "@/store/slices/modal";
 
 type MenuItem = {
   icon: React.ReactNode;
   label: string;
-  href: string;
+  href?: string;
   type?: "button" | "link";
-  action?: React.MouseEventHandler<HTMLButtonElement>;
+  action?(...args: any): void;
 };
 
 interface ButtonProps
@@ -53,7 +55,7 @@ export default function DropdownMenu({
   setShow,
   ...menuProps
 }: Props) {
-  const { triggerModal, closeModal } = useContext(ModalContext);
+  const dispatch = useAppDispatch();
 
   const { className: buttonClassName, ...otherButtonProps } = buttonProps;
   const { className, ...otherMenuProps } = menuProps;
@@ -79,14 +81,15 @@ export default function DropdownMenu({
       {buttonWrapper(
         <IconButton
           onClick={(e) => {
-            triggerModal({
-              children: (
-                <div className="h-full_ overflow-auto overscroll-none">
-                  <Menu menuItems={menuItems} />
-                </div>
-              ),
-              cancel: () => closeModal,
-            });
+            dispatch(
+              triggerModal({
+                children: (
+                  <div className="h-full_ overflow-auto overscroll-none">
+                    <Menu menuItems={menuItems} />
+                  </div>
+                ),
+              })
+            );
             // Prevents click event from reaching parent, a link, for instance
             e.stopPropagation();
             e.preventDefault();
@@ -156,19 +159,25 @@ function Menu({ menuItems }: { menuItems: MenuItem[] }) {
         <p className="capitalize">{label}</p>
       </div>
     );
-    return type === "button" ? (
-      <button onClick={action}>
+    return action ? (
+      <div
+        onClick={(e) => {
+          action();
+          e.stopPropagation();
+          e.preventDefault();
+        }}
+      >
         <Item />
-      </button>
+      </div>
     ) : (
-      <Link href={href}>
+      <Link href={(href as string) || ""}>
         <Item />
       </Link>
     );
   };
 
   return (
-    <div className="divide-y-[1px] min-w-60 w-full overflow-clip">
+    <div className="min-w-60 w-full overflow-clip">
       {menuItems.map((item, i) => (
         <MenuItem item={item} key={i} />
       ))}

@@ -27,11 +27,7 @@ export default function Overlay({
       {show &&
         (children ? (
           <motion.div
-            onClick={
-              disableOnClick && handleShowOverlay
-                ? () => handleShowOverlay()()
-                : () => {}
-            }
+            onClick={disableOnClick && handleShowOverlay?.()}
             title={disableOnClick ? "close" : ""}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -42,11 +38,7 @@ export default function Overlay({
           </motion.div>
         ) : (
           <motion.div
-            onClick={
-              disableOnClick && handleShowOverlay
-                ? () => handleShowOverlay()()
-                : () => {}
-            }
+            onClick={disableOnClick && handleShowOverlay?.()}
             title={disableOnClick ? "close" : ""}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

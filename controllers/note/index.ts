@@ -1,8 +1,22 @@
 // noteFunctions.js
+import { HeartsIcon, TrashIcon } from "@/app/components/svgs";
 import { db, storage } from "@/app/config/firebase";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
+import store from "@/store";
+import { triggerModal } from "@/store/slices/modal";
+import { triggerNotification } from "@/store/slices/notification";
+import {
+  collection,
+  addDoc,
+  Timestamp,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 as uuidV4 } from "uuid";
+
+const notify = (props: TriggerNotification) => {
+  store.dispatch(triggerNotification(props));
+};
 
 // Function to create a new note with image in the Firestore database and upload the image to Firebase Storage
 export const createNoteWithImage = async (
@@ -37,5 +51,24 @@ export const createNoteWithImage = async (
     console.log("Document written with ID: ", docRef.id);
   } catch (e) {
     console.error("Error adding document: ", e);
+  }
+};
+
+export const deleteNote = async (id: string) => {
+  try {
+    console.log("DELETE_RUNNING");
+    await deleteDoc(doc(db, "notes", id));
+    notify({
+      message: "Note deleted Successfully",
+      type: "success",
+      icon: TrashIcon,
+    });
+  } catch (error) {
+    console.error("error: ", error);
+    notify({
+      message: "Error Deleting Note",
+      type: "error",
+      icon: TrashIcon,
+    });
   }
 };
