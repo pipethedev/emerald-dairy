@@ -20,9 +20,10 @@ import { Disclosure, Transition } from "@headlessui/react";
 import { useAppDispatch, useAppSelector } from "@/hooks/store";
 import { toggleNavbar } from "@/store/slices/navbar";
 import { useContext, useEffect, useState } from "react";
-import { IconButton, Overlay } from "../global";
+import { Button, IconButton, Overlay, SettingsMenu } from "../global";
 import Media from "react-media";
 import { ModalContext } from "@/context";
+import AnimateInOut from "../global/AnimateInOut/AnimateInOut";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/app/config/firebase";
 
@@ -31,6 +32,7 @@ export default function DashboardSideNavigation() {
   const pathname = usePathname();
 
   const [smallScreen, setSmallScreen] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const showNav = useAppSelector((state) => state.navbar);
   const hideNav = !showNav;
@@ -46,7 +48,7 @@ export default function DashboardSideNavigation() {
       return;
     }
     toggleNav(false);
-  }, [pathname, smallScreen, toggleNav]);
+  }, [pathname]);
 
   useEffect(() => {
     const currentUser =
@@ -67,7 +69,7 @@ export default function DashboardSideNavigation() {
         show={showNav}
         handleShowOverlay={() => () => toggleNav(false)}
         disableOnClick
-        className="z-[999]"
+        className="z-[998]"
       />
     );
   };
@@ -131,7 +133,7 @@ export default function DashboardSideNavigation() {
           return (
             <div
               className={clsx(
-                "w-[255px] fixed md:static z-[1000] bg-body h-screen border-r-[1px] border-r-[#F2F2F2] lg:block_  md:translate-x-0 transition-all duration-150 flex flex-col overflow-auto",
+                "w-[255px] fixed md:static z-[998] bg-body h-screen border-r-[1px] border-r-[#F2F2F2] lg:block_  md:translate-x-0 transition-all duration-150 flex flex-col overflow-y-auto_",
                 hideNav && "-translate-x-full"
               )}
             >
@@ -151,7 +153,19 @@ export default function DashboardSideNavigation() {
                 <IconButton
                   onClick={() =>
                     triggerModal({
-                      children: <div className="" onClick={hi}>yooo</div>,
+                      children: (
+                        <div className="h-full_">
+                          <SettingsMenu />
+                          {/* <Button
+                            full
+                            color="gray"
+                            className="text-black mt-auto"
+                            onClick={() => closeModal()}
+                          >
+                            Cancel
+                          </Button> */}
+                        </div>
+                      ),
                       cancel: () => closeModal,
                     })
                   }
@@ -159,11 +173,36 @@ export default function DashboardSideNavigation() {
                     stroke: "black",
                   }}
                   stroke="!stroke-gray-800"
-                  className="!bg-[#FAFAFA] ml-auto"
+                  className="!bg-[#FAFAFA] ml-auto md:hidden"
                   icon={SettingsIcon}
                 />
+                <div className="hidden md:flex relative  ml-auto">
+                  <IconButton
+                    onClick={() => setShowDropdown((prev) => !prev)}
+                    style={{
+                      stroke: "black",
+                    }}
+                    stroke="!stroke-gray-800"
+                    className="!bg-[#FAFAFA]"
+                    icon={SettingsIcon}
+                  />
+                  <AnimateInOut
+                    show={showDropdown}
+                    initial={{ opacity: 0, translateY: 100 }}
+                    animate={{ opacity: 1, translateY: 0 }}
+                    exit={{ opacity: 0, translateY: 100 }}
+                    className="rounded-xl overflow-clip shadow-xl shadow-primary/20 absolute top-12 left-0 z-[1000] bg-white"
+                  >
+                    <SettingsMenu />
+                  </AnimateInOut>
+                </div>
               </header>
-              <div className="h-[72px] px-[12px] py-[16px] flex items-center gap-[11px] border-b-[1px] border-b-[#F2F2F2]">
+              <div
+                className="h-[72px] px-[12px] py-[16px] flex items-center gap-[11px] border-b-[1px] border-b-[#F2F2F2]"
+                onClick={() => {
+                  if (showDropdown) setShowDropdown(false);
+                }}
+              >
                 <figure>
                   <Image
                     src="/images/bimbo-profile.png"
@@ -182,7 +221,12 @@ export default function DashboardSideNavigation() {
                 </div>
               </div>
               {/* quick links */}
-              <div className="overflow-auto flex-1">
+              <div
+                className="overflow-auto flex-1"
+                onClick={() => {
+                  if (showDropdown) setShowDropdown(false);
+                }}
+              >
                 <div className="relative border-b-[1px] border-b-[#F2F2F2] px-[12px] gap-[12px] py-[8px] overflow-auto">
                   <h1 className="text-[#AE8779] font-black font-aeonikBold -tracking-[0.1px] text-[10px] py-[12px]">
                     QUICK LINKS

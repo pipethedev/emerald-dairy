@@ -5,7 +5,7 @@ import {
   SearchBar,
 } from "@/app/components/global";
 
-export default function ALlNoteLayout({
+export default function FavoritesLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -18,7 +18,7 @@ export default function ALlNoteLayout({
           <SearchBar />
           <CreateNoteLink />
         </header>
-        <Notes type="all" path="/dashboard/all-notes/" />
+        <Notes type="favourites" path="/dashboard/favorites/" />
       </div>
       <main className="flex-1 w-full h-[100vh] overflow-y-auto">
         {children}

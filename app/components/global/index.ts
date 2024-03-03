@@ -13,3 +13,5 @@ export { default as Notification } from "./Notification";
 export { default as Overlay } from "./Overlay";
 export { default as ParamsNav } from "./ParamsNav";
 export { default as SearchBar } from "./SearchBar";
+export { default as SettingsMenu } from "./SettingsMenu";
+export { default as ToggleNotesBarBtn } from "./ToggleNotesBarBtn";

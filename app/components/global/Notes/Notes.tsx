@@ -19,6 +19,7 @@ import {
 import Spinner from "../Spinner/Spinner";
 import { useAppDispatch, useAppSelector } from "@/hooks/store";
 import { toggleNotesBar } from "@/store/slices/notesbar";
+import { NotesLoader } from ".";
 
 type Props = {
   notes?: Note[];
@@ -134,14 +135,15 @@ export default function Notes({ notes, path, type, folder }: Props) {
             icon={XClose}
             title="hide notes"
             onClick={() => toggleNotes()}
-            className="ml-auto"
+            className="ml-auto md:hidden"
           />
         </header>
         <div className="space-y-2">
           {loading ? (
-            <div className="mt-12 flex items-center justify-center">
-              <Spinner />
-            </div>
+            // <div className="mt-12 flex items-center justify-center">
+            //   <Spinner />
+            // </div>
+            <NotesLoader />
           ) : fetchedNotes.length ? (
             fetchedNotes.map((note, i) => (
               <NavLink

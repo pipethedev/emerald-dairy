@@ -37,6 +37,7 @@ const config: Config = {
             opacity: "1",
           },
         },
+
         "slide-up": {
           "0%": {
             transform: "translateY(100%)",
@@ -47,11 +48,20 @@ const config: Config = {
             opacity: "1",
           },
         },
+        loader: {
+          "0%": {
+            opacity: "0.2",
+          },
+          "100%": {
+            opacity: "1",
+          },
+        },
       },
       animation: {
         "fade-in": "fade-in 300ms linear",
         "slide-up": "slide-up 300ms linear forwards",
         "rotate-clockwise": "rotate-clockwise 1s infinite linear",
+        "loader-opacity": "loader 1s ease-in-out alternate infinite",
       },
     },
   },

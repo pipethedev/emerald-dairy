@@ -1,4 +1,10 @@
-import { CreateNoteLink, NavButton, Notes } from "@/app/components/global";
+import {
+  CreateNoteLink,
+  IconButton,
+  NavButton,
+  Notes,
+  ToggleNotesBarBtn,
+} from "@/app/components/global";
 import { Greet } from "@/app/components/global/greet";
 import {
   EditIcon,
@@ -99,6 +105,9 @@ const DashboardMobile = () => {
             <h1 className="text-[24px] font-bold">
               <Greet name="Bimbo" />
             </h1>
+            <div className="w-fit ml-auto">
+              <ToggleNotesBarBtn />
+            </div>
           </div>
           <div className="flex flex-col gap-[24px] flex-wrap">
             <Link href={"/dashboard/create"}>

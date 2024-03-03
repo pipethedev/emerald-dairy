@@ -37,17 +37,31 @@ import Spinner from "../Spinner/Spinner";
 
 export type ImagePreview = string | ArrayBuffer | null | undefined;
 
-const Editor = () => {
+type EditorContent = Content & {
+  preview?: ImagePreview;
+};
+
+type Props = {
+  noteEdit?: {
+    noteContent?: EditorContent[];
+    noteTitle: string;
+  };
+};
+
+const Editor = ({ noteEdit }: Props) => {
   const { triggerModal, closeModal } = useContext(ModalContext);
+
+  useEffect(() => {
+    console.log({ noteEdit });
+  }, []);
+
+  const noteTitle = noteEdit?.noteTitle ?? "";
+  const noteContent = noteEdit?.noteContent ?? [];
 
   const editorRef = useRef<HTMLDivElement>(null);
   const paragraphInputRef = useRef<HTMLDivElement>(null);
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState<
-    (Content & {
-      preview?: ImagePreview;
-    })[]
-  >([]);
+  const [title, setTitle] = useState(noteTitle);
+  const [content, setContent] = useState<EditorContent[]>(noteContent);
   const [loading, setLoading] = useState(false);
   const [newContent, setNewContent] = useState<
     Content & {
@@ -214,6 +228,8 @@ const Editor = () => {
   }, [content.length]);
 
   useEffect(() => {
+    if (noteEdit) return;
+
     let editingData;
 
     const cachedData: any = getItemFromLocalStorage("content");

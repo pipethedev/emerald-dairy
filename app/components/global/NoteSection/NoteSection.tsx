@@ -1,10 +1,10 @@
 import { H1, H2 } from "@/utils/typography";
 import clsx from "clsx";
 import Image from "next/image";
+import Editor from "../Editor/Editor";
 
 export default function NoteSection({ note }: { note: Note }) {
-
-  console.log('this is the note data', note)
+  console.log("this is the note data", note);
   return (
     <article className="w-[95%] space-y-6 pt-8 mx-auto">
       <H1
@@ -14,7 +14,7 @@ export default function NoteSection({ note }: { note: Note }) {
         {note.title}
         {note.id}
       </H1>
-      {/* {note.content?.map((item, i) =>
+      {note.content?.map((item, i) =>
         item.type === "heading" ? (
           <H2
             key={i}
@@ -46,7 +46,7 @@ export default function NoteSection({ note }: { note: Note }) {
             />
           </div>
         ) : null
-      )} */}
+      )}
     </article>
   );
 }

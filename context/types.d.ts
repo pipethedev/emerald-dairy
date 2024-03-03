@@ -5,8 +5,8 @@ type ModalContextType = {
     title: string | React.ReactNode;
     text: string | React.ReactNode;
   };
-  actionConfirm: Function;
-  actionCancel: Function;
+  actionConfirm?: Function;
+  actionCancel?: Function;
   disableOnClick: boolean;
   children?: React.ReactNode;
   type?: "info" | "error" | "warning";

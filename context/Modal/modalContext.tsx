@@ -31,8 +31,8 @@ const ModalContext = createContext<
 
 const initialModalState: ModalContextType = {
   showModal: false,
-  actionConfirm() {},
-  actionCancel() {},
+  // actionConfirm() {},
+  // actionCancel() {},
   modalMessage: { text: "", title: "" },
   disableOnClick: true,
   icon: AlertCircle,

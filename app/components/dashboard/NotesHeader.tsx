@@ -290,12 +290,16 @@ export default function NotesHeader() {
             }}
           />
         </div>
-        <button className="flex items-center gap-2 rounded-lg bg-primary-12 ml-auto py-2 px-3 font-matter font-medium leading-normal text-sm h-[2.5rem]">
-          <figure>
-            <EditIcon className="!stroke-primary" />
-          </figure>
-          <p className="capitalize whitespace-nowrap text-primary">edit note</p>
-        </button>
+        <Link href={`${pathname}?edit=true`}>
+          <button className="flex items-center gap-2 rounded-lg bg-primary-12 ml-auto py-2 px-3 font-matter font-medium leading-normal text-sm h-[2.5rem]">
+            <figure>
+              <EditIcon className="!stroke-primary" />
+            </figure>
+            <p className="capitalize whitespace-nowrap text-primary">
+              edit note
+            </p>
+          </button>
+        </Link>
       </div>
       {/* Render custom modal */}
       <CustomModal open={!!activeModal} onClose={handleModalClose} />

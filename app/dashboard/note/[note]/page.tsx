@@ -19,6 +19,7 @@ export default function NotePage({ params }: Props) {
   const [note, setNote] = useState<Note | null>(null);
 
   const noteId = params.note;
+  const editNote = params.edit === "true" ? true : false;
 
   console.log(noteId);
 

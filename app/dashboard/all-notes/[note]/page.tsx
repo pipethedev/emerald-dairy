@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import { DocumentData } from "firebase/firestore";
 import NotesHeader from "@/app/components/dashboard/NotesHeader";
+import { NoteSectionWrapper } from "@/app/components/global/NoteSection";
 
 type Props = {
   params: {
@@ -21,6 +22,7 @@ type Props = {
 
 export default async function NotePage({ params }: Props) {
   const noteId = params.note;
+  const editNote = params.edit === "true" ? true : false;
 
   let note: Note | undefined;
 
@@ -59,7 +61,9 @@ export default async function NotePage({ params }: Props) {
       <NotesHeader />
       {note && note ? (
         <div className="w-[95%] md:w-[80%] flex-1 overflow-auto [&::-webkit-slider-thumb]:!bg-blue-500 mx-auto pt-8">
-          <NoteSection note={note} />
+          <NoteSectionWrapper note={note}>
+            <NoteSection note={note} />
+          </NoteSectionWrapper>
         </div>
       ) : (
         // Render a message when note is not available

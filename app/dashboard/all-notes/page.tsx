@@ -1,5 +1,10 @@
-"use client";
-import { CreateNoteLink, NavButton, Notes } from "@/app/components/global";
+"use client"
+import {
+  CreateNoteLink,
+  NavButton,
+  Notes,
+  ToggleNotesBarBtn,
+} from "@/app/components/global";
 import { Greet } from "@/app/components/global/greet";
 import {
   EditIcon,
@@ -21,8 +26,6 @@ import { db } from "@/app/config/firebase";
 import clsx from "clsx";
 
 export default function DashboardCreate() {
-  const { triggerModal, closeModal } = useContext(ModalContext);
-
   const [folder, setNewFolder] = useState("");
 
   const createFolder = async (e: any) => {
@@ -53,90 +56,89 @@ export default function DashboardCreate() {
     setFolderClose(true);
   };
 
-
-
   return (
     <>
       <div className="hidden h-full lg:flex flex-row">
         <div className="flex flex-col overflow-auto">
           <header className="h-[72px] shrink-0 border-b-[1px] border-b-[#F2F2F2]"></header>
           {folderClose ? (
-          <div className="p-[56px] flex-1 overflow-auto">
-          
-            <div className="flex items-center gap-[13px] mb-[53px]">
-              <figure className="bg-[#F2F2F2] h-[80px] w-[80px] rounded-full grid place-items-center">
-                <Image
-                  src="/images/sun.png"
-                  draggable={false}
-                  alt="Sun"
-                  width={55}
-                  height={55}
-                />
-              </figure>
-              <h1 className="text-[44px] font-bold">
-                <Greet name="Bimbo" />
-              </h1>
-            </div>
-            <div className="flex gap-[24px] flex-wrap">
-              {/* CREATE-NOTES */}
-              <Link href={`/dashboard/all-notes/create`}>
-                <div className="p-[24px] bg-[#FEF6F4] transition-all duration-200 active:scale-[0.98] rounded-[20px] w-full max-w-[308px]">
-                  <figure className="mb-[50px]">
+            <div className="p-[56px] flex-1 overflow-auto">
+              <div className="flex items-center gap-[13px] mb-[53px]">
+                <figure className="bg-[#F2F2F2] h-[80px] w-[80px] rounded-full grid place-items-center">
+                  <Image
+                    src="/images/sun.png"
+                    draggable={false}
+                    alt="Sun"
+                    width={55}
+                    height={55}
+                  />
+                </figure>
+                <h1 className="text-[44px] font-bold">
+                  <Greet name="Bimbo" />
+                </h1>
+                <div className="w-fit ml-auto">
+                  <ToggleNotesBarBtn />
+                </div>
+              </div>
+              <div className="flex gap-[24px] flex-wrap">
+                {/* CREATE-NOTES */}
+                <Link href={`/dashboard/all-notes/create`}>
+                  <div className="p-[24px] bg-[#FEF6F4] transition-all duration-200 active:scale-[0.98] rounded-[20px] w-full max-w-[308px]">
+                    <figure className="mb-[50px]">
+                      <Image
+                        alt="Docs Icon"
+                        src="/icons/docs-icon.svg"
+                        width={72}
+                        height={72}
+                      />
+                    </figure>
+                    <h1 className="text-[#AE8779] text-[20px] font-bold mb-[5px]">
+                      Create your First note
+                    </h1>
+                    <p>You have no saved notes in your account.</p>
+                  </div>
+                </Link>
+                {/* FOLDER */}
+                <div
+                  className="cursor-pointer animation-all transition-all hover:bg-[#FEF6F4] p-[24px] bg-[#FAFAFA] rounded-[20px] w-full max-w-[308px]"
+                  onClick={handleModalOpen}
+                >
+                  <figure className="mb-[32px]">
                     <Image
-                      alt="Docs Icon"
-                      src="/icons/docs-icon.svg"
-                      width={72}
-                      height={72}
+                      alt="Folder Icon"
+                      src="/icons/folder-icon.svg"
+                      width={90}
+                      height={90}
                     />
                   </figure>
-                  <h1 className="text-[#AE8779] text-[20px] font-bold mb-[5px]">
-                    Create your First note
-                  </h1>
-                  <p>You have no saved notes in your account.</p>
-                </div>
-              </Link>
-              {/* FOLDER */}
-              <div
-                className="cursor-pointer animation-all transition-all hover:bg-[#FEF6F4] p-[24px] bg-[#FAFAFA] rounded-[20px] w-full max-w-[308px]"
-                onClick={handleModalOpen}
-              >
-                <figure className="mb-[32px]">
-                  <Image
-                    alt="Folder Icon"
-                    src="/icons/folder-icon.svg"
-                    width={90}
-                    height={90}
-                  />
-                </figure>
 
-                <h1 className="text-[20px] font-bold mb-[5px]">
-                  Create a Folder
-                </h1>
-                <p className="text-[#808080]">
-                  You have no saved notes in your account.
-                </p>
-              </div>
-              {/* ADD PROFILE PID */}
-              <div className="cursor-pointer animation-all transition-all hover:bg-[#FEF6F4] p-[24px] bg-[#FAFAFA] rounded-[20px] w-full max-w-[308px]">
-                <figure className="mb-[32px]">
-                  <Image
-                    alt="Camera Icon"
-                    src="/icons/camera-icon.svg"
-                    width={90}
-                    height={90}
-                  />
-                </figure>
-                {/*  */}
-                <h1 className="text-[20px] font-bold mb-[5px]">
-                  Add a Profile Picture
-                </h1>
-                <p className="text-[#808080]">
-                  You have no saved notes in your account.
-                </p>
+                  <h1 className="text-[20px] font-bold mb-[5px]">
+                    Create a Folder
+                  </h1>
+                  <p className="text-[#808080]">
+                    You have no saved notes in your account.
+                  </p>
+                </div>
+                {/* ADD PROFILE PID */}
+                <div className="cursor-pointer animation-all transition-all hover:bg-[#FEF6F4] p-[24px] bg-[#FAFAFA] rounded-[20px] w-full max-w-[308px]">
+                  <figure className="mb-[32px]">
+                    <Image
+                      alt="Camera Icon"
+                      src="/icons/camera-icon.svg"
+                      width={90}
+                      height={90}
+                    />
+                  </figure>
+                  {/*  */}
+                  <h1 className="text-[20px] font-bold mb-[5px]">
+                    Add a Profile Picture
+                  </h1>
+                  <p className="text-[#808080]">
+                    You have no saved notes in your account.
+                  </p>
+                </div>
               </div>
             </div>
-
-          </div>
           ) : (
             <div>
               <form onSubmit={createFolder}>
@@ -148,10 +150,10 @@ export default function DashboardCreate() {
                   onChange={(e) => setNewFolder(e.target.value)}
                   required
                 />
-                 <button type="submit">Create Folder</button>
+                <button type="submit">Create Folder</button>
               </form>
             </div>
-            )}
+          )}
         </div>
       </div>
       {/* Mobile */}
@@ -168,7 +170,7 @@ export default function DashboardCreate() {
           <div className="h-[40px] w-[40px] ml-auto rounded-[8px] p-[8px] grid place-items-center bg-[#FAFAFA] transition-all duration-300 active:scale-90">
             <SettingsIcon />
           </div>
-        </header> 
+        </header>
         <div>
           <header className="h-[72px] border-b-[1px] border-b-[#F2F2F2]"></header>
           {folderClose ? (
@@ -204,7 +206,10 @@ export default function DashboardCreate() {
                     <p>You have no saved notes in your account.</p>
                   </div>
                 </div>
-                <div className="px-[24px] py-[34px] bg-[#FAFAFA] rounded-[20px] w-full flex gap-[22px]" onClick={handleModalOpen}>
+                <div
+                  className="px-[24px] py-[34px] bg-[#FAFAFA] rounded-[20px] w-full flex gap-[22px]"
+                  onClick={handleModalOpen}
+                >
                   <figure>
                     <Image
                       alt="Folder Icon"

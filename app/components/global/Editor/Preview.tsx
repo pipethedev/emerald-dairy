@@ -112,7 +112,7 @@ export default function Preview({
           <div key={i} className="relative">
             <DeleteContent item={item} />
             <Image
-              src={item.preview as string}
+              src={(item.preview || item.value) as string}
               alt={item.type}
               width={720}
               height={720}

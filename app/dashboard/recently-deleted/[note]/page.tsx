@@ -1,5 +1,6 @@
 import NotesHeader from "@/app/components/dashboard/NotesHeader";
 import { Button, NoteSection, ParamsNav } from "@/app/components/global";
+import { NoteSectionWrapper } from "@/app/components/global/NoteSection";
 import { DocIcon, EditIcon, TagIcon } from "@/app/components/svgs";
 import { db } from "@/app/config/firebase";
 import { H1, H2 } from "@/utils/typography";
@@ -27,6 +28,7 @@ export default async function NotePage({ params }: Props) {
   // const res = await fetch("");
   // const data = await res.json()
   const noteId = params.note;
+  const editNote = params.edit === "true" ? true : false;
 
   console.log({ noteId, decoded: decodeURI(noteId) });
 
@@ -62,7 +64,9 @@ export default async function NotePage({ params }: Props) {
     <main className="flex h-full [&::-webkit-slider-thumb]:!bg-blue-500 flex-col overflow-auto">
       <NotesHeader />
       <div className="w-[95%] md:w-[80%] flex-1 overflow-auto [&::-webkit-slider-thumb]:!bg-blue-500 mx-auto pt-8">
-        <NoteSection note={note} />
+        <NoteSectionWrapper note={note}>
+          <NoteSection note={note} />
+        </NoteSectionWrapper>
       </div>
     </main>
   );
