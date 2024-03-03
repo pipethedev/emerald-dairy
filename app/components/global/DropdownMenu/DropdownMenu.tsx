@@ -1,0 +1,177 @@
+"use client";
+import Link from "next/link";
+import { IconButton } from "..";
+import {
+  ButtonHTMLAttributes,
+  ComponentProps,
+  DetailedHTMLProps,
+  HTMLAttributes,
+  PropsWithChildren,
+  SVGProps,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { ModalContext } from "@/context";
+import AnimateInOut from "../AnimateInOut/AnimateInOut";
+import clsx from "clsx";
+import { motion } from "framer-motion";
+
+type MenuItem = {
+  icon: React.ReactNode;
+  label: string;
+  href: string;
+  type?: "button" | "link";
+  action?: React.MouseEventHandler<HTMLButtonElement>;
+};
+
+interface ButtonProps
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
+  icon?: React.FC<React.SVGProps<SVGElement>>;
+  stroke?: string;
+}
+
+type Props = PropsWithChildren<
+  ComponentProps<typeof motion.div> & {
+    buttonWrapper?(children: React.ReactNode): React.ReactNode;
+    buttonProps?: ButtonProps;
+    menuItems: MenuItem[];
+    show?: boolean;
+    setShow?: React.Dispatch<React.SetStateAction<boolean>>;
+  }
+>;
+
+export default function DropdownMenu({
+  buttonProps = { className: "", title: "" },
+  buttonWrapper = (children) => <>{children}</>,
+  children,
+  menuItems,
+  show = false,
+  setShow,
+  ...menuProps
+}: Props) {
+  const { triggerModal, closeModal } = useContext(ModalContext);
+
+  const { className: buttonClassName, ...otherButtonProps } = buttonProps;
+  const { className, ...otherMenuProps } = menuProps;
+
+  const [showDropdown, setShowDropdown] = useState(show);
+
+  useEffect(() => {
+    console.log("SHOW_MUTATED", { show });
+    if (show !== undefined) {
+      setShowDropdown(show);
+    }
+  }, [show]);
+
+  useEffect(() => {
+    showDropdown &&
+      window.addEventListener("keydown", (e: KeyboardEvent) => {
+        e.code === "Escape" && setShowDropdown(false);
+      });
+  }, [showDropdown]);
+
+  return (
+    <>
+      {buttonWrapper(
+        <IconButton
+          onClick={(e) => {
+            triggerModal({
+              children: (
+                <div className="h-full_ overflow-auto overscroll-none">
+                  <Menu menuItems={menuItems} />
+                </div>
+              ),
+              cancel: () => closeModal,
+            });
+            // Prevents click event from reaching parent, a link, for instance
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+          style={{
+            stroke: "black",
+          }}
+          stroke="!stroke-gray-800"
+          className={clsx("!bg-[#FAFAFA] ml-auto md:hidden", buttonClassName)}
+          icon={buttonProps?.icon}
+          {...otherButtonProps}
+        >
+          {children ? children : null}
+        </IconButton>
+      )}
+
+      {buttonWrapper(
+        <>
+          <IconButton
+            onClick={(e) => {
+              setShowDropdown((prev) => {
+                setShow?.(!prev);
+                return !prev;
+              });
+              // Prevents click event from reaching parent, a link, for instance
+              e.stopPropagation();
+              e.preventDefault();
+            }}
+            style={{
+              stroke: "black",
+            }}
+            stroke="!stroke-gray-800"
+            className={clsx("!bg-[#FAFAFA] hidden md:flex", buttonClassName)}
+            icon={buttonProps?.icon}
+            {...otherButtonProps}
+          >
+            {children ? children : null}
+          </IconButton>
+          <AnimateInOut
+            show={showDropdown}
+            initial={{ opacity: 0, translateY: 100 }}
+            animate={{ opacity: 1, translateY: 0 }}
+            exit={{ opacity: 0, translateY: 100 }}
+            className={clsx(
+              "rounded-xl overflow-clip shadow-xl shadow-primary/20 absolute top-12 z-[10000] bg-white outline outline-1 outline-primary-3/30",
+              className
+            )}
+            {...otherMenuProps}
+          >
+            <Menu menuItems={menuItems} />
+          </AnimateInOut>
+        </>
+      )}
+    </>
+  );
+}
+
+function Menu({ menuItems }: { menuItems: MenuItem[] }) {
+  const MenuItem = ({
+    item: { href, icon, label, action, type },
+  }: {
+    item: MenuItem;
+  }) => {
+    const Item = () => (
+      <div className="flex gap-3 p-4 items-center hover:bg-primary-13 rounded-md active:bg-primary-10 whitespace-nowrap">
+        {icon}
+        <p className="capitalize">{label}</p>
+      </div>
+    );
+    return type === "button" ? (
+      <button onClick={action}>
+        <Item />
+      </button>
+    ) : (
+      <Link href={href}>
+        <Item />
+      </Link>
+    );
+  };
+
+  return (
+    <div className="divide-y-[1px] min-w-60 w-full overflow-clip">
+      {menuItems.map((item, i) => (
+        <MenuItem item={item} key={i} />
+      ))}
+    </div>
+  );
+}

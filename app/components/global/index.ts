@@ -1,9 +1,10 @@
-export { default as Modal } from "./Modal";
+export { default as Button } from "./Button";
 export { default as ClientOnlyPortal } from "./ClientOnlyPortal";
 export { default as CreateNoteLink } from "./CreateNoteLink";
-export { default as Button } from "./Button";
+export { default as DropdownMenu } from "./DropdownMenu";
 // export { default as Editor } from "./Editor";
 export { default as IconButton } from "./Button/IconButton";
+export { default as Modal } from "./Modal";
 export { default as NavButton } from "./Button/NavButton";
 export { default as NavLink } from "./NavLink";
 export { default as NoteItem } from "./NoteItem";

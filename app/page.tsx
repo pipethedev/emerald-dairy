@@ -16,7 +16,7 @@ const Home = () => {
   }, [router, pathname]);
 
   // Render something (this won't be visible as the user is redirected)
-  return <div>You are not supposed to see this</div>;
+  return <div>You are not supposed to see this!</div>;
 };
 
 export default Home;

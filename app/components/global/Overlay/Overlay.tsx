@@ -18,10 +18,9 @@ export default function Overlay({
   useEffect(() => {
     show &&
       window.addEventListener("keydown", (e: KeyboardEvent) => {
-        console.log("ESCAPE", handleShowOverlay);
-        e.code === "Escape" && handleShowOverlay && handleShowOverlay()();
+        e.code === "Escape" && handleShowOverlay?.()();
       });
-  });
+  }, [show]);
 
   return (
     <AnimatePresence>

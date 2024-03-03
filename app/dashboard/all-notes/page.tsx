@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   CreateNoteLink,
   NavButton,
@@ -158,7 +158,7 @@ export default function DashboardCreate() {
       </div>
       {/* Mobile */}
       <div className="lg:hidden">
-        <header className="h-[72px] border-b-[1px] border-b-[#F2F2F2] px-[12px] py-[14px] flex flex-row items-center gap-[11px]">
+        {/* <header className="h-[72px] border-b-[1px] border-b-[#F2F2F2] px-[12px] py-[14px] flex flex-row items-center gap-[11px]">
           <NavButton />
           <div className="h-[40px] px-[16px] rounded-[10px] gap-[8px] flex-1 w-full bg-[#FAFAFA] flex items-center">
             <SearchIcon />
@@ -170,9 +170,8 @@ export default function DashboardCreate() {
           <div className="h-[40px] w-[40px] ml-auto rounded-[8px] p-[8px] grid place-items-center bg-[#FAFAFA] transition-all duration-300 active:scale-90">
             <SettingsIcon />
           </div>
-        </header>
+        </header> */}
         <div>
-          <header className="h-[72px] border-b-[1px] border-b-[#F2F2F2]"></header>
           {folderClose ? (
             <div className="p-[24px]">
               <div className="flex items-center gap-[13px] mb-[24px]">
@@ -188,6 +187,9 @@ export default function DashboardCreate() {
                 <h1 className="text-[24px] font-bold">
                   <Greet name="Bimbo" />
                 </h1>
+                <div className="ml-auto mr-3">
+                  <ToggleNotesBarBtn />
+                </div>
               </div>
               <div className="flex flex-col gap-[24px] flex-wrap">
                 <div className="px-[24px] py-[34px] bg-[#FEF6F4] rounded-[20px] w-full flex gap-[22px]">

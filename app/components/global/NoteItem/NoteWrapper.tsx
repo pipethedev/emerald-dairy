@@ -89,34 +89,27 @@ export default function NoteWrapper({
         {children}
       </motion.div>
       {isActive && isInView === false && (
-        <AnimateInOut
-          show={isActive && isInView === false}
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0, opacity: 0 }}
+        <Button
+          onClick={(e) => {
+            noteRef.current?.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+          className={clsx(
+            "bg-primary active:scale-90 rounded-xl ml-6_ translate-x-1/2 right-1/2 md:translate-x-0 md:right-auto w-4/5 md:w-60 mx-auto p-3 h-fit !fixed  flex items-center text-white transition-all duration-150 z-[10]",
+            position === "top" ? "top-6" : "bottom-4"
+          )}
         >
-          <Button
-            onClick={(e) => {
-              noteRef.current?.scrollIntoView({
-                behavior: "smooth",
-                block: "center",
-              });
-              e.stopPropagation();
-              e.preventDefault();
-            }}
-            className={clsx(
-              "bg-primary active:scale-90 rounded-xl ml-6_ translate-x-1/2 right-1/2 md:translate-x-0 md:right-auto w-4/5 md:w-60 mx-auto p-3 h-fit !fixed  flex items-center text-white transition-all duration-150 z-[10]",
-              position === "top" ? "top-20" : "bottom-4"
-            )}
+          <p>{title}</p>
+          <figure
+            className={clsx("ml-auto", position === "top" && "rotate-180")}
           >
-            <p>{title}</p>
-            <figure
-              className={clsx("ml-auto", position === "top" && "rotate-180")}
-            >
-              <ExpandMoreIcon className="!stroke-white" />
-            </figure>
-          </Button>
-        </AnimateInOut>
+            <ExpandMoreIcon className="!stroke-white" />
+          </figure>
+        </Button>
       )}
     </>
   );

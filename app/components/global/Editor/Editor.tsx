@@ -286,8 +286,14 @@ const Editor = ({ noteEdit }: Props) => {
         </div>
       </Overlay>
       <div className="flex h-full w-full flex-col">
-        <header className="h-[72px] w-full border-b-[1px] border-b-[#F2F2F2] shrink-0">
-          <div className="w-[95%] h-full flex items-center justify-center mx-auto">
+        <header className="h-[72px] w-full border-b-[1px] border-b-[#F2F2F2] shrink-0 flex">
+          <div className="w-fit ml-auto gap-2 h-full flex items-center justify-center px-3">
+            <Button
+              onClick={() => saveProgress()}
+              className="mx-auto w-fit py-2"
+            >
+              Save progress
+            </Button>
             <motion.button
               onClick={handleSubmit}
               className={clsx(
@@ -304,14 +310,14 @@ const Editor = ({ noteEdit }: Props) => {
 
         <div
           ref={editorRef}
-          className="flex-1 flex w-full overflow-auto relative"
+          className="flex-1 flex flex-col-reverse md:flex-row w-full overflow-auto relative px-1"
         >
           <div className="z-10">
-            <div className="mx-auto mt-8 w-fit">
+            <div className="mx-auto mt-8 w-fit fixed top-[80%] md:static md:top-auto left-0 md:left-auto">
               <Toolbar containerRef={editorRef} tools={tools} />
             </div>
           </div>
-          <div className="space-y-4 w-full pb-4">
+          <div className="space-y-4 w-full pb-4 flex-1">
             <article className="w-[95%] space-y-6 pt-8 mx-auto">
               <Preview
                 content={content}
@@ -324,7 +330,7 @@ const Editor = ({ noteEdit }: Props) => {
             </article>
             <Button
               onClick={() => saveProgress()}
-              className="mx-auto w-[95%] md:w-fit"
+              className="mx-auto hidden md:flex w-[95%] md:w-fit"
             >
               Save progress
             </Button>

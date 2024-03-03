@@ -3,10 +3,7 @@
 @tailwind utilities;
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  /* outline: 0.1px solid red; */
+  @apply m-0 p-0 box-border focus:outline-primary/50 focus:border-primary/50;
 }
 
 *::selection {
@@ -83,8 +80,8 @@ html {
   src: url("../fonts/matter/Matter-SemiBold.ttf") format("truetype");
 }
 
-button:active {
-  @apply scale-95 transition-all duration-200;
+button {
+  @apply active:scale-95 active:transition-all active:duration-200 focus:outline-primary/50;
 }
 
 input[type="number"]::-webkit-inner-spin-button,

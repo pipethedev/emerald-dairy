@@ -20,6 +20,7 @@ import Spinner from "../Spinner/Spinner";
 import { useAppDispatch, useAppSelector } from "@/hooks/store";
 import { toggleNotesBar } from "@/store/slices/notesbar";
 import { NotesLoader } from ".";
+import NoteLoader from "../NoteItem/NoteItemLoader";
 
 type Props = {
   notes?: Note[];
@@ -74,8 +75,7 @@ export default function Notes({ notes, path, type, folder }: Props) {
             where("type", "==", "deleted")
           );
           querySnapshot = await getDocs(q);
-        }
-        else if (folder) {
+        } else if (folder) {
           // Use the `query` function to construct the query
           const q = query(
             collection(db, "notes"),
@@ -108,14 +108,14 @@ export default function Notes({ notes, path, type, folder }: Props) {
   return (
     <div
       className={clsx(
-        "flex-1 overflow-auto h-full w-full md:w-auto fixed md:static transition-all duration-200 z-[100] rounded-t-xl mt-4",
+        "flex-1 overflow-auto h-full w-full md:w-auto fixed md:static transition-all duration-200 z-[100]",
         !showNotes && "translate-y-full md:translate-y-[0px]  md:w-auto"
       )}
     >
       <div
         ref={notesRef}
         className={clsx(
-          "py-[32px] flex flex-col overflow-auto h-full px-[24px] transition-transform duration-300 static bg-body"
+          "py-[32px] flex flex-col overflow-auto h-full px-4 transition-transform duration-300 static bg-body"
         )}
       >
         <header className="flex items-center gap-[5px] mb-[24px]">
@@ -140,10 +140,7 @@ export default function Notes({ notes, path, type, folder }: Props) {
         </header>
         <div className="space-y-2">
           {loading ? (
-            // <div className="mt-12 flex items-center justify-center">
-            //   <Spinner />
-            // </div>
-            <NotesLoader />
+            <NotesLoader variant="list" />
           ) : fetchedNotes.length ? (
             fetchedNotes.map((note, i) => (
               <NavLink

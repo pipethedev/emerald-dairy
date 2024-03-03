@@ -2,12 +2,14 @@ import { H2 } from "@/utils/typography";
 import Button from "../../button";
 import {
   EditIcon,
+  HeartsIcon,
   HeartsOutlineIcon,
   HorizontalDots,
   MoreHorisIcon,
   TagIcon,
 } from "../../svgs";
 import clsx from "clsx";
+import NoteOptions from "./NoteOptions";
 
 export default function NoteItem(
   props: Note & {
@@ -44,7 +46,7 @@ export default function NoteItem(
             {props.subtitle}
           </p>
         </div>
-        <div
+        {/* <div
           className={clsx(
             "h-[28px] w-[28px] rounded-[8px] bg-[#F2F2F2] grid place-items-center",
             props.isActive && "bg-primary-10"
@@ -53,7 +55,8 @@ export default function NoteItem(
           <MoreHorisIcon
             className={clsx(props.isActive && "!stroke-primary")}
           />
-        </div>
+        </div> */}
+        <NoteOptions noteActive={props.isActive} />
       </header>
       <div className="flex gap-[8px]">
         <div
@@ -72,20 +75,22 @@ export default function NoteItem(
             {props.date}
           </p>
         </div>
-        {props.favourite && (
-          <div
-            className={clsx(
-              "h-[28px] px-[8px] rounded-[8px] bg-[#F2F2F2] grid place-items-center",
-              props.isActive && "bg-primary-10"
-            )}
-          >
-            <HeartsOutlineIcon
-              className={clsx(props.isActive && "!stroke-primary")}
+        <div
+          className={clsx(
+            "h-[28px] px-[8px] rounded-[8px] bg-[#F2F2F2] grid place-items-center",
+            props.isActive && "bg-primary-10"
+          )}
+        >
+          {props.favourite ? (
+            <HeartsIcon
+              className={clsx(props.isActive && "!stroke-primary !fill-none")}
             />
-          </div>
-        )}
-
-        <div>fewgrwg</div>
+          ) : (
+            <HeartsOutlineIcon
+              className={clsx(props.isActive && "!stroke-primary !fill-none")}
+            />
+          )}
+        </div>
         <div
           className={clsx(
             "h-[28px] px-[8px] rounded-[8px] bg-[#F2F2F2] flex gap-[8px] items-center",

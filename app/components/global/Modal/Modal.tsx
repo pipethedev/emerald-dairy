@@ -32,7 +32,6 @@ export default function Modal() {
   const [domReady, setDomReady] = useState(false);
 
   useEffect(() => {
-    console.log({ type, icon, Icon: <Icon /> });
     setDomReady(true);
   }, []);
 
@@ -111,7 +110,7 @@ export default function Modal() {
                           <XClose />
                         </button>
                       </div>
-                      <div className="p-2 h-full pt-10 pb-4 flex flex-col">
+                      <div className="p-2 h-full pt-6 pb-4 flex flex-col">
                         {children ? (
                           children
                         ) : (

@@ -36,13 +36,13 @@ export default function Toolbar({ tools, containerRef }: Props) {
       dragConstraints={containerRef}
       // COMEBACK: Add background color to tailwind config
       className={clsx(
-        "h-fit bg-[#FAFAFA] w-fit rounded-lg border-[0.5px] flex items-center justify-center flex-col"
+        "h-fit bg-[#FAFAFA] w-fit rounded-lg border-[0.5px] flex items-center justify-center md:flex-col bottom-0 md:bottom-auto"
       )}
     >
       <div
         className={clsx(
-          "space-y-3 h-[19.5rem] p-2 overflow-hidden transition-all duration-500",
-          mini && "!h-0 py-0"
+          "flex md:flex-col bottom-0 md:bottom-auto gap-3 w-[19.5rem] md:!w-auto md:h-[19.5rem] p-2 overflow-hidden transition-all duration-500",
+          mini && "md:!h-0 !w-0 md:!w-auto py-2 md:py-0 px-0 md:px-2"
         )}
       >
         {tools.map((tool, i) => (
@@ -68,7 +68,7 @@ export default function Toolbar({ tools, containerRef }: Props) {
         <ExpandMoreIcon
           className={clsx(
             "!stroke-primary transition-all duration-200",
-            mini ? "" : "rotate-180"
+            mini ? "-rotate-90 md:-rotate-0" : "rotate-90 md:rotate-180"
           )}
         />
       </IconButton>

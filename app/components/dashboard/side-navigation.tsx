@@ -5,10 +5,14 @@ import {
   FolderIcon,
   FolderOutlineIcon,
   HeartsIcon,
+  Lock4Icon,
+  Logout2Icon,
+  PaletteIcon,
   PlusIcon,
   SearchIcon,
   SettingsIcon,
   TagIcon,
+  User3Icon,
 } from "../svgs";
 import { sideNavigationLinksData } from "@/app/components/dashboard/links";
 import Link from "next/link";
@@ -19,13 +23,50 @@ import VerseOfDay from "./verseOfDay";
 import { Disclosure, Transition } from "@headlessui/react";
 import { useAppDispatch, useAppSelector } from "@/hooks/store";
 import { toggleNavbar } from "@/store/slices/navbar";
-import { useContext, useEffect, useState } from "react";
-import { Button, IconButton, Overlay, SettingsMenu } from "../global";
+import {
+  ComponentProps,
+  DetailedHTMLProps,
+  HTMLAttributes,
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import {
+  Button,
+  DropdownMenu,
+  IconButton,
+  Overlay,
+  SettingsMenu,
+} from "../global";
 import Media from "react-media";
 import { ModalContext } from "@/context";
 import AnimateInOut from "../global/AnimateInOut/AnimateInOut";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/app/config/firebase";
+
+const menuItems = [
+  {
+    href: "profile",
+    icon: <User3Icon className="!stroke-primary" />,
+    label: "update profile",
+  },
+  {
+    href: "appearance",
+    icon: <PaletteIcon className="!stroke-primary" />,
+    label: "appearance",
+  },
+  {
+    href: "security",
+    icon: <Lock4Icon className="!stroke-primary" />,
+    label: "security",
+  },
+  {
+    href: "logout",
+    icon: <Logout2Icon className="!stroke-red-400" />,
+    label: "logout",
+  },
+];
 
 export default function DashboardSideNavigation() {
   const { triggerModal, closeModal } = useContext(ModalContext);
@@ -74,7 +115,9 @@ export default function DashboardSideNavigation() {
     );
   };
 
-  const hi = () =>{ alert("hello")} 
+  const hi = () => {
+    alert("hello");
+  };
   const [fetchedFolder, setFetchedFolders] = useState<any>([]);
   const [loading, setLoading] = useState(false);
 
@@ -83,19 +126,20 @@ export default function DashboardSideNavigation() {
       try {
         setLoading(true);
         let querySnapshot;
-  
-      
-          querySnapshot = await getDocs(collection(db, "folders"));
-  
-  
+
+        querySnapshot = await getDocs(collection(db, "folders"));
+
         if (querySnapshot) {
-          const notesData = querySnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-          }) as Note);
+          const notesData = querySnapshot.docs.map(
+            (doc) =>
+              ({
+                id: doc.id,
+                ...doc.data(),
+              } as Note)
+          );
           setFetchedFolders(notesData);
 
-          console.log(notesData)
+          console.log(notesData);
         } else {
           console.log(`No favourites found`);
         }
@@ -105,19 +149,35 @@ export default function DashboardSideNavigation() {
         setLoading(false);
       }
     };
-  
+
     fetchFolders();
   }, []);
 
-  const [selectedFolder, setSelectedFolder] = useState('');
+  const [selectedFolder, setSelectedFolder] = useState("");
 
   // Function to handle click event
   const handleFolderClick = (folder: any) => {
     // Set the selected folder to localStorage
-    localStorage.setItem('selectedFolder', folder);
+    localStorage.setItem("selectedFolder", folder);
     // Update the state
     setSelectedFolder(folder);
   };
+
+  const AntiDropdownView = ({
+    children,
+    ...divProps
+  }: PropsWithChildren<
+    DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
+  >) => (
+    <div
+      {...divProps}
+      onClick={() => {
+        if (showDropdown) setShowDropdown(false);
+      }}
+    >
+      {children}
+    </div>
+  );
 
   return (
     <>
@@ -137,72 +197,32 @@ export default function DashboardSideNavigation() {
                 hideNav && "-translate-x-full"
               )}
             >
-              <header className="h-[72px] border-b-[1px] border-b-[#F2F2F2] px-[12px] py-[14px] flex flex-row items-center gap-[11px]">
-                <div className="h-[44px] w-[44px] rounded-[8px] p-[10px] grid place-items-center bg-[#FEF6F4]">
-                  <figure>
-                    <HeartsIcon className="stroke-primary" />
-                  </figure>
-                </div>
-                <H4 className="font-bold font-aeonikBold -tracking-[0.16px] text-black">
-                  <span className="text-[#956E60]">Emerald</span>{" "}
-                  <span>Diary</span>
-                </H4>
-                {/* <div className="h-[40px] w-[40px] rounded-[8px] p-[8px] grid place-items-center bg-[#FAFAFA] transition-all duration-300 active:scale-90">
-                  <SettingsIcon />
-                </div> */}
-                <IconButton
-                  onClick={() =>
-                    triggerModal({
-                      children: (
-                        <div className="h-full_">
-                          <SettingsMenu />
-                          {/* <Button
-                            full
-                            color="gray"
-                            className="text-black mt-auto"
-                            onClick={() => closeModal()}
-                          >
-                            Cancel
-                          </Button> */}
-                        </div>
-                      ),
-                      cancel: () => closeModal,
-                    })
-                  }
-                  style={{
-                    stroke: "black",
-                  }}
-                  stroke="!stroke-gray-800"
-                  className="!bg-[#FAFAFA] ml-auto md:hidden"
-                  icon={SettingsIcon}
+              <header className="h-[72px] border-b-[1px] border-b-[#F2F2F2] px-[12px] flex flex-row items-center">
+                <AntiDropdownView className="py-[14px] flex flex-row items-center flex-1">
+                  <div className="h-[44px] w-[44px] rounded-[8px] p-[10px] grid place-items-center bg-[#FEF6F4]">
+                    <figure>
+                      <HeartsIcon className="stroke-primary" />
+                    </figure>
+                  </div>
+                  <H4 className="font-bold font-aeonikBold -tracking-[0.16px] text-black">
+                    <span className="text-[#956E60]">Emerald</span>{" "}
+                    <span>Diary</span>
+                  </H4>
+                </AntiDropdownView>
+                <DropdownMenu
+                  className="left-0"
+                  buttonProps={{ icon: SettingsIcon }}
+                  menuItems={menuItems}
+                  buttonWrapper={(children) => (
+                    <div className="relative w-fit h-fit ml-auto">
+                      {children}
+                    </div>
+                  )}
+                  show={showDropdown}
+                  setShow={setShowDropdown}
                 />
-                <div className="hidden md:flex relative  ml-auto">
-                  <IconButton
-                    onClick={() => setShowDropdown((prev) => !prev)}
-                    style={{
-                      stroke: "black",
-                    }}
-                    stroke="!stroke-gray-800"
-                    className="!bg-[#FAFAFA]"
-                    icon={SettingsIcon}
-                  />
-                  <AnimateInOut
-                    show={showDropdown}
-                    initial={{ opacity: 0, translateY: 100 }}
-                    animate={{ opacity: 1, translateY: 0 }}
-                    exit={{ opacity: 0, translateY: 100 }}
-                    className="rounded-xl overflow-clip shadow-xl shadow-primary/20 absolute top-12 left-0 z-[1000] bg-white"
-                  >
-                    <SettingsMenu />
-                  </AnimateInOut>
-                </div>
               </header>
-              <div
-                className="h-[72px] px-[12px] py-[16px] flex items-center gap-[11px] border-b-[1px] border-b-[#F2F2F2]"
-                onClick={() => {
-                  if (showDropdown) setShowDropdown(false);
-                }}
-              >
+              <AntiDropdownView className="h-[72px] px-[12px] py-[16px] flex items-center gap-[11px] border-b-[1px] border-b-[#F2F2F2]">
                 <figure>
                   <Image
                     src="/images/bimbo-profile.png"
@@ -219,14 +239,9 @@ export default function DashboardSideNavigation() {
                   </h2>
                   <p className="text-[#999999] text-[10px]">bimbo@gmail.com</p>
                 </div>
-              </div>
+              </AntiDropdownView>
               {/* quick links */}
-              <div
-                className="overflow-auto flex-1"
-                onClick={() => {
-                  if (showDropdown) setShowDropdown(false);
-                }}
-              >
+              <AntiDropdownView className="overflow-auto flex-1">
                 <div className="relative border-b-[1px] border-b-[#F2F2F2] px-[12px] gap-[12px] py-[8px] overflow-auto">
                   <h1 className="text-[#AE8779] font-black font-aeonikBold -tracking-[0.1px] text-[10px] py-[12px]">
                     QUICK LINKS
@@ -368,15 +383,20 @@ export default function DashboardSideNavigation() {
                             leaveTo="opacity-0"
                           >
                             <Disclosure.Panel className="flex flex-col w-fit cursor-pointer pt-[5px]">
-                            {fetchedFolder.map((item: any, index: any) => (
-                              <Link key={index} href={`/dashboard/folder?folder=${item.folder}`} onClick={() => handleFolderClick(item.folder)}>
-                              <div className="active:scale-95 transition-all duration-300 p-[12px] flex items-center gap-[8px]">
-                                <FolderOutlineIcon className="w-6 h-6" />
-                                <p className="text-[#808084] text-[12px]">{item.folder}</p>
-                              </div>
-                            </Link> 
-                            ))}
-      
+                              {fetchedFolder.map((item: any, index: any) => (
+                                <Link
+                                  key={index}
+                                  href={`/dashboard/folder?folder=${item.folder}`}
+                                  onClick={() => handleFolderClick(item.folder)}
+                                >
+                                  <div className="active:scale-95 transition-all duration-300 p-[12px] flex items-center gap-[8px]">
+                                    <FolderOutlineIcon className="w-6 h-6" />
+                                    <p className="text-[#808084] text-[12px]">
+                                      {item.folder}
+                                    </p>
+                                  </div>
+                                </Link>
+                              ))}
                             </Disclosure.Panel>
                           </Transition>
                         </>
@@ -384,7 +404,7 @@ export default function DashboardSideNavigation() {
                     </Disclosure>
                   </div>
                 </div>
-              </div>
+              </AntiDropdownView>
               {/* verse of the day */}
               <div className="hidden">
                 <VerseOfDay />
