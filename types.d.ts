@@ -38,7 +38,9 @@ interface Note {
   date: number | string;
   label?: any;
   favourite?: boolean;
-  tag: string;
+  tag?: string;
+  type?: "favourite" | "archived" | "deleted";
+  folder?: string;
   content?: Content[];
 }
 

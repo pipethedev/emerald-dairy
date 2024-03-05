@@ -18,13 +18,17 @@ import clsx from "clsx";
 import { motion } from "framer-motion";
 import { useAppDispatch } from "@/hooks/store";
 import { closeModal, triggerModal } from "@/store/slices/modal";
+import Spinner from "../Spinner/Spinner";
 
 type MenuItem = {
   icon: React.ReactNode;
   label: string;
   href?: string;
   type?: "button" | "link";
-  action?(...args: any): void;
+  action?(
+    options?: { handleLoading: (loadingState: boolean) => void },
+    ...args: any
+  ): void;
 };
 
 interface ButtonProps
@@ -62,6 +66,13 @@ export default function DropdownMenu({
 
   const [showDropdown, setShowDropdown] = useState(show);
 
+  const toggleDropDown = () => {
+    setShowDropdown((prev) => {
+      setShow?.(!prev);
+      return !prev;
+    });
+  };
+
   useEffect(() => {
     console.log("SHOW_MUTATED", { show });
     if (show !== undefined) {
@@ -81,15 +92,17 @@ export default function DropdownMenu({
       {buttonWrapper(
         <IconButton
           onClick={(e) => {
-            dispatch(
-              triggerModal({
-                children: (
-                  <div className="h-full_ overflow-auto overscroll-none">
-                    <Menu menuItems={menuItems} />
-                  </div>
-                ),
-              })
-            );
+            showDropdown
+              ? toggleDropDown()
+              : dispatch(
+                  triggerModal({
+                    children: (
+                      <div className="h-full_ overflow-auto overscroll-none">
+                        <Menu menuItems={menuItems} />
+                      </div>
+                    ),
+                  })
+                );
             // Prevents click event from reaching parent, a link, for instance
             e.stopPropagation();
             e.preventDefault();
@@ -110,10 +123,7 @@ export default function DropdownMenu({
         <>
           <IconButton
             onClick={(e) => {
-              setShowDropdown((prev) => {
-                setShow?.(!prev);
-                return !prev;
-              });
+              toggleDropDown();
               // Prevents click event from reaching parent, a link, for instance
               e.stopPropagation();
               e.preventDefault();
@@ -153,16 +163,23 @@ function Menu({ menuItems }: { menuItems: MenuItem[] }) {
   }: {
     item: MenuItem;
   }) => {
+    const [loading, setLoading] = useState(false);
+
+    const handleLoading = (loadingState: boolean) => setLoading(loadingState);
+
     const Item = () => (
-      <div className="flex gap-3 p-4 items-center hover:bg-primary-13 rounded-md active:bg-primary-10 whitespace-nowrap">
+      <div className="flex gap-3 p-4 cursor-pointer items-center hover:bg-primary-13 rounded-md active:bg-primary-10 whitespace-nowrap">
         {icon}
         <p className="capitalize">{label}</p>
+        <div className="ml-auto">
+          {loading && <Spinner className="!h-[10px] !w-[10px]" size="small" />}
+        </div>
       </div>
     );
     return action ? (
       <div
         onClick={(e) => {
-          action();
+          action({ handleLoading });
           e.stopPropagation();
           e.preventDefault();
         }}

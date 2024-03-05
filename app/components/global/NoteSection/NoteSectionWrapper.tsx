@@ -7,13 +7,13 @@ import Editor from "../Editor/Editor";
 export default function NoteSectionWrapper({
   children,
   note,
-}: PropsWithChildren<{ note: Note }>) {
+}: PropsWithChildren<{ note?: Note | null }>) {
   const params = useSearchParams();
   const edit = params.get("edit") === "true" ? true : false;
 
   return (
     <div>
-      {edit ? (
+      {edit && note ? (
         <Editor
           noteEdit={{
             noteTitle: note?.title,

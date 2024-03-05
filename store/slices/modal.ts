@@ -6,9 +6,9 @@ const initialModalState: ModalState = {
   modalMessage: {
     text: "",
     title: "",
+    icon: AlertCircle,
   },
   disableOnClick: true,
-  icon: AlertCircle,
   type: "info",
 };
 
@@ -24,7 +24,7 @@ const modalSlice = createSlice({
         clickToDisable,
         show,
         type = "info",
-        icon = AlertCircle,
+
         children,
       } = action.payload;
 
@@ -44,7 +44,6 @@ const modalSlice = createSlice({
         children,
         modalMessage: message,
         type,
-        icon,
       };
     },
 

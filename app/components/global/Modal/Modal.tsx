@@ -22,7 +22,6 @@ export default function Modal() {
     actionConfirm,
     actionCancel,
     disableOnClick,
-    icon,
     type,
     children,
   } = useAppSelector((state) => state.modal);
@@ -33,7 +32,7 @@ export default function Modal() {
     actionCancel ? actionCancel() : dispatch(closeModal());
   };
 
-  const Icon = icon as React.FC<React.SVGProps<SVGElement>>;
+  const Icon = modalMessage?.icon as React.FC<React.SVGProps<SVGElement>>;
 
   const modalRef = useRef<HTMLDivElement>();
 
@@ -147,7 +146,7 @@ export default function Modal() {
                         )}
                         <div
                           className={
-                            "flex flex-col md:flex-row-reverse gap-3 md:gap-8 mx-auto w-full justify-around mt-auto"
+                            "flex flex-col-reverse md:flex-row gap-3 md:gap-8 mx-auto w-full justify-around mt-auto"
                           }
                         >
                           <Button

@@ -27,7 +27,7 @@ const config: Config = {
         body: "#FAFAFA",
       },
       keyframes: {
-        "fade-in": {
+        "fade-effect": {
           "0%": {
             transform: "scale(0.9)",
             opacity: "0",
@@ -58,7 +58,7 @@ const config: Config = {
         },
       },
       animation: {
-        "fade-in": "fade-in 300ms linear",
+        "fade-in": "fade-effect 300ms linear",
         "slide-up": "slide-up 300ms linear forwards",
         "rotate-clockwise": "rotate-clockwise 1s infinite linear",
         "loader-opacity": "loader 1s ease-in-out alternate infinite",

@@ -387,7 +387,7 @@ function ImageInput({ getImage }: ImageInputProps) {
           const img = Object.values<any>(target.files)[0];
 
           readURI(img, value);
-          console.log({ value: target.value });
+          console.log({ value });
           return setImage(img);
         }}
       />

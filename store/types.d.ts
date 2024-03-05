@@ -4,13 +4,13 @@ type ModalState = {
   modalMessage?: {
     title: string | React.ReactNode;
     text: string | React.ReactNode;
+    icon?: React.FC<React.SVGProps<SVGElement>>;
   };
   actionConfirm?: Function;
   actionCancel?: Function;
   disableOnClick: boolean;
   children?: React.ReactNode;
   type?: "info" | "error" | "warning" | "success";
-  icon?: React.FC<React.SVGProps<SVGElement>>;
 };
 
 type TriggerModal = {
@@ -20,7 +20,6 @@ type TriggerModal = {
   clickToDisable?: boolean;
   show?: boolean;
   type?: ModalState["type"];
-  icon?: ModalState["icon"];
   children?: ModalState["children"];
 };
 

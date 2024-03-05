@@ -75,6 +75,31 @@ export const checkInView = ({
   };
 };
 
+export const pushSearchParams = (
+  searchParams: string,
+  newParams: {
+    param: string | null;
+    value: string | null;
+  }[]
+) => {
+  const newSearchParams = new URLSearchParams(searchParams);
+  console.log({ newParams });
+  newParams.forEach((item) => {
+    if (!item.value || !item.param) return newSearchParams;
+    newSearchParams.set(item.param, item.value);
+  });
+  console.log({ newSearchParams });
+  return newSearchParams;
+};
+
+// STRING_MUTATIONS
+export function lettersAndNumbersOnly(inputString: string) {
+  // Use a regular expression to remove non-alphanumeric characters
+  if (!inputString) return inputString;
+  const formattedString = inputString.replace(/[^a-zA-Z0-9]/g, "");
+  return formattedString;
+}
+
 // LOCAL_STORAGE
 export const addItemToLocalStorage = ({
   name,

@@ -18,7 +18,7 @@ export default function FavoritesLayout({
           <SearchBar />
           <CreateNoteLink />
         </header>
-        <Notes type="favourites" path="/dashboard/favorites/" />
+        <Notes type="deleted" path="/dashboard/recently-deleted/" />
       </div>
       <main className="flex-1 w-full h-[100vh] overflow-y-auto">
         {children}

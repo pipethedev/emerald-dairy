@@ -3,6 +3,10 @@ import "@/public/styles/globals.css";
 import { Providers } from "@/store/provider";
 import { ModalContextProvider, NotificationContextProvider } from "@/context";
 import { PortalElements } from "./components/global/ClientOnlyPortal";
+import "swiper/css";
+import "swiper/css/scrollbar";
+import "swiper/css/pagination";
+import "swiper/css/autoplay";
 
 const keyword = ["web-app", "pwa", "note-app", "emerald's diary"];
 

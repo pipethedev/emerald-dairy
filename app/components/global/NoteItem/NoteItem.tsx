@@ -56,7 +56,7 @@ export default function NoteItem(
             className={clsx(props.isActive && "!stroke-primary")}
           />
         </div> */}
-        <NoteOptions noteActive={props.isActive} />
+        <NoteOptions noteActive={props.isActive} note={props} />
       </header>
       <div className="flex gap-[8px]">
         <div

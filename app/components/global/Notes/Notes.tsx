@@ -4,7 +4,7 @@ import { IconButton, NavLink, NoteItem } from "..";
 import { ExpandMoreIcon, Info, XClose } from "../../svgs";
 import NoteWrapper from "../NoteItem/NoteWrapper";
 import { notesPreviewData } from "@/data/notes";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import clsx from "clsx";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -21,6 +21,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/store";
 import { toggleNotesBar } from "@/store/slices/notesbar";
 import { NotesLoader } from ".";
 import NoteLoader from "../NoteItem/NoteItemLoader";
+import { lettersAndNumbersOnly } from "@/utils/helpers";
 
 type Props = {
   notes?: Note[];
@@ -33,6 +34,7 @@ export default function Notes({ notes, path, type, folder }: Props) {
   const notesRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const router = useRouter();
 
   const showNotes = useAppSelector((state) => state.notesBar);
   const dispatch = useAppDispatch();
@@ -91,7 +93,23 @@ export default function Notes({ notes, path, type, folder }: Props) {
                 ...doc.data(),
               } as Note)
           );
+
+          console.log({ notesData });
+
           setFetchedNotes(notesData);
+
+          const splitUrl = pathname.split("/");
+
+          // Filter check if path includes noteId
+          const pathId = pathname.split(`${path.replace(/^\/+/, "")}`)[1];
+
+          // If no note is selected, route to the first note in the array of retrieved notes
+          if (
+            path &&
+            !pathId &&
+            lettersAndNumbersOnly(splitUrl[splitUrl.length - 1]) !== "dashboard"
+          )
+            router.push(`${pathname}/${notesData[0].id}`);
         } else {
           console.log(`No notes found for type: ${type}`);
         }
@@ -156,6 +174,7 @@ export default function Notes({ notes, path, type, folder }: Props) {
                     isActive={isActive}
                   >
                     <NoteItem
+                      id={note.id}
                       title={note.title}
                       subtitle={note.subtitle}
                       tag={note.tag}

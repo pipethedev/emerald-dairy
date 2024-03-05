@@ -1,5 +1,10 @@
 // noteFunctions.js
-import { HeartsIcon, TrashIcon } from "@/app/components/svgs";
+import {
+  CheckCircleIcon,
+  HeartsIcon,
+  Info,
+  TrashIcon,
+} from "@/app/components/svgs";
 import { db, storage } from "@/app/config/firebase";
 import store from "@/store";
 import { triggerModal } from "@/store/slices/modal";
@@ -10,6 +15,9 @@ import {
   Timestamp,
   deleteDoc,
   doc,
+  updateDoc,
+  DocumentData,
+  DocumentReference,
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 as uuidV4 } from "uuid";
@@ -54,10 +62,55 @@ export const createNoteWithImage = async (
   }
 };
 
+export const addNoteToFavorite = async (id: string) => {
+  try {
+    console.log("FAVOURITE_NOTE_ID: ", id);
+    await updateDoc(doc(db, "notes", id), {
+      type: "favourite",
+    });
+    notify({
+      message: "Note Added To Favourites Successfully",
+      type: "success",
+      icon: CheckCircleIcon,
+    });
+  } catch (error) {
+    console.error("Error Adding Note To Favourites", error);
+    notify({
+      message: "Operation Failed",
+      type: "error",
+      icon: Info,
+    });
+  }
+};
+
+export const addNoteToArchive = async (id: string) => {
+  try {
+    console.log("FAVOURITE_NOTE_ID: ", id);
+    await updateDoc(doc(db, "notes", id), {
+      type: "archived",
+    });
+    notify({
+      message: "Note Added To Archive Successfully",
+      type: "success",
+      icon: CheckCircleIcon,
+    });
+  } catch (error) {
+    console.error("Error Adding Note To Archive", error);
+    notify({
+      message: "Operation Failed",
+      type: "error",
+      icon: Info,
+    });
+  }
+};
+
 export const deleteNote = async (id: string) => {
   try {
     console.log("DELETE_RUNNING");
-    await deleteDoc(doc(db, "notes", id));
+    // await deleteDoc(doc(db, "notes", id));
+    await updateDoc(doc(db, "notes", id), {
+      type: "deleted",
+    });
     notify({
       message: "Note deleted Successfully",
       type: "success",
@@ -66,7 +119,7 @@ export const deleteNote = async (id: string) => {
   } catch (error) {
     console.error("error: ", error);
     notify({
-      message: "Error Deleting Note",
+      message: `Error Deleting Note ${id}`,
       type: "error",
       icon: TrashIcon,
     });

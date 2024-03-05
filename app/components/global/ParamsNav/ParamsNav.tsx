@@ -1,21 +1,8 @@
 "use client";
+import { pushSearchParams } from "@/utils/helpers";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import React from "react";
-
-const pushSearchParams = (
-  searchParams: string,
-  newParams: {
-    param: string | null;
-    value: string | null;
-  }
-) => {
-  const newSearchParams = new URLSearchParams(searchParams);
-  if (!newParams.value || !newParams.param) return newSearchParams;
-  newSearchParams.set(newParams.param, newParams.value);
-  console.log({ newSearchParams });
-  return newSearchParams;
-};
 
 type Arg = {
   value: string;
@@ -54,10 +41,12 @@ export default function ParamsNav({
             key={i}
             onClick={() =>
               router.push(
-                `${pathname}?${pushSearchParams(searchParams.toString(), {
-                  param: searchParam,
-                  value,
-                })}`
+                `${pathname}?${pushSearchParams(searchParams.toString(), [
+                  {
+                    param: searchParam,
+                    value,
+                  },
+                ])}`
               )
             }
             className={`nav relative after:!bg-gray-600/60 after:h-[2px] cursor-pointer whitespace-nowrap ${indicatorColor} ${

@@ -8,6 +8,8 @@ import { ModalContext } from "@/context";
 import { File7Icon, TrashIcon } from "../../svgs";
 import Image from "next/image";
 import Link from "next/link";
+import { useAppDispatch } from "@/hooks/store";
+import { closeModal, triggerModal } from "@/store/slices/modal";
 
 type Props = {
   title: string;
@@ -40,25 +42,27 @@ export default function Preview({
   setTitle,
   title,
 }: Props) {
-  const { triggerModal, closeModal } = useContext(ModalContext);
+  const dispatch = useAppDispatch();
 
   const DeleteContent = ({ item }: { item: Content }) => (
     <IconButton
       onClick={() => {
-        triggerModal({
-          confirm() {
-            const contentCopy = [...content];
-            contentCopy.splice(contentCopy.indexOf(item), 1);
-            setContent(contentCopy);
-          },
-          cancel: () => closeModal,
-          message: {
-            title: "Confirm Delete",
-            text: "Delete this text? This action cannot be reversed",
-          },
-          icon: TrashIcon,
-          type: "error",
-        });
+        dispatch(
+          triggerModal({
+            confirm() {
+              const contentCopy = [...content];
+              contentCopy.splice(contentCopy.indexOf(item), 1);
+              setContent(contentCopy);
+              dispatch(closeModal());
+            },
+            message: {
+              title: "Confirm Delete",
+              text: "Delete this Item? This action cannot be reversed",
+              icon: TrashIcon,
+            },
+            type: "error",
+          })
+        );
       }}
       icon={TrashIcon}
       className="absolute opacity-0 group-hover:animate-slide-up -right-[2px] -top-4 z-10 !bg-white/50 group-hover:outline-primary group-hover:outline group-hover:!bg-body group-hover:outline-1"
@@ -109,7 +113,7 @@ export default function Preview({
             </Link>
           </div>
         ) : item.type === "image" ? (
-          <div key={i} className="relative">
+          <div key={i} className="relative group">
             <DeleteContent item={item} />
             <Image
               src={(item.preview || item.value) as string}
@@ -120,7 +124,7 @@ export default function Preview({
             />
           </div>
         ) : item.type === "video" ? (
-          <div key={i} className="relative">
+          <div key={i} className="relative group">
             <DeleteContent item={item} />
             <video
               src={item.preview as string}

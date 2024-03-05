@@ -15,7 +15,7 @@ type Props = {
   };
 };
 
-export default function NotePage({ params }: Props) {
+export default function Page({ params }: Props) {
   const [note, setNote] = useState<Note | null>(null);
 
   const noteId = params.note;

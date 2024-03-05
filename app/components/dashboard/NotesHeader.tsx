@@ -31,6 +31,7 @@ import {
 import { db } from "@/app/config/firebase";
 import { toggleNotesBar } from "@/store/slices/notesbar";
 import { useAppDispatch } from "@/hooks/store";
+import NoteOptions from "../global/NoteItem/NoteOptions";
 
 type NavOption = {
   title: string | React.ReactNode | React.FC<React.SVGProps<SVGElement>>;
@@ -62,13 +63,17 @@ const navOptions: NavOption[] = [
     title: MessageChatCircleIcon,
     value: "people",
   },
-  {
-    title: HorizontalDots,
-    value: "others",
-  },
+  // {
+  //   title: HorizontalDots,
+  //   value: "others",
+  // },
 ];
 
-export default function NotesHeader() {
+type Props = {
+  note?: Note;
+};
+
+export default function NotesHeader({ note }: Props) {
   // hooks
   const pathname = usePathname();
   const dispatch = useAppDispatch();
@@ -266,7 +271,7 @@ export default function NotesHeader() {
               dispatch(toggleNotesBar());
             }}
           />
-          <ParamsNav
+          {/* <ParamsNav
             args={navOptions}
             searchParam="view"
             className="gap-2"
@@ -288,10 +293,32 @@ export default function NotesHeader() {
                 </button>
               );
             }}
-          />
+          /> */}
+          <div className="flex w-fit mx-auto items-center gap-2">
+            {navOptions.map(({ title, value }, i) => {
+              const Title = title as React.FC<React.SVGProps<SVGElement>>;
+
+              return (
+                <button
+                  key={value} // Add key prop for each button
+                  className={clsx(
+                    "p-3 w-10 h-10 aspect-square hover:bg-primary-13 rounded-xl flex items-center justify-center"
+                    // isActive &&
+                    //   "outline-primary outline-1 outline bg-primary-13"
+                  )}
+                  onClick={() => handleModalOpen(value)} // Call handleModalOpen on click
+                >
+                  <figure>
+                    {<Title className={clsx("!stroke-primary !w-8")} />}
+                  </figure>
+                </button>
+              );
+            })}
+            <NoteOptions note={note} />
+          </div>
         </div>
-        <Link href={`${pathname}?edit=true`}>
-          <button className="flex items-center gap-2 rounded-lg bg-primary-12 ml-auto py-2 px-3 font-matter font-medium leading-normal text-sm h-[2.5rem]">
+        <Link href={`${pathname}?edit=true`} className="ml-auto">
+          <button className="flex items-center gap-2 rounded-lg bg-primary-12 py-2 px-3 font-matter font-medium leading-normal text-sm h-[2.5rem]">
             <figure>
               <EditIcon className="!stroke-primary" />
             </figure>
