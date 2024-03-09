@@ -11,11 +11,14 @@ export default function NoteSectionWrapper({
   const params = useSearchParams();
   const edit = params.get("edit") === "true" ? true : false;
 
+  console.log("NoteSectionWrapper: ", { note });
+
   return (
     <div>
       {edit && note ? (
         <Editor
           noteEdit={{
+            id: note.id,
             noteTitle: note?.title,
             noteContent: note?.content,
           }}

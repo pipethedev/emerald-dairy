@@ -28,7 +28,7 @@ import {
   setDoc,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "@/app/config/firebase";
+import { db } from "@/lib/firebase/firebase-client";
 import { toggleNotesBar } from "@/store/slices/notesbar";
 import { useAppDispatch } from "@/hooks/store";
 import NoteOptions from "../global/NoteItem/NoteOptions";
@@ -260,7 +260,7 @@ export default function NotesHeader({ note }: Props) {
   };
 
   return (
-    <header className="w-full overflow-auto">
+    <header className="w-full h-[72px] shrink-0 overflow-auto border-b-[1px] border-b-[#F2F2F2]">
       <div className="flex h-full items-center px-2 md:px-0 md:w-[90%] py-2 mx-auto gap-2">
         <div className="flex items-center gap-3">
           <IconButton

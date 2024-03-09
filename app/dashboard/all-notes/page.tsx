@@ -19,10 +19,9 @@ import {
 import { notesPreviewData } from "@/data/notes";
 import Image from "next/image";
 import Link from "next/link";
-import { ModalContext } from "@/context";
 import { useContext, useState } from "react";
 import { Timestamp, addDoc, collection } from "firebase/firestore";
-import { db } from "@/app/config/firebase";
+import { db } from "@/lib/firebase/firebase-client";
 import clsx from "clsx";
 
 export default function DashboardCreate() {

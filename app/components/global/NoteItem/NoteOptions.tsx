@@ -1,3 +1,4 @@
+"use client";
 import clsx from "clsx";
 import { DropdownMenu } from "..";
 import {
@@ -19,10 +20,14 @@ import {
   addNoteToArchive,
   addNoteToFavorite,
   deleteNote,
+  deleteNotePermanently,
 } from "@/controllers/note";
-import { ComponentProps } from "react";
-import { useAppDispatch } from "@/hooks/store";
+import { ComponentProps, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/hooks/store";
 import { closeModal, triggerModal } from "@/store/slices/modal";
+import { usePathname } from "next/navigation";
+import { updateNotes } from "@/store/slices/notes";
+import { executeAction } from "@/lib/utils/helpers";
 
 type Props = {
   noteActive?: boolean;
@@ -31,56 +36,42 @@ type Props = {
 
 export default function NoteOptions({ noteActive, note }: Props) {
   const dispatch = useAppDispatch();
+  const notes = useAppSelector((state) => state.notes);
+  const [showDropdown, setShowDropdown] = useState(false);
 
-  const executeAction = (
-    action: (...args: any) => Promise<void>,
-    {
-      message: { type, ...message },
-      setLoading,
-    }: {
-      message: ModalState["modalMessage"] & {
-        type?: ModalState["type"];
-      };
-      setLoading(status: boolean): void;
-    }
-  ) => {
-    dispatch(
-      triggerModal({
-        message,
-        type,
-        show: true,
-        async confirm() {
-          try {
-            dispatch(closeModal());
-            setLoading(true);
-            await action();
-          } catch (error) {
-            console.error("DELETE ACTION OPTION: ", error);
-          } finally {
-            setLoading(false);
-          }
-        },
-      })
-    );
+  const pathname = usePathname();
+
+  const splitPathName = pathname.split("/");
+  const isDeletePage = splitPathName.includes("recently-deleted");
+
+  const removeNoteFromNotes = () => {
+    dispatch(updateNotes(notes.filter((noteItem) => noteItem.id !== note?.id)));
+    setShowDropdown(false);
   };
 
-  const options: ComponentProps<typeof DropdownMenu>["menuItems"][number][] = [
+  const options: MenuItem[] = [
     {
       action(options) {
-        executeAction(() => addNoteToFavorite(note?.id!), {
-          message: {
-            icon: ArchiveIcon,
-            title: "Add Note to Favourites",
-            text: (
-              <p>
-                Are you sure you want to add{" "}
-                <span className="text-primary font-bold">{note?.title}</span> to
-                Favourites?
-              </p>
-            ),
+        executeAction(
+          async () => {
+            const added = await addNoteToFavorite(note?.id!);
+            if (added) removeNoteFromNotes();
           },
-          setLoading: (status) => options?.handleLoading(status),
-        });
+          {
+            message: {
+              icon: ArchiveIcon,
+              title: "Add Note to Favourites",
+              text: (
+                <p>
+                  Are you sure you want to add{" "}
+                  <span className="text-primary font-bold">{note?.title}</span>{" "}
+                  to Favourites?
+                </p>
+              ),
+            },
+            setLoading: (status) => options?.handleLoading(status),
+          }
+        );
       },
       icon: <HeartsOutlineIcon className="!stroke-primary" />,
       label: "add to favourite",
@@ -119,49 +110,75 @@ export default function NoteOptions({ noteActive, note }: Props) {
     },
     {
       action(options) {
-        executeAction(() => addNoteToArchive(note?.id!), {
-          message: {
-            icon: ArchiveIcon,
-            title: "Archive Note",
-            text: (
-              <p>
-                Are you sure you want to add{" "}
-                <span className="text-primary font-bold">{note?.title}</span> to
-                archive?
-              </p>
-            ),
+        executeAction(
+          async () => {
+            const added = await addNoteToArchive(note?.id!);
+            if (added) removeNoteFromNotes();
           },
-          setLoading: (status) => options?.handleLoading(status),
-        });
+          {
+            message: {
+              icon: ArchiveIcon,
+              title: "Archive Note",
+              text: (
+                <p>
+                  Are you sure you want to add{" "}
+                  <span className="text-primary font-bold">{note?.title}</span>{" "}
+                  to archive?
+                </p>
+              ),
+            },
+            setLoading: (status) => options?.handleLoading(status),
+          }
+        );
       },
       icon: <ArchiveIcon className="!stroke-primary" />,
       label: "archive note",
     },
     {
       action(options) {
-        executeAction(() => deleteNote(note?.id!), {
-          message: {
-            type: "error",
-            icon: TrashIcon,
-            title: "Delete Note",
-            text: (
-              <p>
-                Are you sure you want to delete{" "}
-                <span className="text-primary font-bold">{note?.title}</span>?
-              </p>
-            ),
+        executeAction(
+          async () => {
+            const deleted = isDeletePage
+              ? await deleteNotePermanently(note?.id!)
+              : await deleteNote(note?.id!);
+
+            if (deleted) {
+              removeNoteFromNotes();
+              setShowDropdown(false);
+            }
           },
-          setLoading: (status) => options?.handleLoading(status),
-        });
+          {
+            message: {
+              type: "error",
+              icon: TrashIcon,
+              title: "Delete Note",
+              text: (
+                <p>
+                  Are you sure you want to delete{" "}
+                  <span className="text-primary font-bold">{note?.title}</span>{" "}
+                  {isDeletePage && (
+                    <span className="text-red-400 font-extrabold !uppercase">
+                      permanently
+                    </span>
+                  )}
+                  ?
+                </p>
+              ),
+            },
+            setLoading: (status) => options?.handleLoading(status),
+          }
+        );
       },
       icon: <TrashIcon className="!stroke-red-400" />,
-      label: "delete note",
+      label: isDeletePage ? "delete note permanently" : "delete note",
     },
   ];
 
   return (
     <DropdownMenu
       menuItems={options}
+      show={showDropdown}
+      setShow={setShowDropdown}
       buttonProps={{
         icon: MoreHorisIcon,
         title: "options",

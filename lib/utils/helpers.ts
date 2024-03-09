@@ -1,3 +1,6 @@
+import store from "@/store";
+import { closeModal, triggerModal } from "@/store/slices/modal";
+import { triggerNotification } from "@/store/slices/notification";
 import { RefObject } from "react";
 
 export const checkInView = ({
@@ -118,4 +121,59 @@ export function getItemFromLocalStorage(name: string) {
 export const removeItemFromLocalStorage = (name: string) => {
   console.log("removing");
   return localStorage.clear();
+};
+
+export function dataURLtoFile(dataUrl: string, filename: string) {
+  var arr = dataUrl.split(","),
+    mime = (arr[0].match(/:(.*?);/) || "")[1],
+    bstr = atob(arr[arr.length - 1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new File([u8arr], filename, { type: mime });
+}
+
+const urlRegex: RegExp = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
+export function isURL(input: string): boolean {
+  return urlRegex.test(input);
+}
+
+//! Util
+// COMEBACK: Might move this to a better file
+export const executeAction = (
+  action: (...args: any) => Promise<void>,
+  {
+    message: { type, ...message },
+    setLoading,
+  }: {
+    message: ModalState["modalMessage"] & {
+      type?: ModalState["type"];
+    };
+    setLoading(status: boolean): void;
+  }
+) => {
+  store.dispatch(
+    triggerModal({
+      message,
+      type,
+      show: true,
+      async confirm() {
+        try {
+          store.dispatch(closeModal());
+          setLoading(true);
+          await action();
+        } catch (error) {
+          console.error("OPTION: ", error);
+        } finally {
+          setLoading(false);
+        }
+      },
+    })
+  );
+};
+
+export const notify = (props: TriggerNotification) => {
+  store.dispatch(triggerNotification(props));
 };

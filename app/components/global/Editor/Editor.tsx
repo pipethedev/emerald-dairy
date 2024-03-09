@@ -19,22 +19,27 @@ import {
   useContext,
   FormEventHandler,
 } from "react";
-import { H2 } from "@/utils/typography";
+import { H2 } from "@/lib/utils/typography";
 import Image from "next/image";
 import { Button, IconButton, Overlay } from "..";
 import clsx from "clsx";
 import {
   addItemToLocalStorage,
+  dataURLtoFile,
   getItemFromLocalStorage,
+  isURL,
   removeItemFromLocalStorage,
-} from "@/utils/helpers";
+} from "@/lib/utils/helpers";
 // import { createNoteWithImage } from "./createNote";
-import { ModalContext } from "@/context";
 import Preview from "./Preview";
 import Edit from "./Edit";
 import { motion } from "framer-motion";
 import Spinner from "../Spinner/Spinner";
-import { createNoteWithImage } from "@/controllers/note";
+import {
+  createNoteAsFormData,
+  createNoteWithImage,
+  editNoteAsFormData,
+} from "@/controllers/note";
 
 export type ImagePreview = string | ArrayBuffer | null | undefined;
 
@@ -44,23 +49,24 @@ type EditorContent = Content & {
 
 type Props = {
   noteEdit?: {
+    id?: string;
     noteContent?: EditorContent[];
     noteTitle: string;
   };
 };
 
 const Editor = ({ noteEdit }: Props) => {
-  const { triggerModal, closeModal } = useContext(ModalContext);
-
   useEffect(() => {
     console.log({ noteEdit });
   }, []);
 
   const noteTitle = noteEdit?.noteTitle ?? "";
   const noteContent = noteEdit?.noteContent ?? [];
+  const noteId = noteEdit?.id ?? "";
 
   const editorRef = useRef<HTMLDivElement>(null);
   const paragraphInputRef = useRef<HTMLDivElement>(null);
+  const [id, setId] = useState(noteId);
   const [title, setTitle] = useState(noteTitle);
   const [content, setContent] = useState<EditorContent[]>(noteContent);
   const [loading, setLoading] = useState(false);
@@ -127,15 +133,18 @@ const Editor = ({ noteEdit }: Props) => {
   };
 
   const inputCacheDependencyArray = () => {
+    const cacheContentValue = newContent?.value as CheckValue;
     const checkValue =
-      typeof newContent?.value !== "string" ? newContent?.value.label : "";
+      typeof cacheContentValue !== "string" ? cacheContentValue?.label : "";
     const checkLabel =
-      typeof newContent?.value !== "string" ? newContent?.value.checked : "";
-    return [newContent?.value, checkValue, checkLabel];
+      typeof cacheContentValue !== "string" ? cacheContentValue?.checked : "";
+    return [cacheContentValue, checkValue, checkLabel];
   };
   useEffect(() => {
-    inputCacheDependencyArray;
+    // inputCacheDependencyArray;
     console.log("SAVING");
+
+    //! Save content currently being input To local storage.
     const timeout = setTimeout(() => {
       addItemToLocalStorage({
         item: JSON.stringify(newContent),
@@ -145,20 +154,31 @@ const Editor = ({ noteEdit }: Props) => {
     return () => clearTimeout(timeout);
   }, [inputCacheDependencyArray()]);
 
+  useEffect(() => {
+    //! Save content currently being input To local storage.
+    const timeout = setTimeout(() => {
+      console.log("SAVING INPUT PROGRESS");
+      saveProgress();
+    }, 2000);
+    return () => clearTimeout(timeout);
+  }, [newContent]);
+
   // COMEBACK: check if this is needed
-  const validateNoteData = () => {
-    if (!newContent || !newContent.value) return false;
-    if (newContent.type === "check" && typeof newContent.value !== "string")
-      if (!newContent.value.label) return false;
-    return true;
-  };
+  // const validateNoteData = () => {
+  //   if (!newContent || !newContent.value) return false;
+  //   if (newContent.type === "check" && typeof newContent.value !== "string")
+  //     if (!newContent.value.label) return false;
+  //   return true;
+  // }; NOTE: Not needed, apparently
 
   // COMEBACK: Might make this auto save
   const saveProgress = () => {
     console.log("SAVE: ", { newContent });
     if (!newContent || !newContent.value) return;
-    if (newContent.type === "check" && typeof newContent.value !== "string")
-      if (!newContent.value.label) return;
+    if (newContent.type === "check" && typeof newContent.value !== "string") {
+      const newContentValue = newContent.value as CheckValue;
+      if (!newContentValue.label) return;
+    }
     setContent((prev) => [
       ...prev,
       {
@@ -193,14 +213,30 @@ const Editor = ({ noteEdit }: Props) => {
     try {
       // Call createNote function to add a new note
       // COMEBACK: Add image fle
-      await createNoteWithImage(
-        title,
-        content.map((item) => ({
-          value: item.value as string,
-          type: item.type,
-        })),
-        ""
-      );
+      // await createNoteWithImage(
+      //   title,
+      //   content.map((item) => ({
+      //     value: item.value as string,
+      //     type: item.type,
+      //   })),
+      //   ""
+      // );
+
+      // NOTE: test
+
+      const uploadContent = content.map((item) => ({
+        value: item.value as string,
+        type: item.type,
+      }));
+
+      if (noteEdit) {
+        await editNoteAsFormData(
+          { content: uploadContent, title },
+          noteEdit.id!
+        );
+      } else {
+        await createNoteAsFormData(title, uploadContent);
+      }
 
       // Reset form fields after successful note creation
       // COMEBACK
@@ -215,13 +251,27 @@ const Editor = ({ noteEdit }: Props) => {
   };
 
   useEffect(() => {
-    const filteredContent = content.filter(
-      (data) => data.type !== "video" && data.type !== "file"
-    );
+    const filteredContent = [...content]
+      .filter((item) => item.type !== "video" && item.type !== "file")
+      // .filter((item) => item.type === "image")
+      .map((item) => {
+        if (item.type === "image" || item.type === "video") {
+          if (isURL(item.value as string)) {
+            item.preview = item.value as any;
+            return item;
+          }
+          const value = item.value as File;
+          return { ...item, name: value.name };
+        }
+        return item;
+      });
 
+    console.log({ filteredContent });
+
+    // Save Progress To local storage
     const timeout = setTimeout(() => {
       addItemToLocalStorage({
-        item: JSON.stringify({ content: filteredContent, title }),
+        item: JSON.stringify({ content: filteredContent, title, id }),
         name: "content",
       });
     }, 2000);
@@ -244,8 +294,29 @@ const Editor = ({ noteEdit }: Props) => {
     }
 
     console.log("Cached Data", { data });
-    const { title: cachedTitle, content: cachedContent } = data;
+    const {
+      title: cachedTitle,
+      content: cachedContent,
+      id: cachedId,
+    } = data as {
+      id: string;
+      title: string;
+      content: (EditorContent & { name: string })[];
+    };
+    cachedContent
+      .filter(
+        (content) =>
+          content.type === "image" &&
+          !isURL(content.value as string) &&
+          !isURL(content.preview as string)
+      )
+      .forEach((item) => {
+        const fileObj = dataURLtoFile(item.preview as string, item.name);
+        console.log("DATA_URL_TO_FILE: ", fileObj);
+        item.value = fileObj;
+      });
     console.log({ cachedTitle, cachedContent });
+    setId(cachedId);
     setTitle(cachedTitle);
     setContent(cachedContent);
     setNewContent(editingData);

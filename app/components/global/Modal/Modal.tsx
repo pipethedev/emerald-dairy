@@ -3,13 +3,12 @@
 import { Ref, useRef, useState } from "react";
 import { useContext, useEffect } from "react";
 import Overlay from "../Overlay";
-import { ModalContext } from "@/context";
 import { AnimatePresence, motion } from "framer-motion";
 import ClientOnlyPortal from "../ClientOnlyPortal";
 import { XClose } from "../../svgs";
 import Button from "../../button";
 import clsx from "clsx";
-import { H2 } from "@/utils/typography";
+import { H2 } from "@/lib/utils/typography";
 import Media from "react-media";
 import { useAppDispatch, useAppSelector } from "@/hooks/store";
 import { closeModal, triggerModal } from "@/store/slices/modal";
@@ -146,7 +145,7 @@ export default function Modal() {
                         )}
                         <div
                           className={
-                            "flex flex-col-reverse md:flex-row gap-3 md:gap-8 mx-auto w-full justify-around mt-auto"
+                            "flex flex-col-reverse md:flex-row gap-3 md:gap-4 mx-auto w-full justify-around mt-auto"
                           }
                         >
                           <Button

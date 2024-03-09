@@ -2,7 +2,7 @@
 import NotesHeader from "@/app/components/dashboard/NotesHeader";
 import { Button, ParamsNav } from "@/app/components/global";
 import { DocIcon, EditIcon, TagIcon } from "@/app/components/svgs";
-import { H1 } from "@/utils/typography";
+import { H1 } from "@/lib/utils/typography";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { db } from "../../../config/firebase"; // Adjust the path if necessary
@@ -50,7 +50,6 @@ export default function Page({ params }: Props) {
 
   return (
     <main className="flex h-full [&::-webkit-slider-thumb]:!bg-blue-500 flex-col overflow-auto">
-      <NotesHeader />
       <div className="w-[95%] md:w-[80%] flex-1 overflow-auto [&::-webkit-slider-thumb]:!bg-blue-500 mx-auto pt-8">
         <H1 className="text-4xl">{note?.title}</H1>
         {/* <p>{note?.content}</p> */}

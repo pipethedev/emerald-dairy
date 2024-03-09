@@ -1,10 +1,9 @@
-import { H2 } from "@/utils/typography";
+import { H2 } from "@/lib/utils/typography";
 import { ImagePreview } from "./Editor";
 import TextArea from "./TextArea";
 import clsx from "clsx";
 import { IconButton } from "..";
 import { useContext } from "react";
-import { ModalContext } from "@/context";
 import { File7Icon, TrashIcon } from "../../svgs";
 import Image from "next/image";
 import Link from "next/link";
@@ -146,6 +145,7 @@ export default function Preview({
                 className="mt-1 shrink-0"
                 type="checkbox"
                 id="check"
+                // @ts-ignore COMEBACK
                 checked={item.value.checked}
               />
               <p
@@ -154,6 +154,7 @@ export default function Preview({
                   "group-hover:outline-primary group-hover:outline group-hover:!bg-body group-hover:outline-1"
                 )}
               >
+                {/* @ts-ignore COMEBACK */}
                 {item.value.label}
               </p>
             </div>

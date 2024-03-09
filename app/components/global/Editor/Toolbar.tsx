@@ -3,7 +3,7 @@
 import { IconButton } from "..";
 import { RefObject, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { checkInView } from "@/utils/helpers";
+import { checkInView } from "@/lib/utils/helpers";
 import clsx from "clsx";
 import { ExpandMoreIcon } from "../../svgs";
 

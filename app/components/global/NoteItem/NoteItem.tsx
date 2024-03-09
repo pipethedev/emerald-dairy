@@ -1,4 +1,4 @@
-import { H2 } from "@/utils/typography";
+import { H2 } from "@/lib/utils/typography";
 import Button from "../../button";
 import {
   EditIcon,

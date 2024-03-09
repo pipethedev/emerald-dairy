@@ -1,5 +1,5 @@
 import { NoteSection } from "@/app/components/global";
-import { db } from "@/app/config/firebase";
+import { db } from "@/lib/firebase/firebase-client";
 import {
   collection,
   query,
@@ -59,9 +59,15 @@ export default async function NotePage({ params, searchParams }: Props) {
   return (
     <main className="flex h-full [&::-webkit-slider-thumb]:!bg-blue-500 flex-col overflow-auto">
       <NotesHeader />
-      <NoteSectionWrapper note={note}>
-        <NoteSection note={note} path={headerUrl} searchParams={searchParams} />
-      </NoteSectionWrapper>
+      <div className="flex-1 overflow-auto">
+        <NoteSectionWrapper note={note ? { ...note, id: noteId } : note}>
+          <NoteSection
+            note={note ? { ...note, id: noteId } : note}
+            path={headerUrl}
+            searchParams={searchParams}
+          />
+        </NoteSectionWrapper>
+      </div>
     </main>
   );
 }

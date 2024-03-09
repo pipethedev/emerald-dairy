@@ -115,6 +115,7 @@ export default function Edit({ newContent, setNewContent }: Props) {
                       },
                     });
                 }}
+                // @ts-ignore COMEBACK
                 checked={newContent.value.checked}
               />
               <TextArea
@@ -129,6 +130,7 @@ export default function Edit({ newContent, setNewContent }: Props) {
                       },
                     });
                 }}
+                // @ts-ignore COMEBACK
                 value={newContent.value.label}
               />
             </label>

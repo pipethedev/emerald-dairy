@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { H2, H3, H4, P } from "@/utils/typography";
+import { H2, H3, H4, P } from "@/lib/utils/typography";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { Hearts, Info, MobileHearts, Verse } from "@/app/components/svgs";

@@ -1,5 +1,5 @@
 "use client";
-import { pushSearchParams } from "@/utils/helpers";
+import { pushSearchParams } from "@/lib/utils/helpers";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import React from "react";

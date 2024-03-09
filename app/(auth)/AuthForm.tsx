@@ -3,7 +3,7 @@
 import Button from "@/app/components/button";
 import Input from "@/app/components/input";
 import { Hearts, Info, MobileHearts, Verse } from "@/app/components/svgs";
-import { H2, H3, H4, P } from "@/utils/typography";
+import { H2, H3, H4, P } from "@/lib/utils/typography";
 import { clsx } from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -19,6 +19,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
+import BibleVerseComponent from "@/lib/utils/bibleApi";
 
 interface formData {
   email: string;
@@ -70,13 +71,40 @@ export default function AuthForm({ route = "sign-in" }: Props) {
     try {
       if (route === "sign-in") {
         // HANDLE SIGN-IN LOGIC
-        const userCredential = await signInWithEmailAndPassword(
-          auth,
-          formData?.email,
-          formData?.password
-        );
-        // User signed in successfully
-        const user = userCredential.user;
+        // const userCredential = await signInWithEmailAndPassword(
+        //   auth,
+        //   formData?.email,
+        //   formData?.password
+        // );
+        // // User signed in successfully
+        // const user = userCredential.user;
+        // const idToken = await userCredential.user.getIdToken();
+
+        // const response = await fetch("/api/auth/sign-in", {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify({ idToken }),
+        // });
+        const response = await fetch("/api/auth/sign-in", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          }),
+        });
+
+        const resBody = await response.json();
+
+        const user = resBody.data;
+
+        if (!user) return;
+
+        console.log({ resBody });
 
         // Store user details in local storage
         localStorage.setItem("currentUser", JSON.stringify(user));
@@ -188,6 +216,7 @@ export default function AuthForm({ route = "sign-in" }: Props) {
                 </P>
                 <H4 className="text-#FFFBF9 mt-[9px]">Isaiah 12 : 2</H4>
               </div>
+              {/* <BibleVerseComponent /> */}
             </div>
           </div>
         </div>

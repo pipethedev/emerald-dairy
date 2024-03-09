@@ -18,7 +18,7 @@ import { sideNavigationLinksData } from "@/app/components/dashboard/links";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import { H4, H2, H5 } from "@/utils/typography";
+import { H4, H2, H5 } from "@/lib/utils/typography";
 import VerseOfDay from "./verseOfDay";
 import { Disclosure, Transition } from "@headlessui/react";
 import { useAppDispatch, useAppSelector } from "@/hooks/store";
@@ -40,35 +40,12 @@ import {
   SettingsMenu,
 } from "../global";
 import Media from "react-media";
-import { ModalContext } from "@/context";
 import AnimateInOut from "../global/AnimateInOut/AnimateInOut";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "@/app/config/firebase";
+import { db } from "@/lib/firebase/firebase-client";
 import { triggerModal } from "@/store/slices/modal";
 import { triggerNotification } from "@/store/slices/notification";
-
-const menuItems = [
-  {
-    href: "profile",
-    icon: <User3Icon className="!stroke-primary" />,
-    label: "update profile",
-  },
-  {
-    href: "appearance",
-    icon: <PaletteIcon className="!stroke-primary" />,
-    label: "appearance",
-  },
-  {
-    href: "security",
-    icon: <Lock4Icon className="!stroke-primary" />,
-    label: "security",
-  },
-  {
-    href: "logout",
-    icon: <Logout2Icon className="!stroke-red-400" />,
-    label: "logout",
-  },
-];
+import { signInWithGoogle } from "@/lib/firebase/firebase-auth";
 
 export default function DashboardSideNavigation() {
   const pathname = usePathname();
@@ -207,12 +184,9 @@ export default function DashboardSideNavigation() {
                     </figure>
                   </div>
                   <H4
-                    onClick={() => {
-                      dispatch(
-                        triggerNotification({
-                          message: "Testing Notification",
-                        })
-                      );
+                    onClick={async () => {
+                      const isOk = await signInWithGoogle();
+                      console.log({ isOk });
                     }}
                     className="font-bold cursor-pointer font-aeonikBold -tracking-[0.16px] text-black"
                   >
@@ -220,17 +194,9 @@ export default function DashboardSideNavigation() {
                     <span>Diary</span>
                   </H4>
                 </AntiDropdownView>
-                <DropdownMenu
-                  className="left-0"
-                  buttonProps={{ icon: SettingsIcon }}
-                  menuItems={menuItems}
-                  buttonWrapper={(children) => (
-                    <div className="relative w-fit h-fit ml-auto">
-                      {children}
-                    </div>
-                  )}
-                  show={showDropdown}
-                  setShow={setShowDropdown}
+                <SettingsMenu
+                  setShowDropdown={setShowDropdown}
+                  showDropdown={showDropdown}
                 />
               </header>
               <AntiDropdownView className="h-[72px] px-[12px] py-[16px] flex items-center gap-[11px] border-b-[1px] border-b-[#F2F2F2]">

@@ -1,5 +1,5 @@
 // noteFunctions.js
-import { db, storage } from "@/app/config/firebase";
+import { db, storage } from "@/lib/firebase/firebase-client";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 as uuidV4 } from "uuid";

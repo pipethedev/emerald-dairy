@@ -12,24 +12,12 @@ import {
   useEffect,
   useState,
 } from "react";
-import { ModalContext } from "@/context";
 import AnimateInOut from "../AnimateInOut/AnimateInOut";
 import clsx from "clsx";
 import { motion } from "framer-motion";
 import { useAppDispatch } from "@/hooks/store";
 import { closeModal, triggerModal } from "@/store/slices/modal";
 import Spinner from "../Spinner/Spinner";
-
-type MenuItem = {
-  icon: React.ReactNode;
-  label: string;
-  href?: string;
-  type?: "button" | "link";
-  action?(
-    options?: { handleLoading: (loadingState: boolean) => void },
-    ...args: any
-  ): void;
-};
 
 interface ButtonProps
   extends DetailedHTMLProps<

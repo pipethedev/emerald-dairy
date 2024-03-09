@@ -1,11 +1,11 @@
-import { H1, H2 } from "@/utils/typography";
+import { H1, H2 } from "@/lib/utils/typography";
 import clsx from "clsx";
 import Image from "next/image";
 import Editor from "../Editor/Editor";
 import { NotesLoader } from "../Notes";
 import FullscreenImage from "./FullscreenImage";
 import Link from "next/link";
-import { pushSearchParams } from "@/utils/helpers";
+import { pushSearchParams } from "@/lib/utils/helpers";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { ToggleNotesBarBtn } from "..";
 

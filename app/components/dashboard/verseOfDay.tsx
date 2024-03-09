@@ -1,4 +1,4 @@
-import { H5 } from "@/utils/typography";
+import { H5 } from "@/lib/utils/typography";
 
 interface VerseOfDayProps {
   className?: string;

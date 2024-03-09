@@ -2,8 +2,6 @@
 
 import { useContext, useEffect, useState } from "react";
 
-import { NotificationContext } from "@/context";
-
 import { AnimatePresence, motion } from "framer-motion";
 import Media from "react-media";
 import ClientOnlyPortal from "../ClientOnlyPortal/ClientOnlyPortal";
@@ -87,7 +85,7 @@ export default function Notification() {
   if (domReady) {
     if (typeof window === "object" && typeof window.document === "object") {
       return (
-        <Media queries={{ small: { maxWidth: 640 } }}>
+        <Media queries={{ small: { maxWidth: 768 } }}>
           {(matches) => {
             console.log("NOTIFICATION_SIZE: ", { matches });
             return (

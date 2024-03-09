@@ -12,7 +12,7 @@ import { ExpandMoreIcon } from "../../svgs";
 import { Button } from "..";
 import AnimateInOut from "../AnimateInOut";
 import { motion } from "framer-motion";
-import { checkInView } from "@/utils/helpers";
+import { checkInView } from "@/lib/utils/helpers";
 
 type NoteWrapperProps = PropsWithChildren<{
   isActive: boolean;
@@ -100,7 +100,7 @@ export default function NoteWrapper({
           }}
           className={clsx(
             "bg-primary active:scale-90 rounded-xl ml-6_ translate-x-1/2 right-1/2 md:translate-x-0 md:right-auto w-4/5 md:w-60 mx-auto p-3 h-fit !fixed  flex items-center text-white transition-all duration-150 z-[10]",
-            position === "top" ? "top-6" : "bottom-4"
+            position === "top" ? "top-20" : "bottom-4"
           )}
         >
           <p>{title}</p>

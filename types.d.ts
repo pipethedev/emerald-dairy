@@ -26,9 +26,11 @@ interface SideNavigationLink {
   leading: React.FC<SVGProps<SVGElement>>;
 }
 
+type CheckValue = { checked: boolean; label: string };
+
 interface Content {
   type: "heading" | "image" | "paragraph" | "video" | "file" | "check" | "link";
-  value: string | { checked: boolean; label: string }; //other image types
+  value: File | string | CheckValue; //other image types
 }
 
 interface Note {
@@ -56,3 +58,14 @@ interface notesPreviewData {
   tag: string;
   favourite: boolean;
 }
+
+type MenuItem = {
+  icon: React.ReactNode;
+  label: string;
+  href?: string;
+  type?: "button" | "link";
+  action?(
+    options?: { handleLoading: (loadingState: boolean) => void },
+    ...args: any
+  ): void;
+};

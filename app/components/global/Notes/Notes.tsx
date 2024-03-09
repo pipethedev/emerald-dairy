@@ -21,13 +21,16 @@ import { useAppDispatch, useAppSelector } from "@/hooks/store";
 import { toggleNotesBar } from "@/store/slices/notesbar";
 import { NotesLoader } from ".";
 import NoteLoader from "../NoteItem/NoteItemLoader";
-import { lettersAndNumbersOnly } from "@/utils/helpers";
+import { lettersAndNumbersOnly } from "@/lib/utils/helpers";
+import { fetchNotes } from "@/controllers/note";
+import { useFetchNotesQuery } from "@/store/slices/api";
+import { useNotes } from "@/hooks";
 
 type Props = {
   notes?: Note[];
   folder?: any;
   path: string;
-  type?: "all" | "favourites" | "archived" | "deleted" | "notes";
+  type?: "all" | "favourite" | "archived" | "deleted" | "notes";
 };
 
 export default function Notes({ notes, path, type, folder }: Props) {
@@ -43,91 +46,68 @@ export default function Notes({ notes, path, type, folder }: Props) {
     dispatch(toggleNotesBar());
   };
 
-  const [fetchedNotes, setFetchedNotes] = useState<Note[]>([]);
-  const [loading, setLoading] = useState(false);
+  // const [fetchedNotes, setFetchedNotes] = useState<Note[]>([]);
+  // const [loading, setLoading] = useState(false);
 
   const show = searchParams.get("show-notes");
+  const { fetchedNotes: notesFromHook, loading } = useNotes(type!);
+  const fetchedNotes = useAppSelector((state) => state.notes);
 
   useEffect(() => {
-    const fetchNotes = async () => {
+    console.log("NOTES_DATA: ", { notesFromHook, fetchedNotes });
+    if (!fetchedNotes.length) return;
+    const splitUrl = pathname.split("/");
+
+    // Filter check if path includes noteId
+    const pathId = pathname.split(`${path.replace(/^\/+/, "")}`)[1];
+
+    // If no note is selected, route to the first note in the array of retrieved notes
+    if (
+      path &&
+      !pathId &&
+      lettersAndNumbersOnly(splitUrl[splitUrl.length - 1]) !== "dashboard"
+    )
+      router.push(`${pathname}/${fetchedNotes[0]?.id}`);
+  }, [fetchedNotes]);
+
+  useEffect(() => {
+    async () => {
       try {
-        setLoading(true);
-        let querySnapshot;
+        // setLoading(true);
 
-        if (type === "all") {
-          querySnapshot = await getDocs(collection(db, "notes"));
-        } else if (type === "favourites") {
-          // Use the `query` function to construct the query
-          const q = query(
-            collection(db, "notes"),
-            where("type", "==", "favourite")
-          );
-          querySnapshot = await getDocs(q);
-        } else if (type === "archived") {
-          // Use the `query` function to construct the query
-          const q = query(
-            collection(db, "notes"),
-            where("type", "==", "archived")
-          );
-          querySnapshot = await getDocs(q);
-        } else if (type === "deleted") {
-          // Use the `query` function to construct the query
-          const q = query(
-            collection(db, "notes"),
-            where("type", "==", "deleted")
-          );
-          querySnapshot = await getDocs(q);
-        } else if (folder) {
-          // Use the `query` function to construct the query
-          const q = query(
-            collection(db, "notes"),
-            where("folder", "==", folder)
-          );
-          querySnapshot = await getDocs(q);
-        }
-        if (querySnapshot) {
-          const notesData = querySnapshot.docs.map(
-            (doc) =>
-              ({
-                id: doc.id,
-                ...doc.data(),
-              } as Note)
-          );
+        const notesData = await fetchNotes(type!);
+        if (!notesData) return;
 
-          console.log({ notesData });
+        console.log({ notesData });
 
-          setFetchedNotes(notesData);
+        // setFetchedNotes(notesData);
 
-          const splitUrl = pathname.split("/");
+        const splitUrl = pathname.split("/");
 
-          // Filter check if path includes noteId
-          const pathId = pathname.split(`${path.replace(/^\/+/, "")}`)[1];
+        // Filter check if path includes noteId
+        const pathId = pathname.split(`${path.replace(/^\/+/, "")}`)[1];
 
-          // If no note is selected, route to the first note in the array of retrieved notes
-          if (
-            path &&
-            !pathId &&
-            lettersAndNumbersOnly(splitUrl[splitUrl.length - 1]) !== "dashboard"
-          )
-            router.push(`${pathname}/${notesData[0].id}`);
-        } else {
-          console.log(`No notes found for type: ${type}`);
-        }
+        // If no note is selected, route to the first note in the array of retrieved notes
+        if (
+          path &&
+          !pathId &&
+          lettersAndNumbersOnly(splitUrl[splitUrl.length - 1]) !== "dashboard"
+        )
+          router.push(`${pathname}/${notesData[0].id}`);
       } catch (error) {
         console.error("Error fetching notes:", error);
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     };
-
-    fetchNotes();
   }, [type]);
 
   return (
     <div
       className={clsx(
-        "flex-1 overflow-auto h-full w-full md:w-auto fixed md:static transition-all duration-200 z-[100]",
-        !showNotes && "translate-y-full md:translate-y-[0px]  md:w-auto"
+        "flex-1 overflow-auto h-full w-full mt-16 md:mt-0 md:w-auto fixed md:static transition-all duration-200 z-[100]",
+        !showNotes &&
+          "translate-y-full md:translate-y-[0px] md:-translate-x-full_ md:absolute_ md:w-auto"
       )}
     >
       <div
@@ -140,7 +120,7 @@ export default function Notes({ notes, path, type, folder }: Props) {
           <h1 className="text-[24px] font-bold">
             {type == "all"
               ? "All Notes"
-              : type == "favourites"
+              : type == "favourite"
               ? "Favourites"
               : type == "archived"
               ? "Archived"
