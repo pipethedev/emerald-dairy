@@ -156,6 +156,12 @@ const Editor = ({ noteEdit }: Props) => {
 
   useEffect(() => {
     //! Save content currently being input To local storage.
+    if (
+      newContent?.type !== "image" &&
+      newContent?.type !== "video" &&
+      newContent?.type !== "file"
+    )
+      return;
     const timeout = setTimeout(() => {
       console.log("SAVING INPUT PROGRESS");
       saveProgress();

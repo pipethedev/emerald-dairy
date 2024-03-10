@@ -1,16 +1,18 @@
 import { useFetchFoldersQuery } from "@/store/slices/api";
 import { updateFolders } from "@/store/slices/folders";
 import { useAppDispatch } from "./store";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 export default function useFolders() {
   const { data, isFetching: loading } = useFetchFoldersQuery();
 
-  const fetchedFolders = data?.data || [];
+  // memoize fetched folders
+  const fetchedFolders = useMemo(() => data?.data || [], [data?.data]);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    // Dispatch only when the length of fetchedFolders changes
     dispatch(updateFolders(fetchedFolders));
   }, [fetchedFolders.length, dispatch, fetchedFolders]);
 

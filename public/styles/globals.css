@@ -97,9 +97,8 @@ input[type="checkbox"] {
   @apply w-5 h-5 rounded-md accent-primary checked:text-white checked:bg-primary checked:after:content-['\2714'] relative checked:after:absolute checked:after:inset-0  checked:after:w-full items-center justify-center checked:after:text-white appearance-none border-2 border-gray-500 cursor-pointer checked:hover:bg-primary/70 checked:after:flex checked:after:justify-center checked:after:items-center;
 }
 
-:root {
+/* :root {
   --primary: #4f46e5;
-  /* --body: #eef2ff; */
   --body: #fff;
 }
 
@@ -127,7 +126,7 @@ input[type="checkbox"] {
   --box-shadow-color: var(--primary / 0.1);
   box-shadow: 0 10px 15px -3px var(--box-shadow-color),
     0 4px 6px -4px var(--primary / 0.1);
-}
+} */
 /* 
 .animate-loader-opacity {
   animation: loader-opacity 1s ease-in-out alternate infinite;

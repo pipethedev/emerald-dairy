@@ -6,7 +6,7 @@ export default function ColorTheme() {
 
   useEffect(() => {
     console.log(color);
-    document.documentElement.style.setProperty("--primary", color);
+    // document.documentElement.style.setProperty("--primary", color);
   }, [color]);
 
   return (
