@@ -2,60 +2,56 @@ import { getCurrentUser } from "@/lib/firebase/firebase-admin";
 import { db, storage } from "@/lib/firebase/firebase-client";
 import {
   Timestamp,
+  collection,
   deleteDoc,
   doc,
   getDoc,
+  getDocs,
+  query,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { NextRequest, NextResponse } from "next/server";
 
 type PatchProps = {
   params: {
-    noteId: string;
+    tagId: string;
   };
 };
 
 type PutProps = {
   params: {
-    noteId: string;
+    tagId: string;
   };
 };
 
 type DeleteProps = {
   params: {
-    noteId: string;
+    tagId: string;
   };
 };
 
-const serializeNote = async (note: Note): Promise<Partial<Note>> => {
-  const noteData = {
-    title: note.title,
-    subtitle: note.subtitle,
-    // date: note.date,
-    label: note.label,
-    favourite: note.favourite,
-    tag: note.tag,
-    type: ["favourite", "archived", "deleted"].includes(note.type!)
-      ? note.type
-      : "",
-    folder: note.folder,
-    content: note.content,
+const serializeTag = async (tag: Tag): Promise<Partial<Tag>> => {
+  const tagData: Partial<Tag> = {
+    id: tag.id,
+    name: tag.name,
+    owner: tag.owner,
   };
 
-  const serializedNote: any = {};
+  const serializedTag: any = {};
 
-  Object.entries(noteData).forEach((item) => {
+  Object.entries(tagData).forEach((item) => {
     if (item[1]) {
-      serializedNote[item[0]] = item[1];
+      serializedTag[item[0]] = item[1];
     }
   });
 
-  return serializedNote;
+  return serializedTag;
 };
 
 // NOTE: Well, not so sure, let this be here for a bit
-const NoteTemplate = {
+const TagTemplate = {
   id: new String(),
   title: new String(),
   subtitle: new String(),
@@ -70,7 +66,7 @@ const NoteTemplate = {
 
 export async function PUT(
   request: NextRequest,
-  { params: { noteId } }: PutProps
+  { params: { tagId } }: PutProps
 ) {
   try {
     // const reqBody = await request.json();
@@ -86,7 +82,7 @@ export async function PUT(
     const title = formData.get("title");
     const content = formData.get("content");
 
-    console.log("N0TE_ID: ", noteId);
+    console.log("N0TE_ID: ", tagId);
 
     const contentArray = JSON.parse(content as string) as Content[];
 
@@ -112,21 +108,21 @@ export async function PUT(
 
     await Promise.all(promises);
 
-    const note = {
+    const tag = {
       title,
       content: contentArray,
     };
 
-    await updateDoc(doc(db, "notes", noteId), {
+    await updateDoc(doc(db, "tags", tagId), {
       title,
       content: contentArray,
       timestamp: Timestamp.fromDate(new Date()),
     });
 
-    console.log("CREATED_N0TE", { note });
+    console.log("CREATED_N0TE", { tag });
 
     console.log({ formData, content, contentArray });
-    return NextResponse.json({ success: true, data: "note" });
+    return NextResponse.json({ success: true, data: "tag" });
   } catch (error) {
     console.error("CREATE_N0TE:post ", { error });
     return NextResponse.json({
@@ -137,109 +133,93 @@ export async function PUT(
 
 export async function PATCH(
   request: NextRequest,
-  { params: { noteId } }: PatchProps
+  { params: { tagId } }: PatchProps
 ) {
   try {
     const currentUser = await getCurrentUser();
     console.log({ currentUser });
 
-    let noteData: Note;
+    let tagData: Tag;
 
-    const requestBody = (await request.json()) as Note & {
-      tag: string;
-      folder: string;
-    };
+    const requestBody = (await request.json()) as Tag & { tag: string };
 
     console.log({ requestBody });
 
-    if (!requestBody) throw new Error("Invalid Data");
+    tagData = requestBody;
 
-    noteData = requestBody;
-
-    if (requestBody.tag) {
+    if (requestBody && requestBody.tag) {
       const docSnap = await getDoc(doc(db, "tags", requestBody.tag));
-      const noteTag = docSnap.data();
+      const tagTag = docSnap.data();
 
-      if (!noteTag) throw new Error("Couldn't find a tag with that ID");
+      if (!tagTag) throw new Error("Couldn't find a tag with that ID");
 
-      noteData = {
+      tagData = {
         ...requestBody,
-        tag: { ...noteTag, id: requestBody.tag as string } as Tag,
+        // tag: { ...tagTag, id: requestBody.tag as string } as Tag,
       };
     }
 
-    if (requestBody.folder) {
-      const docSnap = await getDoc(doc(db, "folders", requestBody.folder));
-      const noteTag = docSnap.data();
+    console.log({ tagData });
 
-      if (!noteTag) throw new Error("Couldn't find a folder with that ID");
+    const serializedTag = await serializeTag(tagData);
 
-      noteData = {
-        ...requestBody,
-        folder: { ...noteTag, id: requestBody.folder as string } as Folder,
-      };
-    }
+    console.log({ serializedTag });
 
-    console.log({ noteData });
-
-    const serializedNote = await serializeNote(noteData);
-
-    console.log({ serializedNote });
-
-    const updatedDoc = await updateDoc(doc(db, "notes", noteId), {
-      ...serializedNote,
+    const updatedDoc = await updateDoc(doc(db, "tags", tagId), {
+      ...serializedTag,
       timestamp: Timestamp.fromDate(new Date()),
     });
 
     console.log("API--->UPDATE_RUNNING", { updatedDoc });
-    // await deleteDoc(doc(db, "notes", noteId));
+    // await deleteDoc(doc(db, "tags", tagId));
 
     return NextResponse.json({
       success: true,
-      message: "Note updated successfully",
-      data: serializedNote,
+      message: "Tag updated successfully",
+      data: serializedTag,
     });
   } catch (error) {
     return NextResponse.json({
       success: false,
-      message: "Couldn't update note",
+      message: "Couldn't update tag",
     });
   }
 }
 
 export async function DELETE(
   request: NextRequest,
-  { params: { noteId } }: DeleteProps
+  { params: { tagId } }: DeleteProps
 ) {
   try {
     const currentUser = await getCurrentUser();
     console.log({ currentUser });
 
-    const searchParams = request.nextUrl.searchParams;
+    const collectionRef = collection(db, "notes");
 
-    const deletePermanently = searchParams.get("permanent") === "true";
+    const snapshot = await getDocs(
+      query(collectionRef, where("tag.id", "==", tagId))
+    );
 
-    if (deletePermanently) {
-      console.log("API--->DELETE_RUNNING:PERMANENT", { searchParams });
-      await deleteDoc(doc(db, "notes", noteId));
-    } else {
-      console.log("API--->DELETE_RUNNING:TRASH", { searchParams });
-      await updateDoc(doc(db, "notes", noteId), {
-        type: "deleted",
+    snapshot.forEach(async (doc) => {
+      const docRef = doc.ref;
+
+      await updateDoc(docRef, {
+        tag: undefined,
       });
-    }
+    });
 
-    console.log("API--->DELETE_RUNNING", { searchParams });
-    // await deleteDoc(doc(db, "notes", noteId));
+    await deleteDoc(doc(db, "tags", tagId));
+
+    console.log("API--->DELETE_RUNNING:TRASH");
 
     return NextResponse.json({
       success: true,
-      message: "Note deleted successfully",
+      message: "Tag deleted successfully",
     });
   } catch (error) {
     return NextResponse.json({
       success: false,
-      message: "Could'nt delete note",
+      message: "Could'nt delete tag",
     });
   }
 }

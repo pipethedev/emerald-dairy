@@ -81,7 +81,7 @@ export default function NoteItem(
             props.isActive && "bg-primary-10"
           )}
         >
-          {props.favourite ? (
+          {props.type === "favourite" ? (
             <HeartsIcon
               className={clsx(props.isActive && "!stroke-primary !fill-none")}
             />
@@ -91,22 +91,24 @@ export default function NoteItem(
             />
           )}
         </div>
-        <div
-          className={clsx(
-            "h-[28px] px-[8px] rounded-[8px] bg-[#F2F2F2] flex gap-[8px] items-center",
-            props.isActive && "bg-primary-10"
-          )}
-        >
-          <TagIcon className={clsx(props.isActive && "!stroke-primary")} />
-          <p
+        {props.tag && (
+          <div
             className={clsx(
-              "text-[#808080] text-[10px] font-medium",
-              props.isActive && "text-primary"
+              "h-[28px] px-[8px] rounded-[8px] bg-[#F2F2F2] flex gap-[8px] items-center",
+              props.isActive && "bg-primary-10"
             )}
           >
-            {props.tag}
-          </p>
-        </div>
+            <TagIcon className={clsx(props.isActive && "!stroke-primary")} />
+            <p
+              className={clsx(
+                "text-[#808080] text-[10px] font-medium",
+                props.isActive && "text-primary"
+              )}
+            >
+              {props.tag?.name}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

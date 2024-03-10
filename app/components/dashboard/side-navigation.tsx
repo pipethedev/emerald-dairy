@@ -12,6 +12,7 @@ import {
   SearchIcon,
   SettingsIcon,
   TagIcon,
+  TrashIcon,
   User3Icon,
 } from "../svgs";
 import { sideNavigationLinksData } from "@/app/components/dashboard/links";
@@ -42,10 +43,13 @@ import {
 import Media from "react-media";
 import AnimateInOut from "../global/AnimateInOut/AnimateInOut";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "@/lib/firebase/firebase-client";
-import { triggerModal } from "@/store/slices/modal";
+// import { db } from "@/lib/firebase/firebase-client";
+import { closeModal, triggerModal } from "@/store/slices/modal";
 import { triggerNotification } from "@/store/slices/notification";
-import { signInWithGoogle } from "@/lib/firebase/firebase-auth";
+import { useFolders, useTags } from "@/hooks";
+import { deleteTag } from "@/controllers/tag";
+import { updateTags } from "@/store/slices/tags";
+import ColorTheme from "../global/ColorTheme/ColorTheme";
 
 export default function DashboardSideNavigation() {
   const pathname = usePathname();
@@ -56,6 +60,11 @@ export default function DashboardSideNavigation() {
   const showNav = useAppSelector((state) => state.navbar);
   const hideNav = !showNav;
   const dispatch = useAppDispatch();
+
+  const tags = useAppSelector((state) => state.tags);
+  const folders = useAppSelector((state) => state.folders);
+  const { fetchedTags, loading: tagsLoading } = useTags();
+  const { fetchedFolders, loading: foldersLoading } = useFolders();
 
   const toggleNav = (state: boolean) => {
     dispatch(toggleNavbar(state));
@@ -98,38 +107,39 @@ export default function DashboardSideNavigation() {
     alert("hello");
   };
   const [fetchedFolder, setFetchedFolders] = useState<any>([]);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchFolders = async () => {
       try {
-        setLoading(true);
+        // setLoading(true);
         let querySnapshot;
 
-        querySnapshot = await getDocs(collection(db, "folders"));
+        // querySnapshot = await getDocs(collection(db, "folders"));
+        querySnapshot = await Promise.resolve();
 
-        if (querySnapshot) {
-          const notesData = querySnapshot.docs.map(
-            (doc) =>
-              ({
-                id: doc.id,
-                ...doc.data(),
-              } as Note)
-          );
-          setFetchedFolders(notesData);
+        // if (querySnapshot) {
+        //   const notesData = querySnapshot.docs.map(
+        //     (doc) =>
+        //       ({
+        //         id: doc.id,
+        //         ...doc.data(),
+        //       } as Note)
+        //   );
+        //   setFetchedFolders(notesData);
 
-          console.log(notesData);
-        } else {
-          console.log(`No favourites found`);
-        }
+        //   console.log(notesData);
+        // } else {
+        //   console.log(`No favourites found`);
+        // }
       } catch (error) {
         console.error("Error fetching notes:", error);
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     };
 
-    fetchFolders();
+    // fetchFolders();
   }, []);
 
   const [selectedFolder, setSelectedFolder] = useState("");
@@ -183,16 +193,11 @@ export default function DashboardSideNavigation() {
                       <HeartsIcon className="stroke-primary" />
                     </figure>
                   </div>
-                  <H4
-                    onClick={async () => {
-                      const isOk = await signInWithGoogle();
-                      console.log({ isOk });
-                    }}
-                    className="font-bold cursor-pointer font-aeonikBold -tracking-[0.16px] text-black"
-                  >
+                  <H4 className="font-bold cursor-pointer font-aeonikBold -tracking-[0.16px] text-black">
                     <span className="text-[#956E60]">Emerald</span>{" "}
                     <span>Diary</span>
                   </H4>
+                  {/* <ColorTheme /> */}
                 </AntiDropdownView>
                 <SettingsMenu
                   setShowDropdown={setShowDropdown}
@@ -298,37 +303,91 @@ export default function DashboardSideNavigation() {
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0"
                           >
-                            <Disclosure.Panel className="cursor-pointer max-w-max flex flex-col w-fit pt-[5px]">
-                              <div className="p-[12px] flex items-center gap-[8px]">
-                                <TagIcon />
+                            <Disclosure.Panel className="cursor-pointer flex flex-col w-full pt-[5px]">
+                              {tags.length ? (
+                                tags.map((tag, i) => (
+                                  <div
+                                    key={i}
+                                    className="p-[12px] w-full flex items-center gap-[8px] group"
+                                  >
+                                    <TagIcon />
+                                    <p className="text-[#808084] text-[12px]">
+                                      {tag.name}
+                                    </p>
+                                    <button
+                                      onClick={async () => {
+                                        dispatch(
+                                          triggerModal({
+                                            message: {
+                                              title: (
+                                                <p className="text-2xl font-bold">
+                                                  Delete{" "}
+                                                  <span className="text-primary font-extrabold">
+                                                    {tag.name}
+                                                  </span>
+                                                </p>
+                                              ),
+                                              text: (
+                                                <p>
+                                                  Are you sure you want to
+                                                  delete{" "}
+                                                  <span className="text-primary font-semibold">
+                                                    {tag.name}
+                                                  </span>
+                                                </p>
+                                              ),
+                                              icon: TrashIcon,
+                                            },
+                                            clickToDisable: true,
+                                            confirm: async () => {
+                                              const deleted = await deleteTag(
+                                                tag.id
+                                              );
+
+                                              if (!deleted) {
+                                                dispatch(
+                                                  triggerNotification({
+                                                    type: "error",
+                                                    message:
+                                                      "Couldn't delete tag",
+                                                  })
+                                                );
+                                                return dispatch(closeModal());
+                                              }
+
+                                              dispatch(
+                                                updateTags(
+                                                  tags.filter(
+                                                    (tagItem) =>
+                                                      tagItem.id !== tag.id
+                                                  )
+                                                )
+                                              );
+                                              dispatch(
+                                                triggerNotification({
+                                                  type: "success",
+                                                  message:
+                                                    "Tag deleted successfully",
+                                                  icon: TrashIcon,
+                                                })
+                                              );
+
+                                              dispatch(closeModal());
+                                            },
+                                          })
+                                        );
+                                      }}
+                                      className="ml-auto !p-0 !w-fit !h-fit hidden group-hover:flex"
+                                    >
+                                      <TrashIcon />
+                                    </button>
+                                  </div>
+                                ))
+                              ) : (
                                 <p className="text-[#808084] text-[12px]">
-                                  School Notes
+                                  No tags available
                                 </p>
-                              </div>
-                              <div className="p-[12px] flex items-center gap-[8px]">
-                                <TagIcon />
-                                <p className="text-[#808084] text-[12px]">
-                                  Sermon Notes
-                                </p>
-                              </div>
-                              <div className="p-[12px] flex items-center gap-[8px]">
-                                <TagIcon />
-                                <p className="text-[#808084] text-[12px]">
-                                  Archived
-                                </p>
-                              </div>
-                              <div className="p-[12px] flex items-center gap-[8px]">
-                                <TagIcon />
-                                <p className="text-[#808084] text-[12px]">
-                                  Getting Started
-                                </p>
-                              </div>
-                              <div className="p-[12px] flex items-center gap-[8px]">
-                                <TagIcon />
-                                <p className="text-[#808084] text-[12px]">
-                                  Getting Started
-                                </p>
-                              </div>
+                              )}
                             </Disclosure.Panel>
                           </Transition>
                         </>
@@ -360,20 +419,26 @@ export default function DashboardSideNavigation() {
                             leaveTo="opacity-0"
                           >
                             <Disclosure.Panel className="flex flex-col w-fit cursor-pointer pt-[5px]">
-                              {fetchedFolder.map((item: any, index: any) => (
-                                <Link
-                                  key={index}
-                                  href={`/dashboard/folder?folder=${item.folder}`}
-                                  onClick={() => handleFolderClick(item.folder)}
-                                >
-                                  <div className="active:scale-95 transition-all duration-300 p-[12px] flex items-center gap-[8px]">
-                                    <FolderOutlineIcon className="w-6 h-6" />
-                                    <p className="text-[#808084] text-[12px]">
-                                      {item.folder}
-                                    </p>
-                                  </div>
-                                </Link>
-                              ))}
+                              {folders.length ? (
+                                folders.map((item: any, index: any) => (
+                                  <Link
+                                    key={index}
+                                    href={`/dashboard/folder?folder=${item.id}`}
+                                    onClick={() => handleFolderClick(item)}
+                                  >
+                                    <div className="active:scale-95 transition-all duration-300 p-[12px] flex items-center gap-[8px]">
+                                      <FolderOutlineIcon className="w-6 h-6" />
+                                      <p className="text-[#808084] text-[12px]">
+                                        {item.name}
+                                      </p>
+                                    </div>
+                                  </Link>
+                                ))
+                              ) : (
+                                <p className="text-[#808084] text-[12px]">
+                                  No folders available
+                                </p>
+                              )}
                             </Disclosure.Panel>
                           </Transition>
                         </>

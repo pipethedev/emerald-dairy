@@ -145,7 +145,7 @@ export default function DropdownMenu({
   );
 }
 
-function Menu({ menuItems }: { menuItems: MenuItem[] }) {
+export function Menu({ menuItems }: { menuItems: MenuItem[] }) {
   const MenuItem = ({
     item: { href, icon, label, action, type },
   }: {

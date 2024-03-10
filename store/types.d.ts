@@ -9,7 +9,7 @@ type ModalState = {
   actionConfirm?: Function;
   actionCancel?: Function;
   disableOnClick: boolean;
-  children?: React.ReactNode;
+  children?: React.ReactNode | JSX.Element;
   type?: "info" | "error" | "warning" | "success";
 };
 

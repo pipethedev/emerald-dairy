@@ -87,7 +87,11 @@ export default function CreateNote() {
                   title="Note Title"
                   date={Date.now()}
                   subtitle="..."
-                  tag="@tag"
+                  tag={{
+                    id: "tagID",
+                    name: "@tag",
+                    owner: "TagOwner",
+                  }}
                   isActive
                 />
               </div>

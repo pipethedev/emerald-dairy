@@ -6,7 +6,7 @@ import {
   InfoCircleIcon,
   TrashIcon,
 } from "@/app/components/svgs";
-import { db, storage } from "@/lib/firebase/firebase-client";
+// import { db, storage } from "@/lib/firebase/firebase-client";
 import { isURL, notify } from "@/lib/utils/helpers";
 import store from "@/store";
 import { triggerModal } from "@/store/slices/modal";
@@ -42,34 +42,32 @@ export const createNoteWithImage = async (
   content: (Content & { value: File | string })[],
   imageFile: any
 ) => {
-  try {
-    for (const item of content) {
-      if (item.type === "image") {
-        const imageFile = item.value as File;
-        console.log("UPLOAD", { imageFile });
-        // Upload the image to Firebase Storage
-        const storageRef = ref(storage, "images/" + imageFile.name);
-        // imageFile.name
-        await uploadBytes(storageRef, imageFile);
-
-        // Get the download URL of the uploaded image
-        const imageUrl = await getDownloadURL(storageRef);
-        console.log({ imageUrl });
-        item.value = imageUrl;
-      }
-    }
-
-    // Add the note to the Firestore database
-    const docRef = await addDoc(collection(db, "notes"), {
-      // id: uuidV4(),
-      title: title,
-      content: content,
-      timestamp: Timestamp.fromDate(new Date()),
-    });
-    console.log("Document written with ID: ", docRef.id);
-  } catch (e) {
-    console.error("Error adding document: ", e);
-  }
+  // try {
+  //   for (const item of content) {
+  //     if (item.type === "image") {
+  //       const imageFile = item.value as File;
+  //       console.log("UPLOAD", { imageFile });
+  //       // Upload the image to Firebase Storage
+  //       const storageRef = ref(storage, "images/" + imageFile.name);
+  //       // imageFile.name
+  //       await uploadBytes(storageRef, imageFile);
+  //       // Get the download URL of the uploaded image
+  //       const imageUrl = await getDownloadURL(storageRef);
+  //       console.log({ imageUrl });
+  //       item.value = imageUrl;
+  //     }
+  //   }
+  //   // Add the note to the Firestore database
+  //   const docRef = await addDoc(collection(db, "notes"), {
+  //     // id: uuidV4(),
+  //     title: title,
+  //     content: content,
+  //     timestamp: Timestamp.fromDate(new Date()),
+  //   });
+  //   console.log("Document written with ID: ", docRef.id);
+  // } catch (e) {
+  //   console.error("Error adding document: ", e);
+  // }
 };
 
 // NOTE: test
@@ -249,6 +247,94 @@ export const addNoteToArchive = async (id: string): Promise<boolean> => {
       icon: Info,
     });
     return false;
+  }
+};
+
+export const tagNote = async (
+  noteId: string,
+  tagId: string
+): Promise<Tag | null> => {
+  try {
+    const res = await fetch(`/api/notes/${noteId}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        tag: tagId,
+      }),
+    });
+
+    const responseData = await res.json();
+
+    console.log({ responseData });
+
+    if (!responseData.success) {
+      notify({
+        message: "Failed To Tag Note",
+        type: "error",
+        icon: InfoCircleIcon,
+      });
+      return null;
+    }
+
+    notify({
+      message: "Note Added To Tag Successfully",
+      type: "success",
+      icon: CheckCircleIcon,
+    });
+    const data = responseData.data as Note;
+
+    return data.tag!;
+  } catch (error) {
+    console.error("Error Adding Note To Archive", error);
+    notify({
+      message: "Operation Failed",
+      type: "error",
+      icon: Info,
+    });
+    return null;
+  }
+};
+
+export const addNoteToFolder = async (
+  noteId: string,
+  folderId: string
+): Promise<Tag | null> => {
+  try {
+    const res = await fetch(`/api/notes/${noteId}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        folder: folderId,
+      }),
+    });
+
+    const responseData = await res.json();
+
+    console.log({ responseData });
+
+    if (!responseData.success) {
+      notify({
+        message: "Failed To Tag Note",
+        type: "error",
+        icon: InfoCircleIcon,
+      });
+      return null;
+    }
+
+    notify({
+      message: "Note Added To Tag Successfully",
+      type: "success",
+      icon: CheckCircleIcon,
+    });
+    const data = responseData.data as Note;
+
+    return data.folder!;
+  } catch (error) {
+    console.error("Error Adding Note To Archive", error);
+    notify({
+      message: "Operation Failed",
+      type: "error",
+      icon: Info,
+    });
+    return null;
   }
 };
 

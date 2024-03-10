@@ -5,7 +5,13 @@ import { signOut } from "firebase/auth";
 
 export const logOut = async () => {
   try {
-    await signOut(auth);
+    const response = await fetch("/api/auth/sign-out", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
     notify({
       message: "Logged out",
       type: "success",

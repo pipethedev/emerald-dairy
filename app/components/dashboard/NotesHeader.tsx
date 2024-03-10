@@ -28,7 +28,7 @@ import {
   setDoc,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "@/lib/firebase/firebase-client";
+// import { db } from "@/lib/firebase/firebase-client";
 import { toggleNotesBar } from "@/store/slices/notesbar";
 import { useAppDispatch } from "@/hooks/store";
 import NoteOptions from "../global/NoteItem/NoteOptions";
@@ -111,57 +111,53 @@ export default function NotesHeader({ note }: Props) {
   }, []);
 
   const addOrUpdateTag = async (noteId: any, type: any) => {
-    try {
-      const noteRef = doc(db, "notes", noteId); // Reference to the note document
-
-      // Get the document snapshot
-      const docSnap = await getDoc(noteRef);
-
-      // Check if the note document exists
-      if (docSnap.exists()) {
-        // If the tag field already exists, update it
-        // Otherwise, add the tag field to the document
-        if (docSnap.data().type) {
-          await updateDoc(noteRef, {
-            type: type,
-          });
-        } else {
-          await setDoc(noteRef, { type: type }, { merge: true });
-        }
-        console.log("Tag added/updated successfully");
-      } else {
-        console.log("Note document does not exist");
-      }
-    } catch (error) {
-      console.error("Error adding/updating tag:", error);
-    }
+    // try {
+    //   const noteRef = doc(db, "notes", noteId); // Reference to the note document
+    //   // Get the document snapshot
+    //   const docSnap = await getDoc(noteRef);
+    //   // Check if the note document exists
+    //   if (docSnap.exists()) {
+    //     // If the tag field already exists, update it
+    //     // Otherwise, add the tag field to the document
+    //     if (docSnap.data().type) {
+    //       await updateDoc(noteRef, {
+    //         type: type,
+    //       });
+    //     } else {
+    //       await setDoc(noteRef, { type: type }, { merge: true });
+    //     }
+    //     console.log("Tag added/updated successfully");
+    //   } else {
+    //     console.log("Note document does not exist");
+    //   }
+    // } catch (error) {
+    //   console.error("Error adding/updating tag:", error);
+    // }
   };
 
   const moveToFolder = async (noteId: any, type: any) => {
-    try {
-      const noteRef = doc(db, "notes", noteId); // Reference to the note document
-
-      // Get the document snapshot
-      const docSnap = await getDoc(noteRef);
-
-      // Check if the note document exists
-      if (docSnap.exists()) {
-        // If the tag field already exists, update it
-        // Otherwise, add the tag field to the document
-        if (docSnap.data().folder) {
-          await updateDoc(noteRef, {
-            folder: type,
-          });
-        } else {
-          await setDoc(noteRef, { folder: type }, { merge: true });
-        }
-        console.log("Tag added/updated successfully");
-      } else {
-        console.log("Note document does not exist");
-      }
-    } catch (error) {
-      console.error("Error adding/updating tag:", error);
-    }
+    // try {
+    //   const noteRef = doc(db, "notes", noteId); // Reference to the note document
+    //   // Get the document snapshot
+    //   const docSnap = await getDoc(noteRef);
+    //   // Check if the note document exists
+    //   if (docSnap.exists()) {
+    //     // If the tag field already exists, update it
+    //     // Otherwise, add the tag field to the document
+    //     if (docSnap.data().folder) {
+    //       await updateDoc(noteRef, {
+    //         folder: type,
+    //       });
+    //     } else {
+    //       await setDoc(noteRef, { folder: type }, { merge: true });
+    //     }
+    //     console.log("Tag added/updated successfully");
+    //   } else {
+    //     console.log("Note document does not exist");
+    //   }
+    // } catch (error) {
+    //   console.error("Error adding/updating tag:", error);
+    // }
   };
 
   const [fetchedFolder, setFetchedFolders] = useState<any>([]);
@@ -169,31 +165,28 @@ export default function NotesHeader({ note }: Props) {
 
   useEffect(() => {
     const fetchFolders = async () => {
-      try {
-        setLoading(true);
-        let querySnapshot;
-
-        querySnapshot = await getDocs(collection(db, "folders"));
-
-        if (querySnapshot) {
-          const notesData = querySnapshot.docs.map(
-            (doc) =>
-              ({
-                id: doc.id,
-                ...doc.data(),
-              } as Note)
-          );
-          setFetchedFolders(notesData);
-
-          console.log(notesData);
-        } else {
-          console.log(`No favourites found`);
-        }
-      } catch (error) {
-        console.error("Error fetching notes:", error);
-      } finally {
-        setLoading(false);
-      }
+      // try {
+      //   setLoading(true);
+      //   let querySnapshot;
+      //   querySnapshot = await getDocs(collection(db, "folders"));
+      //   if (querySnapshot) {
+      //     const notesData = querySnapshot.docs.map(
+      //       (doc) =>
+      //         ({
+      //           id: doc.id,
+      //           ...doc.data(),
+      //         } as Note)
+      //     );
+      //     setFetchedFolders(notesData);
+      //     console.log(notesData);
+      //   } else {
+      //     console.log(`No favourites found`);
+      //   }
+      // } catch (error) {
+      //   console.error("Error fetching notes:", error);
+      // } finally {
+      //   setLoading(false);
+      // }
     };
 
     fetchFolders();

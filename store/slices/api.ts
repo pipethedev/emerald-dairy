@@ -16,8 +16,21 @@ export const apiSlice = createApi({
         },
         forceRefetch: () => true,
       }),
+      fetchTags: builder.query<{ data: Tag[] }, string | void>({
+        query() {
+          return `/api/tags`;
+        },
+        forceRefetch: () => true,
+      }),
+      fetchFolders: builder.query<{ data: Folder[] }, string | void>({
+        query() {
+          return `/api/folders`;
+        },
+        forceRefetch: () => true,
+      }),
     };
   },
 });
 
-export const { useFetchNotesQuery } = apiSlice;
+export const { useFetchNotesQuery, useFetchTagsQuery, useFetchFoldersQuery } =
+  apiSlice;

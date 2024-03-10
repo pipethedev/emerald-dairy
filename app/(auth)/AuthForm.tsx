@@ -117,21 +117,25 @@ export default function AuthForm({ route = "sign-in" }: Props) {
         router.push("/dashboard");
       } else {
         // Handle sign-up logic
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          formData?.email,
-          formData?.password
-        );
-        const user = userCredential.user;
-        await updateProfile(user, {
-          displayName: `${formData.firstName} ${formData.lastName}`,
+        const response = await fetch("/api/auth/sign-up", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formData?.email,
+            firstname: formData?.firstName,
+            lastname: formData?.lastName,
+          }),
         });
-        await addDoc(collection(db, "users"), {
-          uid: user?.uid,
-          email: user?.email,
-          firstname: formData?.firstName,
-          lastname: formData?.lastName,
-        });
+
+        const resBody = await response.json();
+
+        const user = resBody.data;
+
+        if (!user) return;
+
+        console.log({ resBody });
 
         // alert("signup successful");
         toast.success("signup successful!🎉");

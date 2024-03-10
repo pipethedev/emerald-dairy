@@ -21,7 +21,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useContext, useState } from "react";
 import { Timestamp, addDoc, collection } from "firebase/firestore";
-import { db } from "@/lib/firebase/firebase-client";
+// import { db } from "@/lib/firebase/firebase-client";
 import clsx from "clsx";
 
 export default function DashboardCreate() {
@@ -31,13 +31,12 @@ export default function DashboardCreate() {
     e.preventDefault();
     try {
       // Add the Folder to the Firestore database
-      const docRef = await addDoc(collection(db, "folders"), {
-        folder: folder,
-        timestamp: Timestamp.fromDate(new Date()),
-      });
-
-      alert("created folder");
-      console.log("Document written with ID: ", docRef.id);
+      // const docRef = await addDoc(collection(db, "folders"), {
+      //   folder: folder,
+      //   timestamp: Timestamp.fromDate(new Date()),
+      // });
+      // alert("created folder");
+      // console.log("Document written with ID: ", docRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -81,7 +80,7 @@ export default function DashboardCreate() {
               </div>
               <div className="flex gap-[24px] flex-wrap">
                 {/* CREATE-NOTES */}
-                <Link href={`/dashboard/all-notes/create`}>
+                <Link href={`/dashboard/create`}>
                   <div className="p-[24px] bg-[#FEF6F4] transition-all duration-200 active:scale-[0.98] rounded-[20px] w-full max-w-[308px]">
                     <figure className="mb-[50px]">
                       <Image

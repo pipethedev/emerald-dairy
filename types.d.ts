@@ -26,6 +26,18 @@ interface SideNavigationLink {
   leading: React.FC<SVGProps<SVGElement>>;
 }
 
+type Tag = {
+  id: string;
+  name: string;
+  owner: string;
+};
+
+type Folder = {
+  id: string;
+  name: string;
+  owner: string;
+};
+
 type CheckValue = { checked: boolean; label: string };
 
 interface Content {
@@ -40,9 +52,9 @@ interface Note {
   date: number | string;
   label?: any;
   favourite?: boolean;
-  tag?: string;
+  tag?: Tag;
   type?: "favourite" | "archived" | "deleted";
-  folder?: string;
+  folder?: Folder;
   content?: Content[];
 }
 
