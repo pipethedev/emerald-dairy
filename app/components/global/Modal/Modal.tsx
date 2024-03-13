@@ -131,7 +131,7 @@ export default function Modal() {
                                 )}
                               </figure>
                             </div>
-                            <div className="overflow-auto overscroll-none space-y-4 flex-1 pb-4">
+                            <div className="overflow-auto space-y-4 flex-1 pb-4">
                               <div>
                                 <div className="font-bold text-2xl">
                                   {modalMessage?.title}

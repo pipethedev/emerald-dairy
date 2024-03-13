@@ -105,7 +105,7 @@ export default function Notes({ notes, path, type, folder }: Props) {
   return (
     <div
       className={clsx(
-        "flex-1 overflow-auto h-full w-full mt-16 md:mt-0 md:w-auto fixed md:static transition-all duration-200 z-[100]",
+        "flex-1 overflow-auto h-[calc(100%-4rem)] w-full bottom-0 md:mt-0 md:w-auto fixed md:static transition-all duration-200 z-[100]",
         !showNotes &&
           "translate-y-full md:translate-y-[0px] md:-translate-x-full_ md:absolute_ md:w-auto"
       )}

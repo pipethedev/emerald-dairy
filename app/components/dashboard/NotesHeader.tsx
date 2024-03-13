@@ -253,7 +253,7 @@ export default function NotesHeader({ note }: Props) {
   };
 
   return (
-    <header className="w-full h-[72px] shrink-0 overflow-auto_ border-b-[1px] border-b-[#F2F2F2]">
+    <header className="w-full h-[72px] shrink-0 overflow-auto_ border-b-[1px] border-b-[#F2F2F2] overflow-x-auto md:overflow-x-visible">
       <div className="flex h-full items-center px-2 md:px-0 md:w-[90%] py-2 mx-auto gap-2">
         <div className="flex items-center gap-3">
           <IconButton
@@ -287,7 +287,7 @@ export default function NotesHeader({ note }: Props) {
               );
             }}
           /> */}
-          <div className="relative z-[100] flex w-fit mx-auto items-center gap-2">
+          <div className="relative flex w-fit mx-auto items-center gap-2">
             {navOptions.map(({ title, value }, i) => {
               const Title = title as React.FC<React.SVGProps<SVGElement>>;
 
