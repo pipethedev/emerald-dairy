@@ -23,12 +23,15 @@ import {
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 as uuidV4 } from "uuid";
+import api from "./api";
 
 export const fetchNotes = async (type: string): Promise<Note[] | null> => {
+  console.log("FETCH_NOTES_START");
   try {
-    const res = await fetch(`/api/notes?type=${type}`);
-    const responseData = await res.json();
-    console.log({ responseData });
+    const res = await api.get(`/notes?type=${type}`);
+    console.log({ res });
+    const responseData = await res.data;
+    console.log("NOTES: ", { responseData });
     return responseData.data;
   } catch (error) {
     console.error("FETCH_N0TES", { error });
@@ -103,15 +106,16 @@ export const createNoteAsFormData = async (
 
     formData.append("content", JSON.stringify(contentCopy));
 
-    const res = await fetch("/api/notes", {
-      method: "POST",
-      body: formData,
+    const res = await api.post("/notes", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data", // Important: set the content type to multipart/form-data
+      },
     });
-    const responseData = await res.json();
+    const responseData = res.data;
 
     console.log({ responseData });
   } catch (error) {
-    console.error("CREATE_N0TE_FORMDATA: ", { error });
+    console.error("CREATE_N0TE_FORM_DATA: ", { error });
   }
 };
 
@@ -156,13 +160,14 @@ export const editNoteAsFormData = async (
 
     formData.append("content", JSON.stringify(contentCopy));
 
-    const res = await fetch(`/api/notes/${id}`, {
-      method: "PUT",
-      body: formData,
+    const res = await api.put(`/notes/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data", // Important: set the content type to multipart/form-data
+      },
     });
-    const responseData = await res.json();
+    const responseData = res.data;
 
-    console.log({ responseData });
+    console.log("EDIT_N0TE_FORM-DATA: ", { responseData });
   } catch (error) {
     console.error("EDIT_N0TE_FORM-DATA: ", { error });
   }
@@ -172,14 +177,11 @@ export const addNoteToFavorite = async (id: string): Promise<boolean> => {
   try {
     console.log("FAVOURITE_NOTE_ID: ", id);
 
-    const res = await fetch(`/api/notes/${id}`, {
-      method: "PATCH",
-      body: JSON.stringify({
-        type: "favourite",
-      }),
+    const res = await api.patch(`/notes/${id}`, {
+      type: "favourite",
     });
 
-    const responseData = await res.json();
+    const responseData = res.data;
 
     console.log({ responseData });
 
@@ -213,14 +215,11 @@ export const addNoteToArchive = async (id: string): Promise<boolean> => {
   try {
     console.log("ARCHIVE_NOTE_ID: ", id);
 
-    const res = await fetch(`/api/notes/${id}`, {
-      method: "PATCH",
-      body: JSON.stringify({
-        type: "archived",
-      }),
+    const res = await api.patch(`/notes/${id}`, {
+      type: "archived",
     });
 
-    const responseData = await res.json();
+    const responseData = res.data;
 
     console.log({ responseData });
 
@@ -255,14 +254,11 @@ export const tagNote = async (
   tagId: string
 ): Promise<Tag | null> => {
   try {
-    const res = await fetch(`/api/notes/${noteId}`, {
-      method: "PATCH",
-      body: JSON.stringify({
-        tag: tagId,
-      }),
+    const res = await api.patch(`/notes/${noteId}`, {
+      tag: tagId,
     });
 
-    const responseData = await res.json();
+    const responseData = res.data;
 
     console.log({ responseData });
 
@@ -299,14 +295,21 @@ export const addNoteToFolder = async (
   folderId: string
 ): Promise<Tag | null> => {
   try {
-    const res = await fetch(`/api/notes/${noteId}`, {
-      method: "PATCH",
+    // const res = await fetch(`/notes/${noteId}`, {
+    //   method: "PATCH",
+    //   body: JSON.stringify({
+    //     folder: folderId,
+    //   }),
+    // });
+
+    const res = await api.patch(`/notes/${noteId}`, {
       body: JSON.stringify({
         folder: folderId,
       }),
     });
 
-    const responseData = await res.json();
+    // const responseData = await res.json();
+    const responseData = await res.data;
 
     console.log({ responseData });
 
@@ -342,11 +345,9 @@ export const deleteNote = async (id: string) => {
   try {
     console.log("DELETE_RUNNING");
     // await deleteDoc(doc(db, "notes", id));
-    const res = await fetch(`/api/notes/${id}?permanent=false`, {
-      method: "DELETE",
-    });
+    const res = await api.delete(`/notes/${id}?permanent=false`);
 
-    const responseData = await res.json();
+    const responseData = res.data;
 
     console.log({ responseData });
 
@@ -380,11 +381,9 @@ export const deleteNotePermanently = async (id: string) => {
   try {
     console.log("DELETE_RUNNING");
     // await deleteDoc(doc(db, "notes", id));
-    const res = await fetch(`/api/notes/${id}?permanent=true`, {
-      method: "DELETE",
-    });
+    const res = await api.delete(`/notes/${id}?permanent=true`);
 
-    const responseData = await res.json();
+    const responseData = await res.data;
 
     console.log({ responseData });
 

@@ -54,17 +54,17 @@ import ColorTheme from "../global/ColorTheme/ColorTheme";
 export default function DashboardSideNavigation() {
   const pathname = usePathname();
 
+  const dispatch = useAppDispatch();
+  const auth = useAppSelector((state) => state.auth);
+  const showNav = useAppSelector((state) => state.navbar);
+  const tags = useAppSelector((state) => state.tags);
+  const folders = useAppSelector((state) => state.folders);
+
   const [smallScreen, setSmallScreen] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
 
-  const showNav = useAppSelector((state) => state.navbar);
   const hideNav = !showNav;
-  const dispatch = useAppDispatch();
-
-  const tags = useAppSelector((state) => state.tags);
-  const folders = useAppSelector((state) => state.folders);
-  const { fetchedTags, loading: tagsLoading } = useTags();
-  const { fetchedFolders, loading: foldersLoading } = useFolders();
+  const currentUser = auth.user;
 
   const toggleNav = (state: boolean) => {
     dispatch(toggleNavbar(state));
@@ -79,19 +79,6 @@ export default function DashboardSideNavigation() {
     toggleNav(false);
   }, [pathname]);
 
-  useEffect(() => {
-    const currentUser =
-      typeof window !== "undefined"
-        ? localStorage.getItem("currentUser")
-        : null;
-    console.log(currentUser);
-
-    // NOTE:COMEBACK
-    // if(currentUser == null){
-    //   location.href ='/signin'
-    // }
-  }, []);
-
   const NavOverlay = () => {
     return (
       <Overlay
@@ -102,46 +89,6 @@ export default function DashboardSideNavigation() {
       />
     );
   };
-
-  const hi = () => {
-    alert("hello");
-  };
-  const [fetchedFolder, setFetchedFolders] = useState<any>([]);
-  // const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchFolders = async () => {
-      try {
-        // setLoading(true);
-        let querySnapshot;
-
-        // querySnapshot = await getDocs(collection(db, "folders"));
-        querySnapshot = await Promise.resolve();
-
-        // if (querySnapshot) {
-        //   const notesData = querySnapshot.docs.map(
-        //     (doc) =>
-        //       ({
-        //         id: doc.id,
-        //         ...doc.data(),
-        //       } as Note)
-        //   );
-        //   setFetchedFolders(notesData);
-
-        //   console.log(notesData);
-        // } else {
-        //   console.log(`No favourites found`);
-        // }
-      } catch (error) {
-        console.error("Error fetching notes:", error);
-      } finally {
-        // setLoading(false);
-      }
-    };
-
-    // fetchFolders();
-  }, []);
-
   const [selectedFolder, setSelectedFolder] = useState("");
 
   // Function to handle click event
@@ -205,21 +152,26 @@ export default function DashboardSideNavigation() {
                 />
               </header>
               <AntiDropdownView className="h-[72px] px-[12px] py-[16px] flex items-center gap-[11px] border-b-[1px] border-b-[#F2F2F2]">
-                <figure>
-                  <Image
-                    src="/images/bimbo-profile.png"
-                    width={40}
-                    height={40}
-                    draggable={false}
-                    alt="Bimbo Profile"
-                    className="rounded-[8px]"
-                  />
+                <figure className="rounded-[8px] w-10 bg-primary/10  aspect-square overflow-clip">
+                  {currentUser?.photo ? (
+                    <Image
+                      src="/images/bimbo-profile.png"
+                      width={40}
+                      height={40}
+                      draggable={false}
+                      alt="Bimbo Profile"
+                    />
+                  ) : (
+                    <User3Icon className="w-full h-full !stroke-primary p-2" />
+                  )}
                 </figure>
                 <div>
                   <h2 className="text-[12px] font-normal text-black font-aeonik">
-                    Bimbo
+                    {currentUser?.displayName || "username..."}
                   </h2>
-                  <p className="text-[#999999] text-[10px]">bimbo@gmail.com</p>
+                  <p className="text-[#999999] text-[10px]">
+                    {currentUser?.email || "email..."}
+                  </p>
                 </div>
               </AntiDropdownView>
               {/* quick links */}
@@ -239,7 +191,7 @@ export default function DashboardSideNavigation() {
                           <Link href={link.href} key={i}>
                             <button
                               className={clsx(
-                                "w-full rounded-[8px]  hover:bg-[#956E60]/20 transition-all duration-300  px-[12px] py-[12px] flex items-center gap-[8px] text-[12px]",
+                                "w-full rounded-[8px]  hover:bg-primary/20 transition-all duration-300  px-[12px] py-[12px] flex items-center gap-[8px] text-[12px]",
                                 isAllNotesActiveRoute &&
                                   "bg-[#FEF2EE] font-extrabold text-[#956E60]"
                               )}
@@ -294,7 +246,7 @@ export default function DashboardSideNavigation() {
                               } transform transition`}
                             />
                           </Disclosure.Button>
-                          <Transition
+                          {/* <Transition
                             show={open}
                             enter="transition-opacity duration-75"
                             enterFrom="opacity-0"
@@ -303,93 +255,101 @@ export default function DashboardSideNavigation() {
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0"
                           >
-                            <Disclosure.Panel className="cursor-pointer flex flex-col w-full pt-[5px]">
-                              {tags.length ? (
-                                tags.map((tag, i) => (
-                                  <div
-                                    key={i}
-                                    className="p-[12px] w-full flex items-center gap-[8px] group"
-                                  >
-                                    <TagIcon />
-                                    <p className="text-[#808084] text-[12px]">
-                                      {tag.name}
-                                    </p>
-                                    <button
-                                      onClick={async () => {
-                                        dispatch(
-                                          triggerModal({
-                                            message: {
-                                              title: (
-                                                <p className="text-2xl font-bold">
-                                                  Delete{" "}
-                                                  <span className="text-primary font-extrabold">
-                                                    {tag.name}
-                                                  </span>
-                                                </p>
-                                              ),
-                                              text: (
-                                                <p>
-                                                  Are you sure you want to
-                                                  delete{" "}
-                                                  <span className="text-primary font-semibold">
-                                                    {tag.name}
-                                                  </span>
-                                                </p>
-                                              ),
-                                              icon: TrashIcon,
-                                            },
-                                            clickToDisable: true,
-                                            confirm: async () => {
-                                              const deleted = await deleteTag(
-                                                tag.id
-                                              );
+                            <Disclosure.Panel className="cursor-pointer flex flex-col w-full pt-[5px]"> */}
+                          <AnimateInOut
+                            show={open}
+                            initial={{ height: 0 }}
+                            animate={{ height: "auto" }}
+                            exit={{ height: 0 }}
+                            transition={{ type: "keyframes", duration: 0.2 }}
+                            className="flex flex-col w-fit cursor-pointer pt-[5px] overflow-clip"
+                          >
+                            {tags.length ? (
+                              tags.map((tag, i) => (
+                                <div
+                                  key={i}
+                                  className="p-[12px] w-full flex items-center gap-[8px] group"
+                                >
+                                  <TagIcon />
+                                  <p className="text-[#808084] text-[12px]">
+                                    {tag.name}
+                                  </p>
+                                  <button
+                                    onClick={async () => {
+                                      dispatch(
+                                        triggerModal({
+                                          message: {
+                                            title: (
+                                              <p className="text-2xl font-bold">
+                                                Delete{" "}
+                                                <span className="text-primary font-extrabold">
+                                                  {tag.name}
+                                                </span>
+                                              </p>
+                                            ),
+                                            text: (
+                                              <p>
+                                                Are you sure you want to delete{" "}
+                                                <span className="text-primary font-semibold">
+                                                  {tag.name}
+                                                </span>
+                                              </p>
+                                            ),
+                                            icon: TrashIcon,
+                                          },
+                                          clickToDisable: true,
+                                          confirm: async () => {
+                                            const deleted = await deleteTag(
+                                              tag.id
+                                            );
 
-                                              if (!deleted) {
-                                                dispatch(
-                                                  triggerNotification({
-                                                    type: "error",
-                                                    message:
-                                                      "Couldn't delete tag",
-                                                  })
-                                                );
-                                                return dispatch(closeModal());
-                                              }
-
-                                              dispatch(
-                                                updateTags(
-                                                  tags.filter(
-                                                    (tagItem) =>
-                                                      tagItem.id !== tag.id
-                                                  )
-                                                )
-                                              );
+                                            if (!deleted) {
                                               dispatch(
                                                 triggerNotification({
-                                                  type: "success",
+                                                  type: "error",
                                                   message:
-                                                    "Tag deleted successfully",
-                                                  icon: TrashIcon,
+                                                    "Couldn't delete tag",
                                                 })
                                               );
+                                              return dispatch(closeModal());
+                                            }
 
-                                              dispatch(closeModal());
-                                            },
-                                          })
-                                        );
-                                      }}
-                                      className="ml-auto !p-0 !w-fit !h-fit hidden group-hover:flex"
-                                    >
-                                      <TrashIcon />
-                                    </button>
-                                  </div>
-                                ))
-                              ) : (
-                                <p className="text-[#808084] text-[12px]">
-                                  No tags available
-                                </p>
-                              )}
-                            </Disclosure.Panel>
-                          </Transition>
+                                            dispatch(
+                                              updateTags(
+                                                tags.filter(
+                                                  (tagItem) =>
+                                                    tagItem.id !== tag.id
+                                                )
+                                              )
+                                            );
+                                            dispatch(
+                                              triggerNotification({
+                                                type: "success",
+                                                message:
+                                                  "Tag deleted successfully",
+                                                icon: TrashIcon,
+                                              })
+                                            );
+
+                                            dispatch(closeModal());
+                                          },
+                                        })
+                                      );
+                                    }}
+                                    className="ml-auto !p-0 !w-fit !h-fit hidden group-hover:flex"
+                                  >
+                                    <TrashIcon />
+                                  </button>
+                                </div>
+                              ))
+                            ) : (
+                              <p className="text-[#808084] text-[12px]">
+                                No tags available
+                              </p>
+                            )}
+                          </AnimateInOut>
+                          {/* </Disclosure.Panel>
+                          </Transition> */}
                         </>
                       )}
                     </Disclosure>
@@ -409,7 +369,7 @@ export default function DashboardSideNavigation() {
                               } transform transition`}
                             />
                           </Disclosure.Button>
-                          <Transition
+                          {/* <Transition
                             show={open}
                             enter="transition-opacity duration-75"
                             enterFrom="opacity-0"
@@ -418,29 +378,38 @@ export default function DashboardSideNavigation() {
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0"
                           >
-                            <Disclosure.Panel className="flex flex-col w-fit cursor-pointer pt-[5px]">
-                              {folders.length ? (
-                                folders.map((item: any, index: any) => (
-                                  <Link
-                                    key={index}
-                                    href={`/dashboard/folder?folder=${item.id}`}
-                                    onClick={() => handleFolderClick(item)}
-                                  >
-                                    <div className="active:scale-95 transition-all duration-300 p-[12px] flex items-center gap-[8px]">
-                                      <FolderOutlineIcon className="w-6 h-6" />
-                                      <p className="text-[#808084] text-[12px]">
-                                        {item.name}
-                                      </p>
-                                    </div>
-                                  </Link>
-                                ))
-                              ) : (
-                                <p className="text-[#808084] text-[12px]">
-                                  No folders available
-                                </p>
-                              )}
-                            </Disclosure.Panel>
-                          </Transition>
+                            <Disclosure.Panel className="flex flex-col w-fit cursor-pointer pt-[5px]"> */}
+                          <AnimateInOut
+                            show={open}
+                            initial={{ height: 0 }}
+                            animate={{ height: "auto" }}
+                            exit={{ height: 0 }}
+                            transition={{ type: "keyframes", duration: 0.2 }}
+                            className="flex flex-col w-fit cursor-pointer pt-[5px] overflow-clip"
+                          >
+                            {folders.length ? (
+                              folders.map((item: any, index: any) => (
+                                <Link
+                                  key={index}
+                                  href={`/dashboard/folder?folder=${item.id}`}
+                                  onClick={() => handleFolderClick(item)}
+                                >
+                                  <div className="active:scale-95 transition-all duration-300 p-[12px] flex items-center gap-[8px]">
+                                    <FolderOutlineIcon className="w-6 h-6" />
+                                    <p className="text-[#808084] text-[12px]">
+                                      {item.name}
+                                    </p>
+                                  </div>
+                                </Link>
+                              ))
+                            ) : (
+                              <p className="text-[#808084] text-[12px]">
+                                No folders available
+                              </p>
+                            )}
+                          </AnimateInOut>
+                          {/* </Disclosure.Panel>
+                          </Transition> */}
                         </>
                       )}
                     </Disclosure>

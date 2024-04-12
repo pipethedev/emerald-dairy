@@ -51,7 +51,7 @@ export default function NoteSection({
       <article className="w-[95%] space-y-6 py-8 mx-auto animate-fade-in">
         <div className="w-full flex">
           <H1
-            className="text-6xl resize-none outline-none border-none font-bold overflow-hidden w-full text-wrap text-gray-800"
+            className="text-3xl resize-none outline-none border-none font-bold overflow-hidden w-full text-wrap text-gray-800"
             placeholder="Note Title"
           >
             {note.title}

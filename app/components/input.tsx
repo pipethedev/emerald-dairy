@@ -14,7 +14,7 @@ export default function Input(props: InputProps) {
       return (
         <div
           className={clsx(
-            "flex justify-between items-center text-[#B3B3B3] bg-[#FAFAFA] max-w-[382px]_ lg:max-w-[420px]_ min-w-[342px] lg:min-w-[420px] p-[16px] md:rounded-[12px] outline-none font-normal md:tracking-[0.32px] text-base gap-3",
+            "flex justify-between items-center text-[#B3B3B3] bg-[#FAFAFA] max-w-[382px]_ lg:max-w-[420px]_ min-w-[342px]_ lg:min-w-[420px]_ p-[16px] md:rounded-[12px] outline-none font-normal md:tracking-[0.32px] text-base gap-3",
             className
           )}
         >
@@ -36,7 +36,7 @@ export default function Input(props: InputProps) {
       return (
         <input
           className={clsx(
-            "block max-w-[382px]_ lg:max-w-[420px]_ min-w-[342px] lg:min-w-[420px] p-[16px]  md:rounded-[12px] text-[#B3B3B3] bg-[#FAFAFA] outline-none font-normal md:tracking-[0.32px] text-base",
+            "block max-w-[382px]_ lg:max-w-[420px]_ min-w-[342px]_ lg:min-w-[420px]_ p-[16px]  md:rounded-[12px] text-[#B3B3B3] bg-[#FAFAFA] outline-none font-normal md:tracking-[0.32px] text-base",
             className
           )}
           {...prop}
@@ -47,7 +47,7 @@ export default function Input(props: InputProps) {
       return (
         <input
           className={clsx(
-            "block max-w-[382px]_ lg:max-w-[420px]_ min-w-[342px] lg:min-w-[420px] p-[16px]  md:rounded-[12px] text-[#B3B3B3] bg-[#FAFAFA] outline-none font-normal md:tracking-[0.32px] text-base",
+            "block max-w-[382px]_ lg:max-w-[420px]_ min-w-[342px]_ lg:min-w-[420px]_ p-[16px]  md:rounded-[12px] text-[#B3B3B3] bg-[#FAFAFA] outline-none font-normal md:tracking-[0.32px] text-base",
             className
           )}
           {...prop}

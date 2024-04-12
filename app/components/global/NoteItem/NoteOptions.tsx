@@ -42,6 +42,7 @@ import { updateTags } from "@/store/slices/tags";
 import useFolders from "@/hooks/useFolders";
 import { createFolder } from "@/controllers/folder";
 import { updateFolders } from "@/store/slices/folders";
+import { triggerNotification } from "@/store/slices/notification";
 
 type Props = {
   noteActive?: boolean;
@@ -56,6 +57,8 @@ export default function NoteOptions({ noteActive, note }: Props) {
   const pathname = usePathname();
 
   const splitPathName = pathname.split("/");
+  const isArchivePage = splitPathName.includes("archived");
+  const isFavouritesPage = splitPathName.includes("favourites");
   const isDeletePage = splitPathName.includes("recently-deleted");
 
   const removeNoteFromNotes = () => {
@@ -69,7 +72,8 @@ export default function NoteOptions({ noteActive, note }: Props) {
         executeAction(
           async () => {
             const added = await addNoteToFavorite(note?.id!);
-            if (added) removeNoteFromNotes();
+            console.log({ added, isFavouritesPage });
+            if (added && !isFavouritesPage) removeNoteFromNotes();
           },
           {
             message: {
@@ -93,7 +97,7 @@ export default function NoteOptions({ noteActive, note }: Props) {
     {
       action() {
         console.log("ACTION");
-        deleteNote("");
+        dispatch(triggerNotification({ message: "Coming Soon" }));
       },
       icon: <SearchIcon className="!stroke-primary" />,
       label: "search note",
@@ -135,7 +139,7 @@ export default function NoteOptions({ noteActive, note }: Props) {
     {
       action() {
         console.log("ACTION");
-        deleteNote("");
+        dispatch(triggerNotification({ message: "Coming Soon" }));
       },
       icon: <InfoCircleIcon className="!stroke-primary" />,
       label: "note info",
@@ -145,7 +149,8 @@ export default function NoteOptions({ noteActive, note }: Props) {
         executeAction(
           async () => {
             const added = await addNoteToArchive(note?.id!);
-            if (added) removeNoteFromNotes();
+            console.log({ added, isFavouritesPage });
+            if (added && !isArchivePage) removeNoteFromNotes();
           },
           {
             message: {

@@ -1,30 +1,48 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 // import { APIResponse } from "@/types";
-import { revokeAllSessions } from "@/lib/firebase/firebase-admin";
-import { signOut } from "firebase/auth";
-import { auth } from "@/lib/firebase/firebase-client";
+import { auth, revokeAllSessions } from "@/lib/firebase/firebase-admin";
+import { revokeAccessToken, signOut } from "firebase/auth";
+import { auth as clientAuth } from "@/lib/firebase/firebase-client";
 
-export async function GET() {
-  const sessionCookie = cookies().get("__session")?.value;
+export async function POST() {
+  try {
+    const headersList = headers();
+    const idToken = headersList.get("authorization");
+    console.log("----AUTH_TOKEN------ | LOGOUT", { idToken });
 
-  if (!sessionCookie)
+    if (!idToken) throw new Error("Invalid Auth Token");
+
+    const sessionCookie = cookies().get("__session")?.value;
+
+    // if (!sessionCookie)
+    //   //   return NextResponse.json<APIResponse<string>>({
+    //   return NextResponse.json(
+    //     { success: false, error: "Session not found." },
+    //     { status: 400 }
+    //   );
+
+    cookies().delete("__session");
+
+    if (sessionCookie) await revokeAllSessions(sessionCookie);
+
+    // NOTE: Check if these are necessary
+    await signOut(clientAuth);
+    revokeAccessToken(clientAuth, idToken);
+
+    await auth.revokeRefreshTokens(idToken);
+
     //   return NextResponse.json<APIResponse<string>>({
-    return NextResponse.json(
-      { success: false, error: "Session not found." },
-      { status: 400 }
-    );
-
-  await signOut(auth);
-
-  cookies().delete("__session");
-
-  await revokeAllSessions(sessionCookie);
-
-  //   return NextResponse.json<APIResponse<string>>({
-  return NextResponse.json({
-    success: true,
-    data: "Signed out successfully.",
-  });
+    return NextResponse.json({
+      success: true,
+      data: "Signed out successfully.",
+    });
+  } catch (error) {
+    const err = error as Error;
+    return NextResponse.json({
+      success: false,
+      message: err.message,
+    });
+  }
 }

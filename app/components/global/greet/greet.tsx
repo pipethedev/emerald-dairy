@@ -1,8 +1,9 @@
-interface greetProps {
-  name: string;
-}
+"use client";
+import { useAppSelector } from "@/hooks/store";
 
-const Greeting = ({ name }: greetProps) => {
+const Greeting = () => {
+  const auth = useAppSelector((state) => state.auth);
+
   const getGreeting = (): string => {
     const currentTime = new Date().getHours();
 
@@ -17,7 +18,11 @@ const Greeting = ({ name }: greetProps) => {
 
   const greeting = getGreeting();
 
-  return <div className="capitalize ">{`${greeting}, ${name}!`}</div>;
+  return (
+    <div className="capitalize ">{`${greeting}, ${
+      auth.user?.displayName.split(" ")[0]
+    }!`}</div>
+  );
 };
 
 export default Greeting;

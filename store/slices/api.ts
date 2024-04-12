@@ -12,6 +12,7 @@ export const apiSlice = createApi({
     return {
       fetchNotes: builder.query<{ data: Note[] }, string | void>({
         query(type: "all") {
+          console.log("FETCH_NOTES_REDUX");
           return `/api/notes?type=${type}`;
         },
         forceRefetch: () => true,

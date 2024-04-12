@@ -23,11 +23,12 @@ import {
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 as uuidV4 } from "uuid";
+import api from "./api";
 
-export const fetchTags = async (type: string): Promise<Tag[] | null> => {
+export const fetchTags = async (): Promise<Tag[] | null> => {
   try {
-    const res = await fetch(`/api/tags`);
-    const responseData = await res.json();
+    const res = await api.get(`/tags`);
+    const responseData = res.data;
     console.log({ responseData });
     return responseData.data;
   } catch (error) {
@@ -40,11 +41,10 @@ export const fetchTags = async (type: string): Promise<Tag[] | null> => {
 export const createTag = async (name: string) => {
   try {
     if (!name) throw new Error("Invalid tag name");
-    const res = await fetch("/api/tags", {
-      method: "POST",
-      body: JSON.stringify({ name }),
+    const res = await api.post("/tags", {
+      name,
     });
-    const responseData = await res.json();
+    const responseData = res.data;
 
     console.log({ responseData });
 
@@ -79,11 +79,9 @@ export const deleteTag = async (id: string) => {
   try {
     console.log("DELETE_RUNNING");
     // await deleteDoc(doc(db, "tags", id));
-    const res = await fetch(`/api/tags/${id}`, {
-      method: "DELETE",
-    });
+    const res = await api.delete(`/tags/${id}`);
 
-    const responseData = await res.json();
+    const responseData = await res.data;
 
     console.log({ responseData });
 
@@ -117,11 +115,9 @@ export const deleteTagPermanently = async (id: string) => {
   try {
     console.log("DELETE_RUNNING");
     // await deleteDoc(doc(db, "tags", id));
-    const res = await fetch(`/api/tags/${id}?permanent=true`, {
-      method: "DELETE",
-    });
+    const res = await api.delete(`/tags/${id}?permanent=true`);
 
-    const responseData = await res.json();
+    const responseData = res.data;
 
     console.log({ responseData });
 

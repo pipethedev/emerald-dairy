@@ -73,7 +73,7 @@ export async function PUT(
 
     const currentUser = await getCurrentUser();
 
-    console.log({ currentUser });
+    console.log("Tag PUT: ", { currentUser });
 
     // if (!currentUser) throw new Error("Unauthorized");
 
@@ -137,7 +137,7 @@ export async function PATCH(
 ) {
   try {
     const currentUser = await getCurrentUser();
-    console.log({ currentUser });
+    console.log("Tag PATCH: ", { currentUser });
 
     let tagData: Tag;
 
@@ -192,7 +192,7 @@ export async function DELETE(
 ) {
   try {
     const currentUser = await getCurrentUser();
-    console.log({ currentUser });
+    console.log("Tag DELETE: ", { currentUser });
 
     const collectionRef = collection(db, "notes");
 

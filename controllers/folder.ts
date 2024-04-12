@@ -23,11 +23,12 @@ import {
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 as uuidV4 } from "uuid";
+import api from "./api";
 
-export const fetchFolders = async (type: string): Promise<Folder[] | null> => {
+export const fetchFolders = async (): Promise<Folder[] | null> => {
   try {
-    const res = await fetch(`/api/folders`);
-    const responseData = await res.json();
+    const res = await api.get(`/folders`);
+    const responseData = res.data;
     console.log({ responseData });
     return responseData.data;
   } catch (error) {
@@ -40,11 +41,10 @@ export const fetchFolders = async (type: string): Promise<Folder[] | null> => {
 export const createFolder = async (name: string) => {
   try {
     if (!name) throw new Error("Invalid folder name");
-    const res = await fetch("/api/folders", {
-      method: "POST",
-      body: JSON.stringify({ name }),
+    const res = await api.post("/folders", {
+      name,
     });
-    const responseData = await res.json();
+    const responseData = res.data;
 
     console.log({ responseData });
 
@@ -79,11 +79,9 @@ export const deleteFolder = async (id: string) => {
   try {
     console.log("DELETE_RUNNING");
     // await deleteDoc(doc(db, "folders", id));
-    const res = await fetch(`/api/folders/${id}`, {
-      method: "DELETE",
-    });
+    const res = await api.delete(`/folders/${id}`);
 
-    const responseData = await res.json();
+    const responseData = await res.data;
 
     console.log({ responseData });
 
@@ -117,11 +115,9 @@ export const deleteFolderPermanently = async (id: string) => {
   try {
     console.log("DELETE_RUNNING");
     // await deleteDoc(doc(db, "folders", id));
-    const res = await fetch(`/api/folders/${id}?permanent=true`, {
-      method: "DELETE",
-    });
+    const res = await api.delete(`/folders/${id}?permanent=true`);
 
-    const responseData = await res.json();
+    const responseData = await res.data;
 
     console.log({ responseData });
 

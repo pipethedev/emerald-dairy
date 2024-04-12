@@ -81,3 +81,25 @@ type MenuItem = {
     ...args: any
   ): void;
 };
+
+type APIResponse<T = any> = {
+  success: boolean;
+  message: string;
+  data?: T;
+};
+
+type User = {
+  uid: string;
+  displayName: string;
+  email: string;
+  photo: string;
+  auth_token?: string;
+};
+
+type AuthState = {
+  user: User | null;
+  token: string | null;
+  isAuthenticated: boolean;
+  isLoading?: boolean;
+  error?: string | null;
+};

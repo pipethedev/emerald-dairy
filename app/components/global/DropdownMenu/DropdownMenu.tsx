@@ -18,6 +18,7 @@ import { motion } from "framer-motion";
 import { useAppDispatch } from "@/hooks/store";
 import { closeModal, triggerModal } from "@/store/slices/modal";
 import Spinner from "../Spinner/Spinner";
+import { Menu as HMenu } from "@headlessui/react";
 
 interface ButtonProps
   extends DetailedHTMLProps<
@@ -107,6 +108,7 @@ export default function DropdownMenu({
         </IconButton>
       )}
 
+      {/* 
       {buttonWrapper(
         <>
           <IconButton
@@ -124,10 +126,33 @@ export default function DropdownMenu({
             icon={buttonProps?.icon}
             {...otherButtonProps}
           >
+      */}
+
+      {buttonWrapper(
+        // <HMenu>
+        //   {({ open, close }) => (
+        <>
+          {/* <HMenu.Button> */}
+          <IconButton
+            onClick={(e) => {
+              toggleDropDown();
+              // Prevents click event from reaching parent, a link, for instance
+              e.stopPropagation();
+              e.preventDefault();
+            }}
+            style={{
+              stroke: "black",
+            }}
+            stroke="!stroke-gray-800"
+            className={clsx("!bg-[#FAFAFA] hidden md:flex", buttonClassName)}
+            icon={buttonProps?.icon}
+            {...otherButtonProps}
+          >
             {children ? children : null}
           </IconButton>
+          {/* </HMenu.Button> */}
           <AnimateInOut
-            show={showDropdown}
+            show={show && showDropdown}
             initial={{ opacity: 0, translateY: 100 }}
             animate={{ opacity: 1, translateY: 0 }}
             exit={{ opacity: 0, translateY: 100 }}
@@ -140,6 +165,10 @@ export default function DropdownMenu({
             <Menu menuItems={menuItems} />
           </AnimateInOut>
         </>
+        // {/* )}
+        //   </HMenu>
+        // )} */}
+        // </>
       )}
     </>
   );

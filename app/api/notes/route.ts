@@ -1,5 +1,10 @@
-import { firebaseApp, getCurrentUser } from "@/lib/firebase/firebase-admin";
+import {
+  auth,
+  firebaseApp,
+  getCurrentUser,
+} from "@/lib/firebase/firebase-admin";
 import { db, storage } from "@/lib/firebase/firebase-client";
+import { getAuth } from "firebase-admin/auth";
 import { deleteApp, getApps } from "firebase/app";
 import {
   Timestamp,
@@ -10,13 +15,31 @@ import {
   where,
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {
+    // const headersList = headers();
+    // const idToken = headersList.get("authorization");
+
+    // if (!idToken) throw new Error("Invalid Auth Token");
+
+    // const currentUser = await getCurrentUser();
     const currentUser = await getCurrentUser();
 
-    console.log({ currentUser });
+    // if (!currentUser)
+    //   return NextResponse.json(
+    //     {
+    //       message: "Unauthenticated",
+    //     },
+    //     {
+    //       status: 403,
+    //       statusText:
+    //     }
+    //   );
+
+    console.log("Notes GET: ", { currentUser });
 
     const searchParams = request.nextUrl.searchParams;
 
@@ -27,10 +50,17 @@ export async function GET(request: NextRequest) {
     let querySnapshot;
 
     if (["favourite", "archived", "deleted"].includes(type!)) {
-      const q = query(collection(db, "notes"), where("type", "==", type));
+      const q = query(
+        collection(db, "notes"),
+        where("type", "==", type),
+        where("owner", "==", currentUser?.uid)
+      );
       querySnapshot = await getDocs(q);
     } else {
-      const q = query(collection(db, "notes"));
+      const q = query(
+        collection(db, "notes"),
+        where("owner", "==", currentUser?.uid)
+      );
       querySnapshot = await getDocs(q);
     }
 
@@ -53,6 +83,8 @@ export async function GET(request: NextRequest) {
         } as Note)
     );
 
+    console.log({ notesData });
+
     return NextResponse.json({
       message: "note Data",
       success: true,
@@ -60,11 +92,7 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error("FETCH_N0TES:get ", { error });
-    return NextResponse.json({
-      message: "Could'nt fetch note Data",
-      success: false,
-      data: null,
-    });
+    return NextResponse.json(error);
   }
 }
 
@@ -74,7 +102,7 @@ export async function POST(request: NextRequest) {
 
     const currentUser = await getCurrentUser();
 
-    console.log({ currentUser });
+    console.log("Notes POST: ", { currentUser });
 
     if (!currentUser) throw new Error("Unauthorized");
 

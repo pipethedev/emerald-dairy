@@ -12,15 +12,18 @@ import {
 } from "../../svgs";
 import { DropdownMenu } from "..";
 import { executeAction } from "@/lib/utils/helpers";
-import { logOut } from "@/controllers/auth";
+// import { logOut } from "@/controllers/auth";
 import { redirect, useRouter } from "next/navigation";
 import clsx from "clsx";
-import { BASE_URL } from "@/lib/utils/constants";
+import { BASE_URL, passwordRegex } from "@/lib/utils/constants";
 import { useState } from "react";
 import Input from "../../input";
 import Button from "../../button";
 import { triggerModal } from "@/store/slices/modal";
 import { useAppDispatch } from "@/hooks/store";
+import { triggerNotification } from "@/store/slices/notification";
+import { changePassword, logOut } from "@/controllers/auth";
+import { signOut } from "firebase/auth";
 
 type Props = {
   showDropdown: boolean;
@@ -33,15 +36,22 @@ export default function SettingsMenu({ showDropdown, setShowDropdown }: Props) {
 
   const menuItems: MenuItem[] = [
     {
-      href: "profile",
+      action() {
+        dispatch(
+          triggerModal({
+            children: <SecurityView />,
+            show: true,
+          })
+        );
+      },
       icon: <User3Icon className="!stroke-primary" />,
       label: "update profile",
     },
-    {
-      href: "appearance",
-      icon: <PaletteIcon className="!stroke-primary" />,
-      label: "appearance",
-    },
+    // {
+    //   href: "appearance",
+    //   icon: <PaletteIcon className="!stroke-primary" />,
+    //   label: "appearance",
+    // },
     {
       icon: <Lock4Icon className="!stroke-primary" />,
       label: "security",
@@ -58,18 +68,20 @@ export default function SettingsMenu({ showDropdown, setShowDropdown }: Props) {
       action(options) {
         executeAction(
           async () => {
-            const isLoggedOut = await logOut();
-            console.log({ isLoggedOut });
-            if (isLoggedOut) {
-              console.log("SHOULD NAVIGATE ", { isLoggedOut });
-              router.replace("/signin");
-            }
+            try {
+              const isLoggedOut = await logOut();
+              console.log({ isLoggedOut });
+              if (isLoggedOut) {
+                console.log("SHOULD NAVIGATE ", { isLoggedOut });
+                router.replace("/signin");
+              }
+            } catch (error) {}
           },
           {
             message: {
               type: "error",
               icon: Logout2Icon,
-              title: "Delete Note",
+              title: "Logout",
               text: (
                 <p>
                   Are you sure you want to{" "}
@@ -95,7 +107,7 @@ export default function SettingsMenu({ showDropdown, setShowDropdown }: Props) {
       buttonProps={{ icon: SettingsIcon }}
       menuItems={menuItems}
       buttonWrapper={(children) => (
-        <div className="relative w-fit h-fit ml-auto">{children}</div>
+        <div className="relative ml-auto w-fit h-fit">{children}</div>
       )}
       show={showDropdown}
       setShow={setShowDropdown}
@@ -104,6 +116,8 @@ export default function SettingsMenu({ showDropdown, setShowDropdown }: Props) {
 }
 
 function SecurityView() {
+  const dispatch = useAppDispatch();
+
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -112,32 +126,63 @@ function SecurityView() {
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    const res = await fetch(`${BASE_URL}/api/`);
+    if (!passwordRegex.test(newPassword))
+      return dispatch(
+        triggerNotification({
+          message: "Please Enter a valid password",
+          icon: Lock4Icon,
+          type: "warning",
+        })
+      );
+
+    try {
+      setLoading(true);
+      const changed = await changePassword(newPassword);
+      console.log({ changed });
+      if (!changed)
+        return dispatch(
+          triggerNotification({
+            message: "Operation failed",
+            icon: Lock4Icon,
+            type: "error",
+          })
+        );
+
+      dispatch(
+        triggerNotification({
+          message: "Password changed Successfully",
+          icon: Lock4Icon,
+          type: "success",
+        })
+      );
+    } catch (error) {
+      console.error("MODAL_CHANGE_PASSWORD", { error });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <form className="w-full mb-4 h-full flex flex-col" onSubmit={handleSubmit}>
-      <div className="w-[95%] overflow-auto flex flex-col flex-1 space-y-4 h-full mx-auto">
+    <form className="flex flex-col w-full h-full mb-4" onSubmit={handleSubmit}>
+      <div className="w-[95%] p-2 overflow-y-auto flex flex-col flex-1 space-y-4 h-full mx-auto">
         <div>
           <figure
             className={clsx(
-              "w-12 h-12 rounded-full flex items-center justify-center bg-primary/10"
+              "flex items-center justify-center w-12 h-12 rounded-full bg-primary/10"
             )}
           >
             <Lock4Icon className={clsx("!stroke-primary w-8 h-8")} />
           </figure>
         </div>
-        <div className="space-y-4 flex-1 pb-4">
-          <div>
-            <div className="font-bold text-2xl">Security</div>
-            <div className={"break-word"}>
-              This means that the amount for your session would be deducted from
-              your wallet balance.
-            </div>
+        <div className="flex-1 pb-4 space-y-4">
+          <div className="text-2xl font-bold">Security</div>
+          <div className={"break-word"}>
+            This means that the amount for your session would be deducted from
+            your wallet balance.
           </div>
         </div>
-        <div className="">
-          <fieldset className="flex flex-col gap-3 w-full">
+        <div className="w-full flex p-2">
+          {/* <fieldset className="flex flex-col w-full gap-3">
             <div className="flex flex-row justify-between">
               <label className="text-black font-aeonik -tracking-[0.28px] font-normal text-[14px]">
                 Current Password
@@ -151,8 +196,8 @@ function SecurityView() {
               onChange={(e) => setCurrentPassword(e.target.value)}
               placeholder="Current Password"
             />
-          </fieldset>
-          <fieldset className="flex flex-col gap-3 w-full">
+          </fieldset> */}
+          <fieldset className="flex flex-col w-full gap-3 flex-1">
             <div className="flex flex-row justify-between w-full">
               <label className="text-black font-aeonik -tracking-[0.28px] font-normal text-[14px]">
                 New Password
@@ -173,7 +218,7 @@ function SecurityView() {
         type="submit"
         disabled={isDisabled}
         loading={loading}
-        className="capitalize w-full mt-2 shrink-0"
+        className="w-full mt-2 capitalize shrink-0"
       >
         {"change password"}
       </Button>

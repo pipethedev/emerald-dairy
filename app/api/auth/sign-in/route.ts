@@ -8,23 +8,28 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 
 export async function POST(request: NextRequest) {
   try {
+    // const reqBody = (await request.json()) as {
+    //   email: string;
+    //   password: string;
+    // };
+
+    // const userCredential = await signInWithEmailAndPassword(
+    //   auth,
+    //   reqBody?.email,
+    //   reqBody?.password
+    // );
+    // // User signed in successfully
+    // const user = userCredential.user;
+    // const idToken = await userCredential.user.getIdToken();
+
+    // console.log("UserCredential: ", user);
+
     const reqBody = (await request.json()) as {
-      email: string;
-      password: string;
+      // email: string;
+      idToken: string;
     };
 
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      reqBody?.email,
-      reqBody?.password
-    );
-    // User signed in successfully
-    const user = userCredential.user;
-    const idToken = await userCredential.user.getIdToken();
-
-    // const reqBody = (await request.json()) as {email:string idToken: string };
-
-    // const idToken = reqBody.idToken;
+    const idToken = reqBody.idToken;
 
     const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
 
@@ -37,16 +42,17 @@ export async function POST(request: NextRequest) {
     });
 
     //   return NextResponse.json<APIResponse<string>>({
-    return NextResponse.json({
+    return NextResponse.json<APIResponse<Partial<User>>>({
       success: true,
       message: "Signed in successfully.",
-      data: { uid: user.uid, displayName: user.displayName },
+      // data: { uid: user.uid, displayName: user.displayName as string },
     });
   } catch (error) {
+    const errorM = error as Error;
     console.error("SIGN_IN: ", { error });
-    return NextResponse.json({
+    return NextResponse.json<APIResponse>({
       success: false,
-      data: "Could'nt sign in.",
+      message: errorM.message,
     });
   }
 }

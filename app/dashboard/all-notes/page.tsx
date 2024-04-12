@@ -5,24 +5,11 @@ import {
   Notes,
   ToggleNotesBarBtn,
 } from "@/app/components/global";
-import { Greet } from "@/app/components/global/greet";
-import {
-  EditIcon,
-  ExpandMoreIcon,
-  HeartsOutlineIcon,
-  LeftAlignIcon,
-  MoreHorisIcon,
-  SearchIcon,
-  SettingsIcon,
-  TagIcon,
-} from "@/app/components/svgs";
-import { notesPreviewData } from "@/data/notes";
+import { Greeting } from "@/app/components/global/greet";
 import Image from "next/image";
 import Link from "next/link";
 import { useContext, useState } from "react";
 import { Timestamp, addDoc, collection } from "firebase/firestore";
-// import { db } from "@/lib/firebase/firebase-client";
-import clsx from "clsx";
 
 export default function DashboardCreate() {
   const [folder, setNewFolder] = useState("");
@@ -72,7 +59,7 @@ export default function DashboardCreate() {
                   />
                 </figure>
                 <h1 className="text-[44px] font-bold">
-                  <Greet name="Bimbo" />
+                  <Greeting />
                 </h1>
                 <div className="w-fit ml-auto">
                   <ToggleNotesBarBtn />
@@ -183,7 +170,7 @@ export default function DashboardCreate() {
                   />
                 </figure>
                 <h1 className="text-[24px] font-bold">
-                  <Greet name="Bimbo" />
+                  <Greeting />
                 </h1>
                 <div className="ml-auto mr-3">
                   <ToggleNotesBarBtn />

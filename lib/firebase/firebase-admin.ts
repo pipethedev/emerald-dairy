@@ -1,24 +1,33 @@
 import "server-only";
 
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 import {
   initializeApp,
   getApps,
   cert,
   applicationDefault,
+  App,
 } from "firebase-admin/app";
 import { getAuth, SessionCookieOptions } from "firebase-admin/auth";
 // import serviceAccount from "/home/BriggSKvngZ/MyCode/note-app/emerald-diary-firebase-adminsdk.json";
 
-const serviceAccount = require("../../emerald-diary-firebase-adminsdk.json");
+console.log("DIR_NAME: ", { __dirname });
+const serviceAccount = require("../../emerald-diary-firebase-adminsdk-2.json");
 
-export const firebaseApp =
-  getApps().find((it) => {
-    console.log("IT:confirm==> ", it.name === "emerald-diary");
-    return it.name === "emerald-diary";
-  }) ||
-  initializeApp(
+export let firebaseApp: App | undefined;
+
+const existingFirebaseApp = getApps().find((it) => {
+  console.log("IT:confirm==> ", it.name === "emerald-diary");
+  return it.name === "emerald-diary";
+});
+
+if (existingFirebaseApp) {
+  console.log("EXISTING_FIREBASE_APP", existingFirebaseApp);
+  firebaseApp = existingFirebaseApp;
+} else {
+  console.log("NO_FIREBASE_APP");
+  firebaseApp = initializeApp(
     {
       // credential: cert({
       //   projectId: process.env.FIREBASE_PROJECT_ID,
@@ -30,6 +39,7 @@ export const firebaseApp =
     },
     "emerald-diary"
   );
+}
 
 // {
 //   // credential: cert({
@@ -60,19 +70,29 @@ export async function isUserAuthenticated(
   }
 }
 
+// export async function getCurrentUser() {
+//   const session = await getSession();
+
+//   console.log({ session });
+
+//   if (!(await isUserAuthenticated(session))) {
+//     return null;
+//   }
+
+//   const decodedIdToken = await auth.verifySessionCookie(session!);
+//   const currentUser = await auth.getUser(decodedIdToken.uid);
+
+//   return currentUser;
+// }
+
 export async function getCurrentUser() {
-  const session = await getSession();
+  const headersList = headers();
+  const idToken = headersList.get("authorization");
+  console.log("----AUTH_TOKEN------", { idToken });
 
-  console.log({ session });
+  if (!idToken) throw new Error("Invalid Auth Token");
 
-  if (!(await isUserAuthenticated(session))) {
-    return null;
-  }
-
-  const decodedIdToken = await auth.verifySessionCookie(session!);
-  const currentUser = await auth.getUser(decodedIdToken.uid);
-
-  return currentUser;
+  return await auth.verifyIdToken(idToken);
 }
 
 async function getSession() {

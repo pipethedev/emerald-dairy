@@ -5,7 +5,7 @@ import {
   Notes,
   ToggleNotesBarBtn,
 } from "@/app/components/global";
-import { Greet } from "@/app/components/global/greet";
+import { Greeting } from "@/app/components/global/greet";
 import {
   EditIcon,
   ExpandMoreIcon,
@@ -53,7 +53,7 @@ export default function Dashboard() {
                 />
               </figure>
               <h1 className="text-[44px] font-bold">
-                <Greet name="Bimbo" />
+                <Greeting />
               </h1>
             </div>
 
@@ -103,7 +103,7 @@ const DashboardMobile = () => {
               />
             </figure>
             <h1 className="text-[24px] font-bold">
-              <Greet name="Bimbo" />
+              <Greeting />
             </h1>
             <div className="w-fit ml-auto">
               <ToggleNotesBarBtn />

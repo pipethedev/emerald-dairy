@@ -40,7 +40,7 @@ export default function FullscreenImage({ images, urlParams }: Props) {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         show={showFullImages && images.length > 0}
-        className="fixed h-[calc(100vh-4rem)] w-screen md:w-[calc(100vw-3.5rem)] top-14 inset-0 mx-auto z-[900000]"
+        className="fixed h-[calc(100vh-4rem)]_ h-full w-screen md:w-[calc(100vw-3.5rem)] top-14_ inset-0 mx-auto z-[900000]"
       >
         <div className="relative w-full h-full">
           <Swiper

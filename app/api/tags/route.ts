@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
   try {
     const currentUser = await getCurrentUser();
 
-    console.log({ currentUser });
+    console.log("Tags GET: ", { currentUser });
 
     if (!currentUser) throw new Error("Unauthorized");
 
@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
   try {
     const currentUser = await getCurrentUser();
 
-    console.log({ currentUser });
+    console.log("Tags POST: ", { currentUser });
 
     if (!currentUser) throw new Error("Unauthorized");
 

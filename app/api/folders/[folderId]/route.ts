@@ -59,7 +59,7 @@ export async function PUT(
 
     const currentUser = await getCurrentUser();
 
-    console.log({ currentUser });
+    console.log("Folder PUT: ", { currentUser });
 
     // if (!currentUser) throw new Error("Unauthorized");
 
@@ -123,7 +123,7 @@ export async function PATCH(
 ) {
   try {
     const currentUser = await getCurrentUser();
-    console.log({ currentUser });
+    console.log("Folder PATCH: ", { currentUser });
 
     let folderData: Folder;
 
@@ -178,7 +178,7 @@ export async function DELETE(
 ) {
   try {
     const currentUser = await getCurrentUser();
-    console.log({ currentUser });
+    console.log("Folder DELETE: ", { currentUser });
 
     const collectionRef = collection(db, "notes");
 

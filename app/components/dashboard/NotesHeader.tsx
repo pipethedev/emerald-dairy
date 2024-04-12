@@ -39,30 +39,30 @@ type NavOption = {
 };
 
 const navOptions: NavOption[] = [
-  {
-    title: FolderIcon,
-    value: "this",
-  },
-  {
-    title: Tag3Icon,
-    value: "that",
-  },
-  {
-    title: Hearts,
-    value: "those",
-  },
-  {
-    title: Expand4Icon,
-    value: "them",
-  },
-  {
-    title: Share5Icon,
-    value: "the-other",
-  },
-  {
-    title: MessageChatCircleIcon,
-    value: "people",
-  },
+  // {
+  //   title: FolderIcon,
+  //   value: "this",
+  // },
+  // {
+  //   title: Tag3Icon,
+  //   value: "that",
+  // },
+  // {
+  //   title: Hearts,
+  //   value: "those",
+  // },
+  // {
+  //   title: Expand4Icon,
+  //   value: "them",
+  // },
+  // {
+  //   title: Share5Icon,
+  //   value: "the-other",
+  // },
+  // {
+  //   title: MessageChatCircleIcon,
+  //   value: "people",
+  // },
   // {
   //   title: HorizontalDots,
   //   value: "others",
@@ -255,15 +255,15 @@ export default function NotesHeader({ note }: Props) {
   return (
     <header className="w-full h-[72px] shrink-0 overflow-auto_ border-b-[1px] border-b-[#F2F2F2] overflow-x-auto md:overflow-x-visible">
       <div className="flex h-full items-center px-2 md:px-0 md:w-[90%] py-2 mx-auto gap-2">
-        <div className="flex items-center gap-3">
-          <IconButton
+        <div className="flex items-center gap-3 w-fit ml-auto justify-self-end">
+          {/* <IconButton
             icon={DocIcon}
             title="show all notes"
             onClick={() => {
               console.log("CLICKING!");
               dispatch(toggleNotesBar());
             }}
-          />
+          /> */}
           {/* <ParamsNav
             args={navOptions}
             searchParam="view"
@@ -287,7 +287,7 @@ export default function NotesHeader({ note }: Props) {
               );
             }}
           /> */}
-          <div className="relative flex w-fit mx-auto items-center gap-2">
+          <div className="relative flex w-fit mx-auto items-center">
             {navOptions.map(({ title, value }, i) => {
               const Title = title as React.FC<React.SVGProps<SVGElement>>;
 
@@ -310,7 +310,7 @@ export default function NotesHeader({ note }: Props) {
             <NoteOptions note={note} />
           </div>
         </div>
-        <Link href={`${pathname}?edit=true`} className="ml-auto">
+        <Link href={`${pathname}?edit=true`} className="ml-auto_">
           <button className="flex items-center gap-2 rounded-lg bg-primary-12 py-2 px-3 font-matter font-medium leading-normal text-sm h-[2.5rem]">
             <figure>
               <EditIcon className="!stroke-primary" />

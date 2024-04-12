@@ -77,7 +77,7 @@ export async function PUT(
 
     const currentUser = await getCurrentUser();
 
-    console.log({ currentUser });
+    console.log("Note PUT: ", { currentUser });
 
     // if (!currentUser) throw new Error("Unauthorized");
 
@@ -123,12 +123,12 @@ export async function PUT(
       timestamp: Timestamp.fromDate(new Date()),
     });
 
-    console.log("CREATED_N0TE", { note });
+    console.log("EDITED_N0TE", { note });
 
     console.log({ formData, content, contentArray });
     return NextResponse.json({ success: true, data: "note" });
   } catch (error) {
-    console.error("CREATE_N0TE:post ", { error });
+    console.error("EDIT_N0TE:post ", { error });
     return NextResponse.json({
       success: false,
     });
@@ -141,7 +141,7 @@ export async function PATCH(
 ) {
   try {
     const currentUser = await getCurrentUser();
-    console.log({ currentUser });
+    console.log("Note PATCH: ", { currentUser });
 
     let noteData: Note;
 
@@ -213,7 +213,9 @@ export async function DELETE(
 ) {
   try {
     const currentUser = await getCurrentUser();
-    console.log({ currentUser });
+    console.log("Note DELETE: ", { currentUser });
+
+    currentUser.aud;
 
     const searchParams = request.nextUrl.searchParams;
 

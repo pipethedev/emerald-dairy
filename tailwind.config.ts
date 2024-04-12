@@ -29,11 +29,11 @@ const config: Config = {
       keyframes: {
         "fade-effect": {
           "0%": {
-            transform: "scale(0.9)",
+            // transform: "scale(0.9)",
             opacity: "0",
           },
           "100%": {
-            transform: "scale(1)",
+            // transform: "scale(1)",
             opacity: "1",
           },
         },

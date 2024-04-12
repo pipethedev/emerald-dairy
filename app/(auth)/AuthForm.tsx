@@ -20,6 +20,9 @@ import {
 } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
 import BibleVerseComponent from "@/lib/utils/bibleApi";
+import { useAppDispatch } from "@/hooks/store";
+import { setUser } from "@/store/slices/auth";
+import api from "@/controllers/api";
 
 interface formData {
   email: string;
@@ -35,6 +38,8 @@ type Props = {
 const auth = getAuth(app);
 
 export default function AuthForm({ route = "sign-in" }: Props) {
+  const dispatch = useAppDispatch();
+
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -71,43 +76,31 @@ export default function AuthForm({ route = "sign-in" }: Props) {
     try {
       if (route === "sign-in") {
         // HANDLE SIGN-IN LOGIC
-        // const userCredential = await signInWithEmailAndPassword(
-        //   auth,
-        //   formData?.email,
-        //   formData?.password
-        // );
-        // // User signed in successfully
-        // const user = userCredential.user;
-        // const idToken = await userCredential.user.getIdToken();
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          formData?.email,
+          formData?.password
+        );
+        // User signed in successfully
+        const user = userCredential.user;
+        const idToken = await userCredential.user.getIdToken();
 
-        // const response = await fetch("/api/auth/sign-in", {
-        //   method: "POST",
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //   },
-        //   body: JSON.stringify({ idToken }),
-        // });
-        const response = await fetch("/api/auth/sign-in", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: formData.email,
-            password: formData.password,
-          }),
+        const response = await api.post("/auth/sign-in", {
+          idToken,
         });
 
-        const resBody = await response.json();
-
-        const user = resBody.data;
-
-        if (!user) return;
-
+        const resBody = await response.data;
         console.log({ resBody });
 
+        // const user = resBody.data;
+
+        if (!user) throw new Error(resBody.message);
+
         // Store user details in local storage
-        localStorage.setItem("currentUser", JSON.stringify(user));
+        // localStorage.setItem("currentUser", JSON.stringify(user));
+        dispatch(
+          setUser({ user: user as any, token: idToken, isAuthenticated: true })
+        );
 
         // Add success message
         // alert("Login Successful");
@@ -117,33 +110,47 @@ export default function AuthForm({ route = "sign-in" }: Props) {
         router.push("/dashboard");
       } else {
         // Handle sign-up logic
-        const response = await fetch("/api/auth/sign-up", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: formData?.email,
-            firstname: formData?.firstName,
-            lastname: formData?.lastName,
-          }),
-        });
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          formData?.email,
+          formData?.password
+        );
+        // User signed in successfully
+        const user = userCredential.user;
+        const idToken = await userCredential.user.getIdToken();
 
-        const resBody = await response.json();
+        // const response = await fetch("/api/auth/sign-up", {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify({
+        //     email: formData?.email,
+        //     firstname: formData?.firstName,
+        //     lastname: formData?.lastName,
+        //   }),
+        // });
 
-        const user = resBody.data;
+        // const resBody = await response.json();
+        // console.log({ resBody });
 
-        if (!user) return;
+        // const user = resBody.data;
 
-        console.log({ resBody });
+        if (!user) throw new Error("NO_USER");
 
+        dispatch(
+          setUser({ user: user as any, token: idToken, isAuthenticated: true })
+        );
         // alert("signup successful");
         toast.success("signup successful!🎉");
         router.push("/signin");
       }
     } catch (error: any) {
+      const errorM = error as Error;
+      console.error({ error });
       // Handle sign-in error
-      let errorMessage = "Login not successful. Please try again later.";
+      let errorMessage =
+        errorM.message || "Login not successful. Please try again later.";
       switch (error.code) {
         case "auth/invalid-email":
           errorMessage = "Invalid email address.";
@@ -151,7 +158,18 @@ export default function AuthForm({ route = "sign-in" }: Props) {
         case "auth/user-disabled":
           errorMessage = "User account is disabled.";
           break;
+
+        case "auth/too-many-requests":
+          errorMessage =
+            "Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.";
+          break;
+
+        case "auth/invalid-credential":
+          errorMessage = "Invalid Credentials";
+          break;
         case "auth/user-not-found":
+          errorMessage = "User Not Found.";
+          break;
         case "auth/wrong-password":
           errorMessage = "Invalid email or password.";
           break;
@@ -167,7 +185,7 @@ export default function AuthForm({ route = "sign-in" }: Props) {
       }
       // Display error message
       // alert(errorMessage);
-      toast(errorMessage);
+      toast.error(errorMessage);
       console.error("Error signing in:", error);
       console.error("Error: Sign-in failed. Please check your credentials.");
     } finally {
@@ -181,7 +199,7 @@ export default function AuthForm({ route = "sign-in" }: Props) {
         "w-full lg:h-screen flex flex-col lg:grid lg:grid-cols-5 justify-center items-center gap-8"
       )}
     >
-      <figure className="col-span-3 -mt-11 py-16 lg:py-0 lg:mt-0 md:px-0 text-[#FFFBF9] lg:h-full bg-[url(/images/overlay.png)] bg-right bg-no-repeat flex items-center justify-center flex-col w-full lg:w-auto bg-[length:100%]">
+      <figure className="col-span-3 -mt-11 py-16 lg:py-0 lg:mt-0 md:px-0 text-[#FFFBF9] lg:h-screen bg-[url(/images/overlay.png)] bg-cover bg-right bg-no-repeat flex items-center justify-center flex-col w-full lg:w-auto bg-[length:100%]_">
         <div className="flex md:w-[90%] lg:w-[70%] flex-col items-center lg:items-start justify-center">
           <div className="lg:gap-11 gap-4 lg:w-3/4 w-5/6 md:w-full flex flex-col">
             <div className="flex flex-col gap-5">
