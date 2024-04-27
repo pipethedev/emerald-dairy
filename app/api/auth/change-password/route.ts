@@ -1,14 +1,16 @@
-import { updateCurrentUser, updatePassword } from "firebase/auth";
+import { updatePassword } from "firebase/auth";
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@/lib/firebase/firebase-client";
 import { passwordRegex } from "@/lib/utils/constants";
-import { auth, getCurrentUser } from "@/lib/firebase/firebase-admin";
+import { getCurrentUser } from "@/lib/firebase/firebase-admin";
 
 export async function POST(request: NextRequest) {
   try {
-    const currentUser = await getCurrentUser();
+    const curUser = await getCurrentUser();
 
-    console.log({ currentUser });
+    console.log({ curUser });
 
+    const currentUser = auth.currentUser;
     if (!currentUser) throw new Error("Unauthorized");
 
     const requestBody = (await request.json()) as {
@@ -20,12 +22,7 @@ export async function POST(request: NextRequest) {
     if (!newPassword || !passwordRegex.test(newPassword))
       throw new Error("Invalid data");
 
-    // await updatePassword(currentUser, newPassword);
-    const user = await auth.updateUser(currentUser.uid, {
-      password: newPassword,
-    });
-
-    console.log("UPDATED_USER: ", { user });
+    await updatePassword(currentUser, newPassword);
 
     return NextResponse.json({
       success: true,

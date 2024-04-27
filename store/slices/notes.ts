@@ -7,9 +7,7 @@ const notesSlice = createSlice({
   initialState,
   reducers: {
     updateNotes(state, action: PayloadAction<Note[]>) {
-      console.log("STATE_2", { state, action: action?.payload });
       if (action?.payload !== undefined) {
-        console.log("NOT_UNDEFINED=>", { payload: action.payload });
         state = action.payload;
         return state;
       }

@@ -1,5 +1,5 @@
 "use client";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { AddIcon, SearchIcon } from "../../svgs";
 import { useAppSelector } from "@/hooks/store";
 import { Combobox, Menu, Transition } from "@headlessui/react";
@@ -7,7 +7,7 @@ import AnimateInOut from "../AnimateInOut";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 
-export default function SearchBar({ documents_ }: { documents_?: Note[] }) {
+export default function SearchBar() {
   const router = useRouter();
 
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -17,7 +17,6 @@ export default function SearchBar({ documents_ }: { documents_?: Note[] }) {
   const documents = useAppSelector((state) => state.notes);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("HANDLE:", event.target.value);
     setSearchTerm(event.target.value);
   };
 
@@ -26,7 +25,6 @@ export default function SearchBar({ documents_ }: { documents_?: Note[] }) {
   );
 
   const handleSelectedTerm = (term: Note) => {
-    console.log({ term });
     setSelectedTerm(term);
     //  term = note
     router.replace(`/dashboard/all-notes/${term?.id}`);
@@ -37,9 +35,10 @@ export default function SearchBar({ documents_ }: { documents_?: Note[] }) {
       <Combobox value={selectedTerm} onChange={handleSelectedTerm}>
         {({ open = false }) => (
           <>
-            <div className="p-2 h-full relative w-full z-[1000000000001000]">
+            <div className="relative p-2 h-full flex items-center gap-2 w-full z-[102]">
+              <SearchIcon />
               <Combobox.Input
-                className="outline-none w-full h-full placeholder-[#B3B3B3] bg-transparent text-[14px]"
+                className="outline-none w-full h-full placeholder-[#B3B3B3] z-[102] bg-transparent text-[14px]"
                 placeholder="Search..."
                 onChange={handleSearchChange}
                 // displayValue={(person) => {
@@ -69,7 +68,7 @@ export default function SearchBar({ documents_ }: { documents_?: Note[] }) {
               animate={{ opacity: 1, translateY: 0 }}
               exit={{ opacity: 0, translateY: -100 }}
               transition={{ type: "keyframes", duration: 0.3 }}
-              className="!z-[200] space-y-2 p-1 top-full rounded-b-xl bg-white left-0 w-full absolute shadow-md"
+              className="!z-[101] space-y-2 p-1 top-full rounded-b-xl bg-white left-0 w-full absolute shadow-md"
             >
               <Combobox.Options hold className="space-y-2 p-1" static>
                 {filteredDocuments.length ? (
@@ -84,7 +83,7 @@ export default function SearchBar({ documents_ }: { documents_?: Note[] }) {
                           className={clsx(
                             "bg-gray-100/70 rounded mx-auto w-[98%]_ p-2 ",
                             active && "bg-primary-3/30",
-                            selected && "bg-red-400"
+                            selected && "bg-primary"
                           )}
                         >
                           {document.title}

@@ -54,7 +54,6 @@ export default function Notes({ notes, path, type, folder }: Props) {
   const fetchedNotes = useAppSelector((state) => state.notes);
 
   useEffect(() => {
-    console.log("NOTES_DATA: ", { notesFromHook, fetchedNotes });
     if (!fetchedNotes.length) return;
     const splitUrl = pathname.split("/");
 
@@ -158,8 +157,10 @@ export default function Notes({ notes, path, type, folder }: Props) {
                       title={note.title}
                       subtitle={note.subtitle}
                       tag={note.tag}
+                      type={note.type}
                       favourite={note.favourite}
                       date={note?.date}
+                      folder={note.folder}
                       isActive={isActive}
                       hoverEffect
                     />

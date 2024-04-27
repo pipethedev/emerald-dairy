@@ -13,7 +13,7 @@ const paragraphs = Array(4)
       .map((_, i) => ({ key: i })),
   }));
 
-export default function Favorites() {
+export default function Favourites() {
   return (
     <main className="flex h-full [&::-webkit-slider-thumb]:!bg-blue-500 flex-col overflow-auto">
       <div className="w-[95%] md:w-[80%] flex-1 overflow-auto [&::-webkit-slider-thumb]:!bg-blue-500 mx-auto pt-8">

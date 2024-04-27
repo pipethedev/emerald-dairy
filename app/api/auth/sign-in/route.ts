@@ -2,8 +2,12 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 // import { APIResponse } from "@/types";
-import { createSessionCookie } from "@/lib/firebase/firebase-admin";
-import { auth } from "@/lib/firebase/firebase-client";
+import {
+  auth,
+  createSessionCookie,
+  getCurrentUser,
+} from "@/lib/firebase/firebase-admin";
+// import { auth } from "@/lib/firebase/firebase-client";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 export async function POST(request: NextRequest) {
@@ -33,6 +37,20 @@ export async function POST(request: NextRequest) {
 
     const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
 
+    const currentUser = await getCurrentUser(idToken);
+
+    if (!currentUser)
+      return NextResponse.json<APIResponse<Partial<User>>>(
+        {
+          success: true,
+          message: "Unauthorized!",
+          // data: { uid: currentUser.uid, displayName: user.displayName as string },
+        },
+        { status: 401 }
+      );
+
+    const user = await auth.getUser(currentUser.uid);
+
     const sessionCookie = await createSessionCookie(idToken, { expiresIn });
 
     cookies().set("__session", sessionCookie, {
@@ -45,7 +63,12 @@ export async function POST(request: NextRequest) {
     return NextResponse.json<APIResponse<Partial<User>>>({
       success: true,
       message: "Signed in successfully.",
-      // data: { uid: user.uid, displayName: user.displayName as string },
+      data: {
+        displayName: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+        uid: user.uid,
+      },
     });
   } catch (error) {
     const errorM = error as Error;

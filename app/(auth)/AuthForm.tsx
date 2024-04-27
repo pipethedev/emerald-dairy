@@ -82,25 +82,33 @@ export default function AuthForm({ route = "sign-in" }: Props) {
           formData?.password
         );
         // User signed in successfully
-        const user = userCredential.user;
-        const idToken = await userCredential.user.getIdToken();
+        const userFromCred = userCredential.user;
+        const idToken = await userFromCred.getIdToken();
 
         const response = await api.post("/auth/sign-in", {
           idToken,
         });
+        // const response = await fetch("/api/auth/sign-in", {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify({
+        //     email: formData.email,
+        //     password: formData.password,
+        //   }),
+        // });
 
-        const resBody = await response.data;
+        const resBody = response.data;
         console.log({ resBody });
 
-        // const user = resBody.data;
+        const user = resBody.data;
 
         if (!user) throw new Error(resBody.message);
 
         // Store user details in local storage
         // localStorage.setItem("currentUser", JSON.stringify(user));
-        dispatch(
-          setUser({ user: user as any, token: idToken, isAuthenticated: true })
-        );
+        dispatch(setUser({ user, token: idToken, isAuthenticated: true }));
 
         // Add success message
         // alert("Login Successful");
@@ -116,31 +124,23 @@ export default function AuthForm({ route = "sign-in" }: Props) {
           formData?.password
         );
         // User signed in successfully
-        const user = userCredential.user;
-        const idToken = await userCredential.user.getIdToken();
+        const userFromCred = userCredential.user;
+        const idToken = await userFromCred.getIdToken();
 
-        // const response = await fetch("/api/auth/sign-up", {
-        //   method: "POST",
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //   },
-        //   body: JSON.stringify({
-        //     email: formData?.email,
-        //     firstname: formData?.firstName,
-        //     lastname: formData?.lastName,
-        //   }),
-        // });
+        const response = await api.post("/auth/sign-up", {
+          email: formData?.email,
+          firstname: formData?.firstName,
+          lastname: formData?.lastName,
+        });
 
-        // const resBody = await response.json();
+        const resBody = response.data;
         // console.log({ resBody });
 
-        // const user = resBody.data;
+        const user = resBody.data;
 
         if (!user) throw new Error("NO_USER");
 
-        dispatch(
-          setUser({ user: user as any, token: idToken, isAuthenticated: true })
-        );
+        dispatch(setUser({ user, token: idToken, isAuthenticated: true }));
         // alert("signup successful");
         toast.success("signup successful!🎉");
         router.push("/signin");
@@ -149,8 +149,7 @@ export default function AuthForm({ route = "sign-in" }: Props) {
       const errorM = error as Error;
       console.error({ error });
       // Handle sign-in error
-      let errorMessage =
-        errorM.message || "Login not successful. Please try again later.";
+      let errorMessage = "authentication failed. Please try again later.";
       switch (error.code) {
         case "auth/invalid-email":
           errorMessage = "Invalid email address.";
@@ -158,18 +157,7 @@ export default function AuthForm({ route = "sign-in" }: Props) {
         case "auth/user-disabled":
           errorMessage = "User account is disabled.";
           break;
-
-        case "auth/too-many-requests":
-          errorMessage =
-            "Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.";
-          break;
-
-        case "auth/invalid-credential":
-          errorMessage = "Invalid Credentials";
-          break;
         case "auth/user-not-found":
-          errorMessage = "User Not Found.";
-          break;
         case "auth/wrong-password":
           errorMessage = "Invalid email or password.";
           break;
@@ -181,6 +169,7 @@ export default function AuthForm({ route = "sign-in" }: Props) {
           break;
         // Add more cases for other Firebase error codes as needed
         default:
+          errorMessage = "authentication failed. Please try again later.";
           break;
       }
       // Display error message

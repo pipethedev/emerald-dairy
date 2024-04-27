@@ -33,7 +33,7 @@ type Props = PropsWithChildren<
   ComponentProps<typeof motion.div> & {
     buttonWrapper?(children: React.ReactNode): React.ReactNode;
     buttonProps?: ButtonProps;
-    menuItems: MenuItem[];
+    menuItems: MenuItemType[];
     show?: boolean;
     setShow?: React.Dispatch<React.SetStateAction<boolean>>;
   }
@@ -174,17 +174,19 @@ export default function DropdownMenu({
   );
 }
 
-export function Menu({ menuItems }: { menuItems: MenuItem[] }) {
-  const MenuItem = ({
-    item: { href, icon, label, action, type },
-  }: {
-    item: MenuItem;
-  }) => {
-    const [loading, setLoading] = useState(false);
+export function MenuItem({
+  item: { href, icon, label, action, type },
+  itemBuilder,
+}: {
+  item: MenuItemType;
+  itemBuilder?({ loading }: { loading: boolean }): React.ReactNode;
+}) {
+  const [loading, setLoading] = useState(false);
 
-    const handleLoading = (loadingState: boolean) => setLoading(loadingState);
+  const handleLoading = (loadingState: boolean) => setLoading(loadingState);
 
-    const Item = () => (
+  const Item = () =>
+    itemBuilder?.({ loading }) || (
       <div className="flex gap-3 p-4 cursor-pointer items-center hover:bg-primary-13 rounded-md active:bg-primary-10 whitespace-nowrap">
         {icon}
         <p className="capitalize">{label}</p>
@@ -193,23 +195,24 @@ export function Menu({ menuItems }: { menuItems: MenuItem[] }) {
         </div>
       </div>
     );
-    return action ? (
-      <div
-        onClick={(e) => {
-          action({ handleLoading });
-          e.stopPropagation();
-          e.preventDefault();
-        }}
-      >
-        <Item />
-      </div>
-    ) : (
-      <Link href={(href as string) || ""}>
-        <Item />
-      </Link>
-    );
-  };
+  return action ? (
+    <div
+      onClick={(e) => {
+        action({ handleLoading });
+        e.stopPropagation();
+        e.preventDefault();
+      }}
+    >
+      <Item />
+    </div>
+  ) : (
+    <Link href={(href as string) || ""}>
+      <Item />
+    </Link>
+  );
+}
 
+export function Menu({ menuItems }: { menuItems: MenuItemType[] }) {
   return (
     <div className="min-w-60 w-full overflow-clip">
       {menuItems.map((item, i) => (

@@ -12,18 +12,15 @@ import {
 import { getAuth, SessionCookieOptions } from "firebase-admin/auth";
 // import serviceAccount from "/home/BriggSKvngZ/MyCode/note-app/emerald-diary-firebase-adminsdk.json";
 
-console.log("DIR_NAME: ", { __dirname });
 const serviceAccount = require("../../emerald-diary-firebase-adminsdk-2.json");
 
 export let firebaseApp: App | undefined;
 
 const existingFirebaseApp = getApps().find((it) => {
-  console.log("IT:confirm==> ", it.name === "emerald-diary");
   return it.name === "emerald-diary";
 });
 
 if (existingFirebaseApp) {
-  console.log("EXISTING_FIREBASE_APP", existingFirebaseApp);
   firebaseApp = existingFirebaseApp;
 } else {
   console.log("NO_FIREBASE_APP");
@@ -85,14 +82,20 @@ export async function isUserAuthenticated(
 //   return currentUser;
 // }
 
-export async function getCurrentUser() {
-  const headersList = headers();
-  const idToken = headersList.get("authorization");
-  console.log("----AUTH_TOKEN------", { idToken });
+export async function getCurrentUser(idToken?: string) {
+  try {
+    const headersList = headers();
+    const token = idToken || headersList.get("authorization");
+    console.log("----AUTH_TOKEN------", { token });
 
-  if (!idToken) throw new Error("Invalid Auth Token");
-
-  return await auth.verifyIdToken(idToken);
+    if (!token) throw new Error("Invalid Auth Token");
+    const decoded = await auth.verifyIdToken(token);
+    console.log({ decoded });
+    return decoded;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 
 async function getSession() {

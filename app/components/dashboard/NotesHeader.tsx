@@ -287,7 +287,7 @@ export default function NotesHeader({ note }: Props) {
               );
             }}
           /> */}
-          <div className="relative flex w-fit mx-auto items-center">
+          <div className="relative flex w-fit mx-auto z-10 items-center">
             {navOptions.map(({ title, value }, i) => {
               const Title = title as React.FC<React.SVGProps<SVGElement>>;
 

@@ -6,13 +6,18 @@
 // });
 
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
-const initialState: AuthState = {
+const initialState: AuthState & {
+  // redirect here is used to move a user to a different page used to handle navigation outside a component body. It's used alongside the redirect util component found in @/utils/redirect
+  redirect: { url: string; action: keyof AppRouterInstance } | null; // page url to redirect to
+} = {
   user: null,
   isAuthenticated: false,
   isLoading: false,
   error: null,
   token: null,
+  redirect: null,
 };
 
 const authSlice = createSlice({
@@ -36,6 +41,12 @@ const authSlice = createSlice({
 
       console.log("CLEARED_USER");
     },
+    redirectUser(
+      state,
+      action: PayloadAction<(typeof initialState)["redirect"]>
+    ) {
+      state.redirect = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder;
@@ -43,5 +54,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUser, clearUser } = authSlice.actions;
+export const { setUser, clearUser, redirectUser } = authSlice.actions;
 export default authSlice;

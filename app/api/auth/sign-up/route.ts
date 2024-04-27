@@ -55,10 +55,15 @@ export async function POST(request: NextRequest) {
     });
 
     //   return NextResponse.json<APIResponse<string>>({
-    return NextResponse.json({
+    return NextResponse.json<APIResponse<Partial<User>>>({
       success: true,
       message: "Signed in successfully.",
-      data: { uid: user.uid, displayName: user.displayName },
+      data: {
+        uid: user.uid,
+        displayName: user.displayName as string,
+        email: user.email as string,
+        photo: user.photoURL as string,
+      },
     });
   } catch (error) {
     console.error("SIGN_IN: ", { error });

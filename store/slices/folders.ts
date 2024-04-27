@@ -7,9 +7,7 @@ const foldersSlice = createSlice({
   initialState,
   reducers: {
     updateFolders(state, action: PayloadAction<Folder[]>) {
-      console.log("STATE_2", { state, action: action?.payload });
       if (action?.payload !== undefined) {
-        console.log("NOT_UNDEFINED=>", { payload: action.payload });
         state = action.payload;
         return state;
       }

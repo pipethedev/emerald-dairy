@@ -19,6 +19,16 @@ export async function GET(request: NextRequest) {
   try {
     const currentUser = await getCurrentUser();
 
+    if (!currentUser)
+      return NextResponse.json(
+        {
+          message: "Unauthorized",
+        },
+        {
+          status: 401,
+        }
+      );
+
     console.log("Folders GET: ", { currentUser });
 
     if (!currentUser) throw new Error("Unauthorized");
@@ -66,6 +76,16 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const currentUser = await getCurrentUser();
+
+    if (!currentUser)
+      return NextResponse.json(
+        {
+          message: "Unauthorized",
+        },
+        {
+          status: 401,
+        }
+      );
 
     console.log("Folders POST: ", { currentUser });
 

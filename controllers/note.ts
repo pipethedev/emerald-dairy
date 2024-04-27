@@ -29,7 +29,6 @@ export const fetchNotes = async (type: string): Promise<Note[] | null> => {
   console.log("FETCH_NOTES_START");
   try {
     const res = await api.get(`/notes?type=${type}`);
-    console.log({ res });
     const responseData = await res.data;
     console.log("NOTES: ", { responseData });
     return responseData.data;
@@ -115,7 +114,7 @@ export const createNoteAsFormData = async (
 
     console.log({ responseData });
   } catch (error) {
-    console.error("CREATE_N0TE_FORM_DATA: ", { error });
+    console.error("CREATE_N0TE_FORMDATA: ", { error });
   }
 };
 
@@ -173,7 +172,7 @@ export const editNoteAsFormData = async (
   }
 };
 
-export const addNoteToFavorite = async (id: string): Promise<boolean> => {
+export const addNoteToFavourite = async (id: string): Promise<boolean> => {
   try {
     console.log("FAVOURITE_NOTE_ID: ", id);
 
@@ -293,15 +292,8 @@ export const tagNote = async (
 export const addNoteToFolder = async (
   noteId: string,
   folderId: string
-): Promise<Tag | null> => {
+): Promise<Folder | null> => {
   try {
-    // const res = await fetch(`/notes/${noteId}`, {
-    //   method: "PATCH",
-    //   body: JSON.stringify({
-    //     folder: folderId,
-    //   }),
-    // });
-
     const res = await api.patch(`/notes/${noteId}`, {
       body: JSON.stringify({
         folder: folderId,
@@ -315,7 +307,7 @@ export const addNoteToFolder = async (
 
     if (!responseData.success) {
       notify({
-        message: "Failed To Tag Note",
+        message: "Failed To Add Note To Folder",
         type: "error",
         icon: InfoCircleIcon,
       });
@@ -323,7 +315,7 @@ export const addNoteToFolder = async (
     }
 
     notify({
-      message: "Note Added To Tag Successfully",
+      message: "Note Added To Folder Successfully",
       type: "success",
       icon: CheckCircleIcon,
     });

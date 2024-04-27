@@ -6,6 +6,7 @@ import "swiper/css";
 import "swiper/css/scrollbar";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
+import Redirect from "@/lib/utils/redirect";
 
 const keyword = ["web-app", "pwa", "note-app", "emerald's diary"];
 
@@ -98,6 +99,7 @@ export default function RootLayout({
         <body>
           <div id="modal" />
           <div id="notification" />
+          <Redirect />
           {children}
           <div className="fixed bottom-0 left-0">
             <PortalElements />

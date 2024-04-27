@@ -18,8 +18,8 @@ export const sideNavigationLinksData: Array<SideNavigationLink> = [
     leading: DocIcon,
   },
   {
-    href: "/dashboard/favorites",
-    linkText: "Favorites",
+    href: "/dashboard/favourites",
+    linkText: "Favourites",
     leading: HeartIcon,
   },
   {

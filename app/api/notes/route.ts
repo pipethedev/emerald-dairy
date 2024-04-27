@@ -25,19 +25,17 @@ export async function GET(request: NextRequest) {
 
     // if (!idToken) throw new Error("Invalid Auth Token");
 
-    // const currentUser = await getCurrentUser();
     const currentUser = await getCurrentUser();
 
-    // if (!currentUser)
-    //   return NextResponse.json(
-    //     {
-    //       message: "Unauthenticated",
-    //     },
-    //     {
-    //       status: 403,
-    //       statusText:
-    //     }
-    //   );
+    if (!currentUser)
+      return NextResponse.json(
+        {
+          message: "Unauthorized",
+        },
+        {
+          status: 401,
+        }
+      );
 
     console.log("Notes GET: ", { currentUser });
 
@@ -92,7 +90,11 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error("FETCH_N0TES:get ", { error });
-    return NextResponse.json(error);
+    return NextResponse.json({
+      message: "Could'nt fetch note Data",
+      success: false,
+      data: null,
+    });
   }
 }
 
@@ -101,6 +103,16 @@ export async function POST(request: NextRequest) {
     // const reqBody = await request.json();
 
     const currentUser = await getCurrentUser();
+
+    if (!currentUser)
+      return NextResponse.json(
+        {
+          message: "Unauthorized",
+        },
+        {
+          status: 401,
+        }
+      );
 
     console.log("Notes POST: ", { currentUser });
 

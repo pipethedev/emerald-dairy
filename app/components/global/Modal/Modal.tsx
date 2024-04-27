@@ -82,7 +82,7 @@ export default function Modal() {
                         left: "50%",
                         x: "-50%",
                       }}
-                      drag="y"
+                      drag={matches.small && "y"}
                       dragElastic={
                         {
                           // bottom: 0.5,
@@ -107,7 +107,7 @@ export default function Modal() {
                           }}
                         />
                       </div>
-                      <div className="p-2 h-full pt-6 pb-4 flex flex-col">
+                      <div className="relative p-2_ sm:p-2 h-full pt-6 pb-4_ flex flex-col">
                         {children ? (
                           children
                         ) : (
@@ -149,7 +149,7 @@ export default function Modal() {
                           }
                         >
                           <Button
-                            className="border bg-primary/10 !text-primary"
+                            className="border hidden sm:flex justify-center bg-primary/10 !text-primary"
                             onClick={() => {
                               cancel();
                             }}

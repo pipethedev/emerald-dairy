@@ -1,9 +1,13 @@
 "use client";
 import { useAppSelector } from "@/hooks/store";
+import Spinner from "../Spinner";
+
+interface greetProps {
+  name: string;
+}
 
 const Greeting = () => {
   const auth = useAppSelector((state) => state.auth);
-
   const getGreeting = (): string => {
     const currentTime = new Date().getHours();
 
@@ -19,9 +23,20 @@ const Greeting = () => {
   const greeting = getGreeting();
 
   return (
-    <div className="capitalize ">{`${greeting}, ${
-      auth.user?.displayName.split(" ")[0]
-    }!`}</div>
+    <div className="capitalize ">
+      {`${greeting}, `}
+      <span className="inline-block">
+        {auth.user?.displayName ? (
+          auth.user?.displayName.split(" ")[0] + "!"
+        ) : (
+          <span className="flex items-center gap-2">
+            <Spinner size="small" className="!h-[10px] !w-[10px]" />
+            <Spinner size="small" className="!h-[10px] !w-[10px]" />
+            <Spinner size="small" className="!h-[10px] !w-[10px]" />
+          </span>
+        )}
+      </span>
+    </div>
   );
 };
 

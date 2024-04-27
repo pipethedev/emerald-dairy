@@ -17,7 +17,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  type: string;
+  type: React.InputHTMLAttributes<HTMLInputElement>["type"];
 }
 
 interface SideNavigationLink {
@@ -71,7 +71,7 @@ interface notesPreviewData {
   favourite: boolean;
 }
 
-type MenuItem = {
+type MenuItemType = {
   icon: React.ReactNode;
   label: string;
   href?: string;

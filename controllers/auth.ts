@@ -38,19 +38,3 @@ export const logOut = async () => {
     return false;
   }
 };
-
-export async function changePassword(newPassword: string) {
-  try {
-    const response = await api.post("/auth/change-password", {
-      newPassword,
-    });
-    const data = await response.data;
-
-    if (data.success) {
-      return true;
-    } else return false;
-  } catch (error) {
-    console.error("Error Changing Password", error);
-    return false;
-  }
-}

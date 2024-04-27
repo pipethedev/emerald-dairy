@@ -77,6 +77,16 @@ export async function PUT(
 
     const currentUser = await getCurrentUser();
 
+    if (!currentUser)
+      return NextResponse.json(
+        {
+          message: "Unauthorized",
+        },
+        {
+          status: 401,
+        }
+      );
+
     console.log("Note PUT: ", { currentUser });
 
     // if (!currentUser) throw new Error("Unauthorized");
@@ -141,6 +151,16 @@ export async function PATCH(
 ) {
   try {
     const currentUser = await getCurrentUser();
+
+    if (!currentUser)
+      return NextResponse.json(
+        {
+          message: "Unauthorized",
+        },
+        {
+          status: 401,
+        }
+      );
     console.log("Note PATCH: ", { currentUser });
 
     let noteData: Note;
@@ -160,7 +180,7 @@ export async function PATCH(
       const docSnap = await getDoc(doc(db, "tags", requestBody.tag));
       const noteTag = docSnap.data();
 
-      if (!noteTag) throw new Error("Couldn't find a tag with that ID");
+      if (!noteTag) throw new Error("Couldn't find a tag with that Tag");
 
       noteData = {
         ...requestBody,
@@ -213,6 +233,16 @@ export async function DELETE(
 ) {
   try {
     const currentUser = await getCurrentUser();
+
+    if (!currentUser)
+      return NextResponse.json(
+        {
+          message: "Unauthorized",
+        },
+        {
+          status: 401,
+        }
+      );
     console.log("Note DELETE: ", { currentUser });
 
     currentUser.aud;

@@ -340,7 +340,6 @@ const Editor = ({ noteEdit }: Props) => {
       icon: Image3Icon,
       altIcon: <ImageInput getImage={addImage} />,
     },
-
     { name: "add link", icon: Link1Icon, action: addLink },
     {
       name: "add video",
@@ -442,6 +441,7 @@ function ImageInput({ getImage }: ImageInputProps) {
       return reader.readAsDataURL(img);
     }
   };
+
   return (
     <>
       <label htmlFor="image" className="bg-red-400">

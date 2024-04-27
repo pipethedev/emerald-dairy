@@ -3,6 +3,7 @@ export { default as ClientOnlyPortal } from "./ClientOnlyPortal";
 export { default as CreateNoteLink } from "./CreateNoteLink";
 export { default as DropdownMenu } from "./DropdownMenu";
 // export { default as Editor } from "./Editor";
+export { default as Header } from "./Header";
 export { default as IconButton } from "./Button/IconButton";
 export { default as Modal } from "./Modal";
 export { default as NavButton } from "./Button/NavButton";
