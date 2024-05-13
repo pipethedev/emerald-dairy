@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Spinner from "./components/global/Spinner";
 
+
 const Home = () => {
   const router = useRouter();
   const pathname = usePathname();

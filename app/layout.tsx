@@ -7,6 +7,7 @@ import "swiper/css/scrollbar";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import Redirect from "@/lib/utils/redirect";
+import Script from "next/script";
 
 const keyword = ["web-app", "pwa", "note-app", "emerald's diary"];
 
@@ -94,18 +95,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Providers>
-      <html lang="en">
-        <body>
-          <div id="modal" />
-          <div id="notification" />
-          <Redirect />
-          {children}
-          <div className="fixed bottom-0 left-0">
-            <PortalElements />
-          </div>
-        </body>
-      </html>
-    </Providers>
+    <>
+      <Providers>
+        <html lang="en">
+          <body>
+            <div id="modal" />
+            <div id="notification" />
+            <Redirect />
+            {children}
+            <div className="fixed bottom-0 left-0">
+              <PortalElements />
+            </div>
+          </body>
+        </html>
+      </Providers>
+
+      <Script
+        strategy="worker"
+        src="https://cdn.brimble.io/track.js"
+        data-website-id="abf02e91-4cd4-4171-b826-e4ff2168f259"
+      />
+    </>
   );
 }
