@@ -4,6 +4,7 @@ import {
   getCurrentUser,
 } from "@/lib/firebase/firebase-admin";
 import { db, storage } from "@/lib/firebase/firebase-client";
+import { sendNewNoteEmail } from "@/lib/services/email";
 import { getAuth } from "firebase-admin/auth";
 import { deleteApp, getApps } from "firebase/app";
 import {
@@ -160,6 +161,18 @@ export async function POST(request: NextRequest) {
       type,
       content: contentArray,
       timestamp: Timestamp.fromDate(new Date()),
+    });
+
+    // const emailResult = await sendNewNoteEmail({
+    //   noteId: docRef.id,
+    //   receiverEmail: currentUser.email!,
+    // });
+
+    // console.log({ emailResult });
+
+    sendNewNoteEmail({
+      note: { ...note, id: docRef.id } as Note,
+      receiverEmail: currentUser.email!,
     });
 
     console.log("CREATED_N0TE", { note });

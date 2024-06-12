@@ -13,15 +13,6 @@ import {
 import { usePathname } from "next/navigation";
 import { Interface } from "readline";
 
-// interface Props
-//   extends DetailedHTMLProps<
-//     AnchorHTMLAttributes<HTMLAnchorElement>,
-//     HTMLAnchorElement
-//   > {
-//   href: string;
-//   children({ isActive }: { isActive: boolean }): React.ReactNode;
-// }
-
 interface Props {
   href: string;
   children({ isActive }: { isActive: boolean }): React.ReactNode;

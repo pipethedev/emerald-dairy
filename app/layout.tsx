@@ -11,11 +11,11 @@ import Script from "next/script";
 
 const keyword = ["web-app", "pwa", "note-app", "emerald's diary"];
 
-const description = "'Personalized PWA note-app',";
+const description = "Personalized PWA note-app";
 const title = "Emerald's Diary: A personalized PWA note-app";
 
 export const metadata: Metadata = {
-  title: `Emerald's diary`,
+  title: title,
   description: description,
   // icons: { apple: "/apple-touch-icon.png", icon: "" },
   viewport: { width: "device-width", initialScale: 1 },
