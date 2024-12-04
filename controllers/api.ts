@@ -7,8 +7,8 @@ import { notify } from "@/lib/utils/helpers";
 import store from "@/store";
 import { clearUser, redirectUser } from "@/store/slices/auth";
 import axios, { AxiosError } from "axios";
-import { redirect } from "next/navigation";
-import { Router } from "next/router";
+// import { redirect } from "next/navigation";
+// import { Router } from "next/router";
 
 const api = axios.create({
   baseURL: `${BASE_URL}/api` || "",
