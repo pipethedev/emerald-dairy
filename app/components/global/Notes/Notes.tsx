@@ -67,7 +67,7 @@ export default function Notes({ notes, path, type, folder }: Props) {
       lettersAndNumbersOnly(splitUrl[splitUrl.length - 1]) !== "dashboard"
     )
       router.push(`${pathname}/${fetchedNotes[0]?.id}`);
-  }, [fetchedNotes]);
+  }, [fetchedNotes, pathname, router, path]);
 
   useEffect(() => {
     async () => {
@@ -99,7 +99,7 @@ export default function Notes({ notes, path, type, folder }: Props) {
         // setLoading(false);
       }
     };
-  }, [type]);
+  }, [type, pathname, router, path]);
 
   return (
     <div

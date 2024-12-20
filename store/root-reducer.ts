@@ -1,13 +1,15 @@
-import { combineReducers } from "redux";
+"use client";
+
 import authSlice from "./slices/auth";
-import navbarSlice from "./slices/navbar";
-import notesBarSlice from "./slices/notesbar";
+import tagsSlice from "./slices/tags";
 import modalSlice from "./slices/modal";
-import notificationSlice from "./slices/notification";
+import { combineReducers } from "redux";
 import { apiSlice } from "./slices/api";
 import notesSlice from "./slices/notes";
-import tagsSlice from "./slices/tags";
+import navbarSlice from "./slices/navbar";
 import foldersSlice from "./slices/folders";
+import notesBarSlice from "./slices/notesbar";
+import notificationSlice from "./slices/notification";
 
 const rootReducer = combineReducers({
   auth: authSlice.reducer,
@@ -19,7 +21,6 @@ const rootReducer = combineReducers({
   tags: tagsSlice.reducer,
   folders: foldersSlice.reducer,
   [apiSlice.reducerPath]: apiSlice.reducer,
-  // Add other slices here
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

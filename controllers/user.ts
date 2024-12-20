@@ -1,5 +1,5 @@
-import store from "@/store";
 import api from "./api";
+import { store } from "@/store";
 import { setUser } from "@/store/slices/auth";
 
 export async function updateProfile(details: {

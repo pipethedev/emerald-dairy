@@ -1,29 +1,11 @@
-// folderFunctions.js
+// folder.ts
 import {
-  CheckCircleIcon,
-  HeartsIcon,
-  Info,
-  InfoCircleIcon,
   TrashIcon,
+  InfoCircleIcon,
+  CheckCircleIcon,
 } from "@/app/components/svgs";
-// import { db, storage } from "@/lib/firebase/firebase-client";
-import { isURL, notify } from "@/lib/utils/helpers";
-import store from "@/store";
-import { triggerModal } from "@/store/slices/modal";
-import { triggerNotification } from "@/store/slices/notification";
-import {
-  collection,
-  addDoc,
-  Timestamp,
-  deleteDoc,
-  doc,
-  updateDoc,
-  DocumentData,
-  DocumentReference,
-} from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { v4 as uuidV4 } from "uuid";
 import api from "./api";
+import { notify } from "@/lib/utils/helpers";
 
 export const fetchFolders = async (): Promise<Folder[] | null> => {
   try {

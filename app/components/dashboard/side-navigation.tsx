@@ -20,6 +20,7 @@ import {
   DetailedHTMLProps,
   HTMLAttributes,
   PropsWithChildren,
+  useCallback,
   useEffect,
   useState,
 } from "react";
@@ -45,9 +46,12 @@ export default function DashboardSideNavigation() {
 
   const hideNav = !showNav;
 
-  const toggleNav = (state: boolean) => {
-    dispatch(toggleNavbar(state));
-  };
+  const toggleNav = useCallback(
+    (state: boolean) => {
+      dispatch(toggleNavbar(state));
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     if (!smallScreen) {
@@ -56,7 +60,7 @@ export default function DashboardSideNavigation() {
     }
 
     toggleNav(false);
-  }, [pathname]);
+  }, [pathname, smallScreen, toggleNav]);
 
   const NavOverlay = () => {
     return (

@@ -1,14 +1,11 @@
 // "use client";
 
-import { Lock4Icon } from "@/app/components/svgs";
-import { useRedirect } from "@/hooks";
-import { BASE_URL } from "@/lib/utils/constants";
-import { notify } from "@/lib/utils/helpers";
-import store from "@/store";
-import { clearUser, redirectUser } from "@/store/slices/auth";
+import { store } from "@/store";
 import axios, { AxiosError } from "axios";
-import { redirect } from "next/navigation";
-import { Router } from "next/router";
+import { notify } from "@/lib/utils/helpers";
+import { BASE_URL } from "@/lib/utils/constants";
+import { Lock4Icon } from "@/app/components/svgs";
+import { clearUser, redirectUser } from "@/store/slices/auth";
 
 const api = axios.create({
   baseURL: `${BASE_URL}/api` || "",

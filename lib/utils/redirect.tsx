@@ -1,8 +1,9 @@
 "use client";
-import { useAppDispatch, useAppSelector } from "@/hooks/store";
-import { redirectUser } from "@/store/slices/auth";
-import { useRouter } from "next/navigation";
+
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { redirectUser } from "@/store/slices/auth";
+import { useAppDispatch, useAppSelector } from "@/hooks/store";
 
 export default function Redirect() {
   const { redirect } = useAppSelector((state) => state.auth);
@@ -14,6 +15,6 @@ export default function Redirect() {
       router[redirect.action](redirect.url);
     }
     dispatch(redirectUser(null));
-  }, [redirect]);
+  }, [redirect, dispatch, router]);
   return <></>;
 }

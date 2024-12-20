@@ -20,7 +20,7 @@ export default function Overlay({
       window.addEventListener("keydown", (e: KeyboardEvent) => {
         e.code === "Escape" && handleShowOverlay?.()();
       });
-  }, [show]);
+  }, [show, handleShowOverlay]);
 
   return (
     <AnimatePresence>

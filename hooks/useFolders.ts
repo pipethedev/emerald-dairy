@@ -1,8 +1,7 @@
-import { useFetchFoldersQuery } from "@/store/slices/api";
-import { updateFolders } from "@/store/slices/folders";
 import { useAppDispatch } from "./store";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchFolders } from "@/controllers/folder";
+import { updateFolders } from "@/store/slices/folders";
 
 export default function useFolders() {
   // const { data, isFetching: loading } = useFetchFoldersQuery();

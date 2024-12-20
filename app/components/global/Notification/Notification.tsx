@@ -80,7 +80,7 @@ export default function Notification() {
       );
     }, 4000);
     return () => clearTimeout(timer);
-  }, [show]);
+  }, [show, dispatch]);
 
   if (domReady) {
     if (typeof window === "object" && typeof window.document === "object") {

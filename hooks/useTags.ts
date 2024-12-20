@@ -1,8 +1,7 @@
-import { useFetchTagsQuery } from "@/store/slices/api";
-import { updateTags } from "@/store/slices/tags";
 import { useAppDispatch } from "./store";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchTags } from "@/controllers/tag";
+import { updateTags } from "@/store/slices/tags";
 
 export default function useTags() {
   // const { data, isFetching: loading } = useFetchTagsQuery();

@@ -1,17 +1,18 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  output: "standalone",
+  images: {
+    unoptimized: true,
+    domains: ["firebasestorage.googleapis.com"],
+  },
+  experimental: {
+    serverActions: true,
+  },
+};
 
-const NextPwa = require("next-pwa");
-
-const withPWA = NextPwa({
+const withPWA = require("next-pwa")({
   dest: "public",
-  register: true,
-  skipWaiting: true,
   disable: process.env.NODE_ENV === "development",
-  fallbacks: {},
-})({
-  reactStrictMode: true,
-  images: { domains: ["firebasestorage.googleapis.com"] },
 });
 
-module.exports = withPWA;
+module.exports = withPWA(nextConfig);

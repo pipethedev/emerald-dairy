@@ -2,9 +2,9 @@
 import { useState, useEffect } from "react";
 
 interface BibleVerse {
+  text?: string;
   verse: string;
   reference: string;
-  text?: string;
 }
 
 const BibleVerseComponent: React.FC = () => {

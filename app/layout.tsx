@@ -1,24 +1,28 @@
-import type { Metadata } from "next";
-import "@/public/styles/globals.css";
-import { Providers } from "@/store/provider";
-import { PortalElements } from "./components/global/ClientOnlyPortal";
 import "swiper/css";
+import "swiper/css/autoplay";
 import "swiper/css/scrollbar";
 import "swiper/css/pagination";
-import "swiper/css/autoplay";
-import Redirect from "@/lib/utils/redirect";
+import { Toaster } from "sonner";
 import Script from "next/script";
+import "@/public/styles/global.css";
+import Redirect from "@/lib/utils/redirect";
+import { Providers } from "@/store/provider";
+import type { Metadata, Viewport } from "next";
+import { PortalElements } from "./components/global/ClientOnlyPortal";
 
 const keyword = ["web-app", "pwa", "note-app", "emerald's diary"];
 
 const description = "Personalized PWA note-app";
 const title = "Emerald's Diary: A personalized PWA note-app";
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
   title: title,
   description: description,
-  // icons: { apple: "/apple-touch-icon.png", icon: "" },
-  viewport: { width: "device-width", initialScale: 1 },
   manifest: "/manifest.webmanifest",
   keywords: keyword,
   icons: [
@@ -99,6 +103,7 @@ export default function RootLayout({
       <Providers>
         <html lang="en">
           <body>
+            <Toaster richColors position="top-center" />
             <div id="modal" />
             <div id="notification" />
             <Redirect />

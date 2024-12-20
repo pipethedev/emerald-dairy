@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AlertCircle } from "@/app/components/svgs";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialModalState: ModalState = {
   showModal: false,

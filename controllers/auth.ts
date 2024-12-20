@@ -1,10 +1,8 @@
-import { InfoCircleIcon } from "@/app/components/svgs";
-import { auth } from "@/lib/firebase/firebase-client";
-import { notify } from "@/lib/utils/helpers";
-import { signOut } from "firebase/auth";
 import api from "./api";
-import store from "@/store";
+import { store } from "@/store";
+import { notify } from "@/lib/utils/helpers";
 import { clearUser } from "@/store/slices/auth";
+import { InfoCircleIcon } from "@/app/components/svgs";
 
 export const logOut = async () => {
   try {

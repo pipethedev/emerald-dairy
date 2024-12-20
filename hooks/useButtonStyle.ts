@@ -1,15 +1,15 @@
 type ButtonStyleProps = {
   full?: boolean;
-  color?: "primary" | "accent" | "error" | "gray";
   disabled?: boolean;
   text?: "xs" | "sm" | "lg" | "xl";
+  color?: "primary" | "accent" | "error" | "gray";
 };
 
 export default function useButtonStyle({
-  color,
-  disabled,
   full,
   text,
+  color,
+  disabled,
 }: ButtonStyleProps) {
   let btnColor: string;
   let textColor: string;

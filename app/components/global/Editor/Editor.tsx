@@ -18,6 +18,7 @@ import {
   FormEvent,
   useContext,
   FormEventHandler,
+  useCallback,
 } from "react";
 import { H2 } from "@/lib/utils/typography";
 import Image from "next/image";
@@ -58,7 +59,7 @@ type Props = {
 const Editor = ({ noteEdit }: Props) => {
   useEffect(() => {
     console.log({ noteEdit });
-  }, []);
+  }, [noteEdit]);
 
   const noteTitle = noteEdit?.noteTitle ?? "";
   const noteContent = noteEdit?.noteContent ?? [];
@@ -132,14 +133,15 @@ const Editor = ({ noteEdit }: Props) => {
     setNewContent({ value: data as any, type: "file", preview, saved: false });
   };
 
-  const inputCacheDependencyArray = () => {
+  const inputCacheDependencyArray = useCallback(() => {
     const cacheContentValue = newContent?.value as CheckValue;
     const checkValue =
       typeof cacheContentValue !== "string" ? cacheContentValue?.label : "";
     const checkLabel =
       typeof cacheContentValue !== "string" ? cacheContentValue?.checked : "";
     return [cacheContentValue, checkValue, checkLabel];
-  };
+  }, [newContent]);
+
   useEffect(() => {
     // inputCacheDependencyArray;
     console.log("SAVING");
@@ -152,33 +154,10 @@ const Editor = ({ noteEdit }: Props) => {
       });
     }, 2000);
     return () => clearTimeout(timeout);
-  }, [inputCacheDependencyArray()]);
-
-  useEffect(() => {
-    //! Save content currently being input To local storage.
-    if (
-      newContent?.type !== "image" &&
-      newContent?.type !== "video" &&
-      newContent?.type !== "file"
-    )
-      return;
-    const timeout = setTimeout(() => {
-      console.log("SAVING INPUT PROGRESS");
-      saveProgress();
-    }, 2000);
-    return () => clearTimeout(timeout);
-  }, [newContent]);
-
-  // COMEBACK: check if this is needed
-  // const validateNoteData = () => {
-  //   if (!newContent || !newContent.value) return false;
-  //   if (newContent.type === "check" && typeof newContent.value !== "string")
-  //     if (!newContent.value.label) return false;
-  //   return true;
-  // }; NOTE: Not needed, apparently
+  }, [inputCacheDependencyArray, newContent]);
 
   // COMEBACK: Might make this auto save
-  const saveProgress = () => {
+  const saveProgress = useCallback(() => {
     console.log("SAVE: ", { newContent });
     if (!newContent || !newContent.value) return;
     if (newContent.type === "check" && typeof newContent.value !== "string") {
@@ -195,7 +174,30 @@ const Editor = ({ noteEdit }: Props) => {
       },
     ]);
     setNewContent(undefined);
-  };
+  }, [newContent]);
+
+  useEffect(() => {
+    //! Save content currently being input To local storage.
+    if (
+      newContent?.type !== "image" &&
+      newContent?.type !== "video" &&
+      newContent?.type !== "file"
+    )
+      return;
+    const timeout = setTimeout(() => {
+      console.log("SAVING INPUT PROGRESS");
+      saveProgress();
+    }, 2000);
+    return () => clearTimeout(timeout);
+  }, [newContent, saveProgress]);
+
+  // COMEBACK: check if this is needed
+  // const validateNoteData = () => {
+  //   if (!newContent || !newContent.value) return false;
+  //   if (newContent.type === "check" && typeof newContent.value !== "string")
+  //     if (!newContent.value.label) return false;
+  //   return true;
+  // }; NOTE: Not needed, apparently
 
   const cacheInput = () => {
     console.log("CACHE INPUT: ", { newContent });
@@ -282,7 +284,7 @@ const Editor = ({ noteEdit }: Props) => {
       });
     }, 2000);
     return () => clearTimeout(timeout);
-  }, [content.length]);
+  }, [content.length, noteEdit, content, id, title]);
 
   useEffect(() => {
     if (noteEdit) return;
@@ -326,7 +328,7 @@ const Editor = ({ noteEdit }: Props) => {
     setTitle(cachedTitle);
     setContent(cachedContent);
     setNewContent(editingData);
-  }, []);
+  }, [noteEdit]);
 
   // Spammed addText. Coz why not lol.
   const tools: ComponentProps<typeof Toolbar>["tools"] = [

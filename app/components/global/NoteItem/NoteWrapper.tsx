@@ -1,4 +1,5 @@
 "use client";
+
 import clsx from "clsx";
 import {
   PropsWithChildren,
@@ -45,7 +46,7 @@ export default function NoteWrapper({
   );
   const [loaded, setLoaded] = useState(false);
 
-  const handleCheckInView = () => {
+  const handleCheckInView = useCallback(() => {
     const inViewValue = checkInView({
       containerRef,
       elementRef: noteRef,
@@ -56,7 +57,7 @@ export default function NoteWrapper({
       setIsInView(inViewValue?.inViewVertical);
     }
     setPosition(inViewValue?.offsetVertical);
-  };
+  }, [containerRef, noteRef]);
 
   useEffect(() => {
     const currentContainerRef = containerRef.current;
@@ -72,7 +73,7 @@ export default function NoteWrapper({
       currentContainerRef?.removeEventListener("scroll", () => {
         checkInView({ containerRef, elementRef: noteRef });
       });
-  }, []);
+  }, [containerRef, handleCheckInView, loaded]);
 
   return (
     <>

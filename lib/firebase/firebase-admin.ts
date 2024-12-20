@@ -12,7 +12,7 @@ import {
 import { getAuth, SessionCookieOptions } from "firebase-admin/auth";
 // import serviceAccount from "/home/BriggSKvngZ/MyCode/note-app/emerald-diary-firebase-adminsdk.json";
 
-const serviceAccount = require("../../emerald-diary-firebase-adminsdk-2.json");
+const serviceAccount = require("../../emerald-diary-firebase-adminsdk-fl16p-a0fb3b8532.json");
 
 export let firebaseApp: App | undefined;
 

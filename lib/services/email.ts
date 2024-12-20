@@ -23,7 +23,7 @@ export async function sendNewNoteEmail({
   try {
     const noteLink = `${
       process.env.NODE_ENV === "production"
-        ? "https://grow-game.vercel.app"
+        ? "https://grow-game.vcercel.app"
         : "http://localhost:3000"
     }/dashboard/all-notes/${note?.id}`;
 

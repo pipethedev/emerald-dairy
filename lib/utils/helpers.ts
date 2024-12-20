@@ -1,7 +1,7 @@
-import store from "@/store";
+import { store } from "@/store";
+import { RefObject } from "react";
 import { closeModal, triggerModal } from "@/store/slices/modal";
 import { triggerNotification } from "@/store/slices/notification";
-import { RefObject } from "react";
 
 export const checkInView = ({
   containerRef,
@@ -120,7 +120,7 @@ export function getItemFromLocalStorage(name: string) {
 
 export const removeItemFromLocalStorage = (name: string) => {
   console.log("removing");
-  return localStorage.clear();
+  return localStorage.removeItem(name);
 };
 
 export function dataURLtoFile(dataUrl: string, filename: string) {

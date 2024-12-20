@@ -1,8 +1,7 @@
-import { useFetchNotesQuery } from "@/store/slices/api";
-import { updateNotes } from "@/store/slices/notes";
 import { useAppDispatch } from "./store";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchNotes } from "@/controllers/note";
+import { updateNotes } from "@/store/slices/notes";
 
 export default function useNotes(type: string) {
   // const { data, isFetching: loading } = useFetchNotesQuery(type);
@@ -23,7 +22,7 @@ export default function useNotes(type: string) {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [type]);
 
   // const fetchedNotes = useMemo(() => data?.data || [], [data?.data]);
 

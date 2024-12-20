@@ -1,34 +1,29 @@
 "use client";
 
-import Button from "@/app/components/button";
-import Input from "@/app/components/input";
-import { Hearts, Info, MobileHearts, Verse } from "@/app/components/svgs";
-import { H2, H3, H4, P } from "@/lib/utils/typography";
-import { clsx } from "clsx";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { type ChangeEvent, useState, type FormEvent } from "react";
-// import toast from "react-hot-toast";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { app, db } from "../config/firebase";
 import {
   getAuth,
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  updateProfile,
+  createUserWithEmailAndPassword,
 } from "firebase/auth";
-import { addDoc, collection } from "firebase/firestore";
-import BibleVerseComponent from "@/lib/utils/bibleApi";
-import { useAppDispatch } from "@/hooks/store";
-import { setUser } from "@/store/slices/auth";
+import { clsx } from "clsx";
+import Link from "next/link";
+import { toast } from "sonner";
+import { useState } from "react";
 import api from "@/controllers/api";
+import { app } from "../config/firebase";
+import Input from "@/app/components/input";
+import { useRouter } from "next/navigation";
+import Button from "@/app/components/button";
+import { setUser } from "@/store/slices/auth";
+import { useAppDispatch } from "@/hooks/store";
+import { H3, H4, P } from "@/lib/utils/typography";
+import { Hearts, Info, MobileHearts, Verse } from "@/app/components/svgs";
 
 interface formData {
   email: string;
+  lastName: string;
   password: string;
   firstName: string;
-  lastName: string;
 }
 
 type Props = {
@@ -50,7 +45,7 @@ export default function AuthForm({ route = "sign-in" }: Props) {
     lastName: "",
   });
 
-  const formDataHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  const formDataHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -68,7 +63,7 @@ export default function AuthForm({ route = "sign-in" }: Props) {
         formData?.lastName
       ));
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setLoading(true);
@@ -375,9 +370,6 @@ export default function AuthForm({ route = "sign-in" }: Props) {
           </p>
         </div>
       </div>
-
-      {/* TOASTIFY */}
-      <ToastContainer />
     </main>
   );
 }

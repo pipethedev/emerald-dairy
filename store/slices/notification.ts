@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { BellRinging1 } from "@/app/components/svgs";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialNotificationState: NotificationState = {
   show: false,
