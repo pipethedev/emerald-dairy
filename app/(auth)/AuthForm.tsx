@@ -18,6 +18,7 @@ import { setUser } from "@/store/slices/auth";
 import { useAppDispatch } from "@/hooks/store";
 import { H3, H4, P } from "@/lib/utils/typography";
 import { Hearts, Info, MobileHearts, Verse } from "@/app/components/svgs";
+import { useAuth } from "@/hooks/useAuth";
 
 interface formData {
   email: string;
@@ -34,6 +35,7 @@ const auth = getAuth(app);
 
 export default function AuthForm({ route = "sign-in" }: Props) {
   const dispatch = useAppDispatch();
+  const { login, logout, signUp, user } = useAuth();
 
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
@@ -71,39 +73,61 @@ export default function AuthForm({ route = "sign-in" }: Props) {
     try {
       if (route === "sign-in") {
         // HANDLE SIGN-IN LOGIC
-        const userCredential = await signInWithEmailAndPassword(
-          auth,
-          formData?.email,
-          formData?.password
-        );
+        // const userCredential = await signInWithEmailAndPassword(
+        //   auth,
+        //   formData?.email,
+        //   formData?.password
+        // );
+
+        const userCredential = await login(formData.email, formData.password);
+
         // User signed in successfully
-        const userFromCred = userCredential.user;
-        const idToken = await userFromCred.getIdToken();
+        const idToken = await userCredential.getIdToken();
 
-        const response = await api.post("/auth/sign-in", {
-          idToken,
-        });
-        // const response = await fetch("/api/auth/sign-in", {
-        //   method: "POST",
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //   },
-        //   body: JSON.stringify({
-        //     email: formData.email,
-        //     password: formData.password,
-        //   }),
+        // const response = await api.post("/auth/sign-in", {
+        //   idToken,
         // });
+        // // const response = await fetch("/api/auth/sign-in", {
+        // //   method: "POST",
+        // //   headers: {
+        // //     "Content-Type": "application/json",
+        // //   },
+        // //   body: JSON.stringify({
+        // //     email: formData.email,
+        // //     password: formData.password,
+        // //   }),
+        // // });
 
-        const resBody = response.data;
-        console.log({ resBody });
+        // const resBody = response.data;
+        // console.log({ resBody });
 
-        const user = resBody.data;
+        // const user = resBody.data;
 
-        if (!user) throw new Error(resBody.message);
+        // if (!user) throw new Error(resBody.message);
 
         // Store user details in local storage
-        // localStorage.setItem("currentUser", JSON.stringify(user));
-        dispatch(setUser({ user, token: idToken, isAuthenticated: true }));
+        localStorage.setItem(
+          "currentUser",
+          JSON.stringify({
+            displayName: userCredential.displayName!,
+            email: userCredential.email!,
+            photo: userCredential.photoURL!,
+            uid: userCredential.uid!,
+            token: idToken,
+          })
+        );
+        dispatch(
+          setUser({
+            user: {
+              displayName: userCredential.displayName!,
+              email: userCredential.email!,
+              photo: userCredential.photoURL!,
+              uid: userCredential.uid!,
+            },
+            token: idToken,
+            isAuthenticated: true,
+          })
+        );
 
         // Add success message
         // alert("Login Successful");
